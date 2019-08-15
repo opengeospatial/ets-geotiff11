@@ -1,4 +1,4 @@
-= GeoTiff 1.1 Conformance Test Suite
+= GeoTIFF 1.1 Conformance Test Suite
 
 == Scope
 

@@ -14,7 +14,7 @@
   <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>GeoTiff 1.1 Conformance Test Suite</name>
+  <name>GeoTIFF 1.1 Conformance Test Suite</name>
   <description>Describe purpose of test suite.</description>
   <url>http://opengeospatial.github.io/ets-geotiff11/</url>
   <licenses>

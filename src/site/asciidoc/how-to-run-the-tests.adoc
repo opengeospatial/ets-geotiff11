@@ -2,7 +2,7 @@
 
 The options for running the test suite are summarized below.
 
-As entry point the Landing Page of the GeoTiff 1.1 is expected.
+As entry point the Landing Page of the GeoTIFF 1.1 is expected.
 
 === 1. Integrated development environment (IDE)
 
