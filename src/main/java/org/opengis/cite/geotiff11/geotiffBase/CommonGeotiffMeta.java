@@ -2,6 +2,9 @@ package org.opengis.cite.geotiff10.geotiffBase;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 import org.apache.commons.io.IOUtils;
 import org.opengis.cite.geotiff10.CommonFixture;
 import org.opengis.cite.geotiff10.SuiteAttribute;
