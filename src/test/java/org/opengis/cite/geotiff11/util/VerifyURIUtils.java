@@ -80,4 +80,26 @@ public class VerifyURIUtils {
         Document doc = URIUtils.parseURI(uri);
         Assert.assertNull(doc);
     }
+    
+    @Test
+    public void verifyParse()
+    {
+    	URL url = this.getClass().getResource("/tif/cea.tif");
+    	boolean result = false;
+		try {
+			result = URIUtils.parseGeoTiff(url.toURI(), "geotiffMeta.txt", "tiffMeta.txt");
+			
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//http://download.osgeo.org/geotiff/samples/gdal_eg/cea.tif
+    	Assert.assertTrue(result);
+    }
 }

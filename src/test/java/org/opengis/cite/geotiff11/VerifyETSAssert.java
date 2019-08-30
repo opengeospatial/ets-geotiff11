@@ -40,8 +40,8 @@ public class VerifyETSAssert {
 
     @Test
     public void validateUsingSchemaHints_expect2Errors() throws SAXException {
-        thrown.expect(AssertionError.class);
-        thrown.expectMessage("2 schema validation error(s) detected");
+        this.thrown.expect(AssertionError.class);
+        this.thrown.expectMessage("2 schema validation error(s) detected");
         URL url = this.getClass().getResource("/Gamma.xml");
         Schema schema = factory.newSchema();
         Validator validator = schema.newValidator();
@@ -62,8 +62,8 @@ public class VerifyETSAssert {
 
     @Test
     public void assertXPath_expectFalse() throws SAXException, IOException {
-        thrown.expect(AssertionError.class);
-        thrown.expectMessage("Unexpected result evaluating XPath expression");
+        this.thrown.expect(AssertionError.class);
+        this.thrown.expectMessage("Unexpected result evaluating XPath expression");
         Document doc = docBuilder.parse(this.getClass().getResourceAsStream(
                 "/capabilities-simple.xml"));
         // using built-in namespace binding

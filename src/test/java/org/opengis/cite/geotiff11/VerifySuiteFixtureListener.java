@@ -56,15 +56,15 @@ public class VerifySuiteFixtureListener {
 
     @Test
     public void processIUTParameter() throws URISyntaxException {
-        URL url = this.getClass().getResource("/atom-feed.xml");
+        URL url = this.getClass().getResource("/tif/cea.tif");
         Map<String, String> params = new HashMap<String, String>();
-        params.put(TestRunArg.IUT.toString(), url.toURI().toString());
+        params.put(TestRunArg.GEOTIFF.toString(), url.toURI().toString());
         when(xmlSuite.getParameters()).thenReturn(params);
         SuiteFixtureListener iut = new SuiteFixtureListener();
         iut.onStart(suite);
         verify(suite).setAttribute(
                 Matchers.eq(SuiteAttribute.TEST_SUBJ_FILE.getName()), 
-                Matchers.isA(File.class));
+                Matchers.isA(File.class));      
     }
 
 }

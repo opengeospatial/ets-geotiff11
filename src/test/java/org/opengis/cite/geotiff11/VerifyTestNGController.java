@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.opengis.cite.geotiff11.util.XMLUtils;
+import org.testng.Assert;
 import org.w3c.dom.Document;
 
 /**
@@ -53,8 +54,8 @@ public class VerifyTestNGController {
 
     @Test
     public void doTestRun() throws Exception {
-        URL testSubject = getClass().getResource("/atom-feed-2.xml");
-        this.testRunProps.setProperty(TestRunArg.IUT.toString(), testSubject
+        URL testSubject = getClass().getResource("/tif/cea.tif");
+        this.testRunProps.setProperty(TestRunArg.GEOTIFF.toString(), testSubject
                 .toURI().toString());
         ByteArrayOutputStream outStream = new ByteArrayOutputStream(1024);
         this.testRunProps.storeToXML(outStream, "Integration test");
@@ -62,6 +63,11 @@ public class VerifyTestNGController {
                 outStream.toByteArray()));
         TestNGController controller = new TestNGController();
         Source results = controller.doTestRun(testRunArgs);
+        System.out.println("test run finish");
+        Assert.assertNotNull(results);
+        
+        //Only test for non failures if the file to test passes ALL tests
+        
         String xpath = "/testng-results/@failed";
         XdmValue failed = XMLUtils.evaluateXPath2(results, xpath, null);
         int numFailed = Integer.parseInt(failed.getUnderlyingValue()
