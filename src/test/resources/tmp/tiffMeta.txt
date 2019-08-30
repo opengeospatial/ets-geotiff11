@@ -1,0 +1,29 @@
+cea.tif:
+Magic: 0x4949 <little-endian> Version: 0x2a
+Directory 0: offset 8 (0x8) next 726 (0x2d6)
+ImageWidth (256) SHORT (3) 1<514>
+ImageLength (257) SHORT (3) 1<515>
+BitsPerSample (258) SHORT (3) 1<1>
+Compression (259) SHORT (3) 1<1>
+Photometric (262) SHORT (3) 1<4>
+StripOffsets (273) LONG (4) 35<7614 15324 23034 30744 38454 46164 53874 61584 69294 77004 84714 92424 100134 107844 115554 123264 130974 138684 146394 154104 161814 169524 177234 184944 ...>
+SamplesPerPixel (277) SHORT (3) 1<1>
+RowsPerStrip (278) SHORT (3) 1<15>
+StripByteCounts (279) LONG (4) 35<7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 ...>
+PlanarConfig (284) SHORT (3) 1<1>
+SampleFormat (339) SHORT (3) 1<1>
+33550 (0x830e) DOUBLE (12) 3<60.0221 60.0221 0>
+33922 (0x8482) DOUBLE (12) 6<0 0 0 -28493.2 4.25588e+006 0>
+34735 (0x87af) SHORT (3) 60<1 1 0 14 1024 0 1 1 1025 0 1 1 1026 34737 8 0 2048 0 1 4267 2049 34737 6 8 ...>
+34736 (0x87b0) DOUBLE (12) 4<-117.333 33.75 0 0>
+34737 (0x87b1) ASCII (2) 15<unnamed|NAD27|\0>
+XResolution (282) RATIONAL (5) 1<1>
+YResolution (283) RATIONAL (5) 1<1>
+ResolutionUnit (296) SHORT (3) 1<2>
+ExtraSamples (338) SHORT (3) 2<0 0>
+NewSubfileType (254) LONG (2) 1<000100>
+
+Directory 1: offset 726 (0x2d6) next 0 (0)
+Compression (259) SHORT (3) 1<6>
+JPEGInterchangeFormat (513) LONG (4) 1<768>
+JPEGInterchangeFormatLength (514) LONG (4) 1<6846>
