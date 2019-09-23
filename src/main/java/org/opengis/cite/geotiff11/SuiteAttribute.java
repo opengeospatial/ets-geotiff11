@@ -24,7 +24,12 @@ public enum SuiteAttribute {
     /**
      * A File containing the test subject or a description of it.
      */
-    TEST_SUBJ_FILE("testSubjectFile", File.class);
+    TEST_SUBJ_FILE("testSubjectFile", File.class),
+    /**
+     * GeoTiff metadata document.
+     */
+    TEST_SUBJ_GEOTIFF("testSubjGeotiff", Document.class);
+	
     private final Class attrType;
     private final String attrName;
 
