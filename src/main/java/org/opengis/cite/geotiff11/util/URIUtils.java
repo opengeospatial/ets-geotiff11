@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.util.logging.Level;
 
@@ -13,6 +14,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang3.SystemUtils;
+import org.opengis.cite.geotiff11.SyncPipe;
+import org.opengis.cite.geotiff11.util.URIUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -27,7 +31,11 @@ import com.sun.jersey.api.client.WebResource;
 public class URIUtils {
 
     private static final String FIXUP_BASE_URI = "http://apache.org/xml/features/xinclude/fixup-base-uris";
-
+	private static final String EXE = "exe";
+	private static final String LISTGEO = "listgeo";
+	private static final String TIFFDUMP = "tiffdump";
+    
+    
     /**
      * Parses the content of the given URI as an XML document and returns a new
      * DOM Document object. Entity reference nodes will not be expanded. XML
@@ -68,6 +76,152 @@ public class URIUtils {
         return doc;
     }
 
+	/**
+	 * Parses the content of the given URI as a GeoTIFF document. Execute
+	 * listgeo command lines to spit out the metadata into a local file.
+	 *
+	 * @param uriRef In order to extract the file path where the exe is located
+	 * @param geoTiffFile To extract the metadata
+	 * @param tiffFile To extract the metadata
+	 * @return String of file location
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static boolean parseGeoTiff(URI uriRef, String geoTiffFile, String tiffFile)
+			throws SAXException, IOException {
+		if ((null == uriRef)) {
+			throw new IllegalArgumentException("Absolute URI is required, but received " + uriRef);
+		}
+
+		// Start running commands
+		String geotiffFilePath = uriRef.getPath().substring(1, uriRef.getPath().length());
+
+		if (!readMetaData(geotiffFilePath, geoTiffFile, tiffFile))
+			return false;
+
+		return true;
+	}
+
+	/**
+	 * Create the metadata commands to read the geotiff file
+	 * 
+	 * @param exeCommand
+	 * @param geotiffFilePath
+	 * @param fileOutput
+	 * @return
+	 */
+	private static String initMetadataComm(String exeCommand, String geotiffFilePath, String fileOutput) {
+		String location = URIUtils.class.getResource("/tmp").getPath();
+		return exeCommand + " " + geotiffFilePath + " > " + location.substring(1) + "\\" + fileOutput;
+	}
+
+	private static void runLinuxcommands(String url, String geotiffFilePath)
+	{
+		url = url.substring(url.lastIndexOf(":") + 1);
+		System.out.println("Linux parser path: " + url);
+
+		String location = URIUtils.class.getResource("/tmp").getPath();
+
+		try {
+			Runtime.getRuntime().exec("chmod +x " + url + "/parse.sh" + " && " 
+			+ url + "/parse.sh" + " && " + url + "/listgeo " + geotiffFilePath + " > " + location + "/geotiffMeta.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		//Runtime.getRuntime().exec("tiffdump " + geotiffFilePath + " > " + location + "/tiffMeta.txt");
+		//Runtime.getRuntime().exec("listgeo " + geotiffFilePath + " > " + location + "/geotiffMeta.txt");
+
+	}
+	/**
+	 * Run the commands to read the metadata of both the tiff part and the
+	 * geotiff part
+	 * 
+	 * @param geotiffFilePath
+	 * @param geoTiffFile
+	 * @param tiffFile
+	 * @return
+	 */
+	private static boolean readMetaData(String geotiffFilePath, String geoTiffFile, String tiffFile) {
+		String url;
+		
+		if (SystemUtils.IS_OS_LINUX) {
+						
+			//check for 32 bit or 64 bit linux machine
+			String s = System.getProperty("os.arch");
+			System.out.println("32 bit or 64 bit? " + s);
+			
+			if (s != null && (s.equals("x86_64") || s.equals("amd64") || s.endsWith("64"))) 
+			{
+			    url = URIUtils.class.getResource("/exe/64bit").getPath();
+			    System.out.println("url path before envt compatibility is: " + url);
+			    runLinuxcommands(url, geotiffFilePath);
+			}
+			else
+			{
+			    url = URIUtils.class.getResource("/exe/32bit").getPath();
+			    System.out.println("url path before envt compatibility is: " + url);
+			    runLinuxcommands(url, geotiffFilePath);
+			}
+			return true;
+		} else if (SystemUtils.IS_OS_WINDOWS) {
+			url = URIUtils.class.getResource("/" + EXE).getPath();
+			System.out.println("url path before envt compatibility is: " + url);
+
+			url = url.replace("/", "\\");
+			url = url.substring(1);
+			System.out.println("Windows parser path: " + url);
+
+			Process p = startCmd();
+			if (p == null)
+				return false;
+
+			new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
+			new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
+
+			// the try-with-resources statement will close the resource after
+			// use
+			try (PrintWriter stdin = new PrintWriter(p.getOutputStream())) {
+				stdin.println("cd " + url);
+				stdin.println(initMetadataComm(LISTGEO, geotiffFilePath, geoTiffFile));
+				stdin.println("cd " + url);
+				stdin.println(initMetadataComm(TIFFDUMP, geotiffFilePath, tiffFile));
+				stdin.flush();
+			}
+
+			int returnCode;
+			try {
+				returnCode = p.waitFor();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}
+			System.out.println("Return code = " + returnCode);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * For the Windows commands
+	 * 
+	 * @return
+	 */
+	private static Process startCmd() {
+		String[] command = { "cmd", };
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec(command);
+			return p;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+    
     /**
      * Dereferences the given URI and stores the resulting resource
      * representation in a local file. The file will be located in the default
@@ -92,8 +246,8 @@ public class URIUtils {
         WebResource webRes = client.resource(uriRef);
         ClientResponse rsp = webRes.get(ClientResponse.class);
         String suffix = null;
-        if (rsp.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).endsWith("xml")) {
-            suffix = ".xml";
+        if (rsp.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).endsWith("tif")) {
+            suffix = ".tif";
         }
         File destFile = File.createTempFile("entity-", suffix);
         if (rsp.hasEntity()) {

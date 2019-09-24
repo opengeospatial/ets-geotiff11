@@ -2,10 +2,14 @@ package org.opengis.cite.geotiff11;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.apache.commons.io.IOUtils;
+import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.util.ClientUtils;
 import org.opengis.cite.geotiff11.util.TestSuiteLogger;
 import org.opengis.cite.geotiff11.util.URIUtils;
@@ -30,7 +34,9 @@ import com.sun.jersey.api.client.Client;
  * @see org.testng.ISuite ISuite interface
  */
 public class SuiteFixtureListener implements ISuiteListener {
-
+	private static final String TIFF_TXT = "tiffMeta.txt";
+	private static final String GEOTIFF_TXT = "geotiffMeta.txt";
+	
     @Override
     public void onStart(ISuite suite) {
         processSuiteParameters(suite);
@@ -71,17 +77,34 @@ public class SuiteFixtureListener implements ISuiteListener {
         TestSuiteLogger.log(Level.FINE, String.format("Wrote test subject to file: %s (%d bytes)",
                 entityFile.getAbsolutePath(), entityFile.length()));
         suite.setAttribute(SuiteAttribute.TEST_SUBJ_FILE.getName(), entityFile);
-        Document iutDoc = null;
+        //Document iutDoc = null;
         try {
-            iutDoc = URIUtils.parseURI(entityFile.toURI());
+            //iutDoc = URIUtils.parseURI(entityFile.toURI());
+        	boolean result = URIUtils.parseGeoTiff(entityFile.toURI(), GEOTIFF_TXT, TIFF_TXT);
+
+        	//if the parse fails
+        	if (!result) {
+        		return;
+        	}
         } catch (Exception x) {
             throw new RuntimeException("Failed to parse resource retrieved from " + iutRef, x);
         }
-        suite.setAttribute(SuiteAttribute.TEST_SUBJECT.getName(), iutDoc);
+        
+        try {
+			InputStream inputStream = URIUtils.class.getResourceAsStream("/tmp/" + TIFF_TXT);
+			suite.setAttribute(SuiteAttribute.TEST_SUBJECT.getName(), IOUtils.toString(inputStream, StandardCharsets.UTF_8));
+			
+			InputStream inputStream2 = URIUtils.class.getResourceAsStream("/tmp/" + GEOTIFF_TXT);
+			suite.setAttribute(SuiteAttribute.TEST_SUBJ_GEOTIFF.getName(), IOUtils.toString(inputStream2, StandardCharsets.UTF_8));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
         if (TestSuiteLogger.isLoggable(Level.FINE)) {
             StringBuilder logMsg = new StringBuilder("Parsed resource retrieved from ");
             logMsg.append(iutRef).append("\n");
-            logMsg.append(XMLUtils.writeNodeToString(iutDoc));
+            //logMsg.append(XMLUtils.writeNodeToString(iutDoc));
             TestSuiteLogger.log(Level.FINE, logMsg.toString());
         }
     }

@@ -73,6 +73,16 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
     </dependency>
+    <dependency>
+	  <groupId>org.apache.commons</groupId>
+	  <artifactId>commons-lang3</artifactId>
+	  <version>3.9</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-io</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>2.4</version>
+	</dependency>
   </dependencies>
 
   <build>
@@ -247,6 +257,20 @@
             </artifactItems>
           </configuration>
         </plugin>
+     			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>exe</nonFilteredFileExtension>
+						<nonFilteredFileExtension>dll</nonFilteredFileExtension>
+						<nonFilteredFileExtension>tif</nonFilteredFileExtension>
+					</nonFilteredFileExtensions>
+
+				</configuration>
+			</plugin>
       </plugins>
     </pluginManagement>
   </build>
