@@ -13,3 +13,10 @@ buildNumber.properties
 # IntelliJ IDEA
 .idea/
 *.iml
+
+# To Be Deleted
+/ets-geotiff11/src/main/resources/org/opengis/cite/geotiff11/sch/gml-3.2.1.sch
+/ets-geotiff11/src/main/resources/org/opengis/cite/geotiff11/schema-catalog.xml
+/ets-geotiff11/src/main/resources/org/opengis/cite/geotiff11/schematron-catalog.xml
+/ets-geotiff11/src/main/resources/org/opengis/cite/geotiff11/xsd/iso/*
+/ets-geotiff11/src/test/resources/capabilities-simple.xml

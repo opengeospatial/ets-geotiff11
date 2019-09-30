@@ -3,7 +3,16 @@ package org.opengis.cite.geotiff11;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MediaType;
 import org.opengis.cite.geotiff11.util.ClientUtils;
@@ -96,4 +105,37 @@ public class CommonFixture {
         return ClientUtils.buildGetRequest(endpoint, qryParams, mediaTypes);
     }
 
+	/**
+	 * TODO: (Dustin) Change/remove this functionality 
+	 * Parse the tiff files. This class can be called on in the test case
+	 * classes. Adds one line per entry in the list
+	 * 
+	 * @param testSubject
+	 * @return
+	 */
+	public List<String> parseFile(InputStream testSubject) {
+		List<String> list = new ArrayList<>();
+
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(testSubject, "UTF-8"));
+
+			String line = reader.readLine();
+			while (line != null) {
+				list.add(line);
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+    
 }
