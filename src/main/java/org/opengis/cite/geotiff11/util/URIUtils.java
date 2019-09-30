@@ -30,6 +30,8 @@ import com.sun.jersey.api.client.WebResource;
  */
 public class URIUtils {
 
+	// TODO: Remove listgeo
+	
     private static final String FIXUP_BASE_URI = "http://apache.org/xml/features/xinclude/fixup-base-uris";
 	private static final String EXE = "exe";
 	private static final String LISTGEO = "listgeo";
@@ -110,13 +112,15 @@ public class URIUtils {
 	 * @param fileOutput
 	 * @return
 	 */
-	private static String initMetadataComm(String exeCommand, String geotiffFilePath, String fileOutput) {
+	private static String initMetadataComm(String exeCommand, String geotiffFilePath, String fileOutput, String option) {
 		String location = URIUtils.class.getResource("/tmp").getPath();
-		return exeCommand + " " + geotiffFilePath + " > " + location.substring(1) + "\\" + fileOutput;
+		return exeCommand + " " + option + " " + geotiffFilePath + " > " + location.substring(1) + "\\" + fileOutput;
 	}
 
 	private static void runLinuxcommands(String url, String geotiffFilePath)
 	{
+		// TODO: Add -m option
+		
 		url = url.substring(url.lastIndexOf(":") + 1);
 		System.out.println("Linux parser path: " + url);
 
@@ -184,9 +188,9 @@ public class URIUtils {
 			// use
 			try (PrintWriter stdin = new PrintWriter(p.getOutputStream())) {
 				stdin.println("cd " + url);
-				stdin.println(initMetadataComm(LISTGEO, geotiffFilePath, geoTiffFile));
+				stdin.println(initMetadataComm(LISTGEO, geotiffFilePath, geoTiffFile, ""));
 				stdin.println("cd " + url);
-				stdin.println(initMetadataComm(TIFFDUMP, geotiffFilePath, tiffFile));
+				stdin.println(initMetadataComm(TIFFDUMP, geotiffFilePath, tiffFile, "-m 1000"));
 				stdin.flush();
 			}
 
