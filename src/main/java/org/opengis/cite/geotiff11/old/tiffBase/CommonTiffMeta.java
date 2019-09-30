@@ -30,13 +30,16 @@ public class CommonTiffMeta extends CommonFixture {
 	 */
 	@BeforeClass
 	public void obtainTestSubject(ITestContext testContext) {
-		System.out.println("obtaining test subject now.");
+		System.out.println("obtaining test subject.");
 		Object obj = testContext.getSuite().getAttribute(SuiteAttribute.TEST_SUBJECT.getName());
 
+		// TODO: put obj into tiffdump.class rather than inputstream
+		
 		if (null != obj) {
 			InputStream input = IOUtils.toInputStream(obj.toString(), StandardCharsets.UTF_8);
 			if (input != null) {
 				list = parseFile(input);
+				System.out.println(list);
 			}
 		}
 	}
