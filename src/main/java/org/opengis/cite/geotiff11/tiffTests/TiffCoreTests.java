@@ -1,12 +1,7 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
 import org.testng.Assert;
-
-import java.io.IOException;
-
-import org.opengis.cite.geotiff11.tiffTests.CommonTiffMeta;
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Core.adoc
 public class TiffCoreTests extends CommonTiffMeta {

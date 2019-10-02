@@ -1,23 +1,13 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.opengis.cite.geotiff11.CommonFixture;
 import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.util.TiffDump;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 
-/**
- * Eventually can probably combine this class with CommonGeotiffMeta
- * 
- * @author RDAGCMVC
- *
- */
 public class CommonTiffMeta extends CommonFixture {
 	protected TiffDump tiffDump;
 

@@ -11,14 +11,11 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.opengis.cite.geotiff11.old.tiffBase.BitsPerSample;
-import org.opengis.cite.geotiff11.old.tiffBase.ResolutionUnit;
 import org.testng.ISuite;
 import org.testng.ITestContext;
-import org.xml.sax.SAXException;
 
 /**
- * Verifies the behavior of the Capability1Tests test class. Test stubs replace
+ * Verifies the behavior of the TiffTagsTests test class. Test stubs replace
  * fixture constituents where appropriate.
  */
 public class VerifyTiffTagTests {

@@ -11,14 +11,11 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.opengis.cite.geotiff11.old.tiffBase.BitsPerSample;
-import org.opengis.cite.geotiff11.old.tiffBase.ResolutionUnit;
 import org.testng.ISuite;
 import org.testng.ITestContext;
-import org.xml.sax.SAXException;
 
 /**
- * Verifies the behavior of the Capability1Tests test class. Test stubs replace
+ * Verifies the behavior of the TiffCoreTests test class. Test stubs replace
  * fixture constituents where appropriate.
  */
 public class VerifyTiffCoreTests {
@@ -54,14 +51,14 @@ public class VerifyTiffCoreTests {
 	}
 	
 	@Test
-	public void verifyTiffVersion() throws SAXException, IOException {
+	public void verifyTiffVersion() {
 		iut = new TiffCoreTests();
 		iut.obtainTestSubject(testContext);
 		iut.verifyTiffVersion();
 	}
 
 	@Test
-	public void verifyTiffEndianness() throws SAXException, IOException {
+	public void verifyTiffEndianness() {
 		iut = new TiffCoreTests();
 		iut.obtainTestSubject(testContext);
 		iut.verifyTiffEndianness();	
