@@ -1,4 +1,4 @@
-package org.opengis.cite.geotiff11.old.tiffBase;
+package org.opengis.cite.geotiff11.tiffTests;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -19,7 +19,6 @@ import org.testng.annotations.BeforeClass;
  *
  */
 public class CommonTiffMeta extends CommonFixture {
-	protected List<String> list;
 	protected TiffDump tiffDump;
 
 	/**
@@ -37,21 +36,14 @@ public class CommonTiffMeta extends CommonFixture {
 
 		// TODO: put obj into tiffdump.class rather than inputstream
 		
-		if (null != obj) {
-			
-			if(obj instanceof String) {
-				try {
-					tiffDump = new TiffDump((String) obj);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-			InputStream input = IOUtils.toInputStream(obj.toString(), StandardCharsets.UTF_8);
-			if (input != null) {
-				list = parseFile(input);
+		if(obj != null && obj instanceof String) {
+			try {
+				tiffDump = new TiffDump((String) obj);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+		
 	}
 
 	/**

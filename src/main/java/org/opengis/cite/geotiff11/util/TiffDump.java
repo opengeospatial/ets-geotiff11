@@ -13,27 +13,33 @@ import java.util.List;
 public class TiffDump {
 
     public static void main(String[] args) { 
-        TiffDump td = new TiffDump(new String("C:/Users/RDAGCDLJ/Documents/FY19/GEOTIFF/ets-geotiff11/target/test-classes/tif/cea.tif:\r\n" + 
-        		"Magic: 0x4949 <little-endian> Version: 0x2a\r\n" + 
-        		"Directory 0: offset 270276 (0x41fc4) next 0 (0)\r\n" + 
-        		"ImageWidth (256) SHORT (3) 1<514 ...>\r\n" + 
-        		"ImageLength (257) SHORT (3) 1<515>\r\n" + 
-        		"BitsPerSample (258) SHORT (3) 1<8>\r\n" + 
-        		"Compression (259) SHORT (3) 1<1>\r\n" + 
-        		"Photometric (262) SHORT (3) 1<1>\r\n" + 
-        		"StripOffsets (273) LONG (4) 35<426 8136 15846 23556 31266 38976 46686 54396 62106 69816 77526 85236 92946 100656 108366 116076 123786 131496 139206 146916 154626 162336 170046 177756>\r\n" + 
-        		"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
-        		"RowsPerStrip (278) SHORT (3) 1<15>\r\n" + 
-        		"StripByteCounts (279) LONG (4) 35<7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 ...>\r\n" + 
-        		"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
-        		"SampleFormat (339) SHORT (3) 1<1>\r\n" + 
-        		"33550 (0x830e) DOUBLE (12) 3<60.0221 60.0221 0>\r\n" + 
-        		"33922 (0x8482) DOUBLE (12) 6<0 0 0 -28493.2 4.25588e+006 0>\r\n" + 
-        		"34735 (0x87af) SHORT (3) 60<1 1 0 14 1024 0 1 1 1025 0 1 1 1026 34737 8 0 2048 0 1 4267 2049 34737 6 8 >\r\n" + 
-        		"34736 (0x87b0) DOUBLE (12) 4<-117.333 33.75 0 0>\r\n" + 
-        		"34737 (0x87b1) ASCII (2) 15<unnamed|NAD27|\\0>")); 
+        TiffDump td;
+		try {
+			td = new TiffDump(new String("C:/Users/RDAGCDLJ/Documents/FY19/GEOTIFF/ets-geotiff11/target/test-classes/tif/cea.tif:\r\n" + 
+					"Magic: 0x4949 <little-endian> Version: 0x2a\r\n" + 
+					"Directory 0: offset 270276 (0x41fc4) next 0 (0)\r\n" + 
+					"ImageWidth (256) SHORT (3) 1<514 ...>\r\n" + 
+					"ImageLength (257) SHORT (3) 1<515>\r\n" + 
+					"BitsPerSample (258) SHORT (3) 1<8>\r\n" + 
+					"Compression (259) SHORT (3) 1<1>\r\n" + 
+					"Photometric (262) SHORT (3) 1<1>\r\n" + 
+					"StripOffsets (273) LONG (4) 35<426 8136 15846 23556 31266 38976 46686 54396 62106 69816 77526 85236 92946 100656 108366 116076 123786 131496 139206 146916 154626 162336 170046 177756>\r\n" + 
+					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
+					"RowsPerStrip (278) SHORT (3) 1<15>\r\n" + 
+					"StripByteCounts (279) LONG (4) 35<7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 ...>\r\n" + 
+					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
+					"SampleFormat (339) SHORT (3) 1<1>\r\n" + 
+					"33550 (0x830e) DOUBLE (12) 3<60.0221 60.0221 0>\r\n" + 
+					"33922 (0x8482) DOUBLE (12) 6<0 0 0 -28493.2 4.25588e+006 0>\r\n" + 
+					"34735 (0x87af) SHORT (3) 60<1 1 0 14 1024 0 1 1 1025 0 1 1 1026 34737 8 0 2048 0 1 4267 2049 34737 6 8 >\r\n" + 
+					"34736 (0x87b0) DOUBLE (12) 4<-117.333 33.75 0 0>\r\n" + 
+					"34737 (0x87b1) ASCII (2) 15<unnamed|NAD27|\\0>"));
+			
+	        		System.out.println(td);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
         
-        System.out.println(td);
         //System.out.println(td.getDirectory(0)); 
         //System.out.println(td.getDirectory(0).getTagByName("ImageWidth")); 
         //System.out.println(td.getDirectory(0).getTagByName("34735"));
@@ -45,15 +51,15 @@ public class TiffDump {
      * @author Dustin Jutras, AGC
      *
      */
-	class Directory {
+	public class Directory {
 		
 		private int index;
 		private int offset;
 		private int next;
-		private ArrayList<Tag> tags = new ArrayList<>();
+		private List<Tag> tags = new ArrayList<>();
 		
 		public Directory(String directoryLine) {
-			ArrayList<String> info = new ArrayList<String>(Arrays.asList(directoryLine.replace(":", "").split(" ")));
+			List<String> info = new ArrayList<String>(Arrays.asList(directoryLine.replace(":", "").split(" ")));
 			offset = Integer.parseInt(info.get(info.indexOf("offset") + 1).trim());
 			next = Integer.parseInt(info.get(info.indexOf("next") + 1).trim());
 		}
@@ -62,15 +68,36 @@ public class TiffDump {
 			this.tags.add(new Tag(line));
 		}
 		
-		public Tag getTagByName(String s) {
+		public Tag getTag(String s) {
 			for (Tag tag : tags) {
 				if(tag.getName().equals(s.toLowerCase())) {
 					return tag;
 				}
 			}
 			return null;
+		}
+		
+		public Tag getTag(int value) {
+			for (Tag tag : tags) {
+				if(tag.getNameValue() == value) {
+					return tag;
+				}
+			}
+			return null;
 		}	
 		
+		public List<Tag> getTags() {
+			return tags;
+		}
+
+		public int getOffset() {
+			return offset;
+		}
+
+		public int getNext() {
+			return next;
+		}
+
 		@Override
 		public String toString() {
 	        return String.format("Directory %d:\t Offset: %d Next: %d\nTags:\n%s\n", index, offset, next, tags.toString());
@@ -83,19 +110,24 @@ public class TiffDump {
      * @author Dustin Jutras, AGC
      *
      */
-	class Tag {
+	public class Tag {
 		
 		private String line;
-		private String name, dataType;
-		private int count;
-		private ArrayList<Object> values = new ArrayList<>();
+		private String name, type;
+		private int nameValue, typeValue, count;
+		private List<Object> values = new ArrayList<>();
 		
 		public Tag(String line) {
 			this.line = line;
-			System.out.println(line);
+			//System.out.println(line);
 			
 			name = line.split(" ")[0];
-			dataType = line.split(" ")[2];
+			type = line.split(" ")[2];
+			
+			String nameValueString = line.split(" ")[1].replaceAll("[()]", ""); 
+			nameValue = nameValueString.contains("x") ? Integer.parseInt(nameValueString.replace("0x", ""), 16) : Integer.parseInt(nameValueString);
+			
+			typeValue = Integer.parseInt(line.split(" ")[3].replaceAll("[()]", ""));
 			
 			count = (int) line.split(" ")[4].charAt(0);
 			
@@ -107,7 +139,7 @@ public class TiffDump {
 			
 			// is this really necessary? probably not
 			
-			switch(dataType.toUpperCase()) {
+			switch(type.toUpperCase()) {
 				case "SHORT":
 				case "RATIONAL":
 					for(String value : values) {
@@ -135,27 +167,41 @@ public class TiffDump {
 		public String getName() {
 			return name;
 		}
+		
+		public int getNameValue() {
+			return nameValue;
+		}
+		
+		public int getTypeValue() {
+			return typeValue;
+		}
 
 		public int getCount() {
 			return count;
 		}
 		
-		public ArrayList<Object> getValues() {
+		public boolean containsValue(Object value) {
+			return values.contains(value);
+		}
+		
+		public List<Object> getValues() {
 			return values;
 		}
 		
 		@Override
 	    public String toString() { 
-	        return String.format("Name: %s Type: %s Count: %d Values: %s", name, dataType, count, values.toString());
+	        return String.format("Name: %s (%d) Type: %s (%d) Values (%d): %s", name, nameValue, type, typeValue, count, values.toString());
 	    } 
 	}
 	
 	private String filePath;
 	private String magic;
 	private String version;
-	private ArrayList<Directory> directories = new ArrayList<>();
+	private List<Directory> directories = new ArrayList<>();
 	
-	public TiffDump(String contents) {
+	public TiffDump(String contents) throws Exception {
+		System.out.println(contents);
+		
 		Directory currentDirectory = null;
 		for(String line : contents.toLowerCase().split("\n")) {
 			if(line.contains(".tif")  && currentDirectory == null) {
@@ -177,14 +223,39 @@ public class TiffDump {
 				currentDirectory.addTag(line);
 			}
 		}
+		
+		System.out.println(toString());
+		
+		if(!validate()) {
+			System.out.println("Tiff contents invalid/parsed incorrectly");
+			throw new Exception(); // TODO: fix this
+		}
+	}
+	
+	public boolean validate() {
+		if(magic == null || version == null || filePath == null || directories.size() < 1) {
+			return false;
+		}
+		return true;
 	}
 	
 	public Directory getDirectory(int index) {
 		return directories.get(index);
 	}
+	public List<Directory> getDirectories() {
+		return directories;
+	}
 	
 	@Override
     public String toString() { 
         return String.format("TiffDump: %sMagic: %s Version: %s\n%s", filePath, magic, version, directories.toString());
-    } 
+    }
+
+	public String getMagic() {
+		return magic;
+	}
+
+	public String getVersion() {
+		return version;
+	}
 }

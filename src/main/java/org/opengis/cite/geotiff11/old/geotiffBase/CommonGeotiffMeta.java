@@ -34,7 +34,7 @@ public class CommonGeotiffMeta extends CommonFixture {
 			if (input != null)
 			{
 				list = parseFile(input);
-				System.out.println(list);
+				//System.out.println(list);
 			}
 		}
 	}

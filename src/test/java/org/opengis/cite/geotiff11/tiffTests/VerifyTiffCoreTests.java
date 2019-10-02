@@ -1,4 +1,4 @@
-package org.opengis.cite.geotiff11.old.tiffBase;
+package org.opengis.cite.geotiff11.tiffTests;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -11,18 +11,24 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.opengis.cite.geotiff11.old.tiffBase.BitsPerSample;
 import org.opengis.cite.geotiff11.old.tiffBase.ResolutionUnit;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 import org.xml.sax.SAXException;
 
-public class VerifyResolutionUnit {
+/**
+ * Verifies the behavior of the Capability1Tests test class. Test stubs replace
+ * fixture constituents where appropriate.
+ */
+public class VerifyTiffCoreTests {
+
 	private static final String SUBJ = "testSubject";
 	private static ITestContext testContext;
 	private static ISuite suite;
-	ResolutionUnit iut;
+	TiffCoreTests iut;
 
-	public VerifyResolutionUnit() {
+	public VerifyTiffCoreTests() {
 		// This is the code for setting up the objects for the environment.
 		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
 		InputStream inputStream = this.getClass().getResourceAsStream("/tmp/tiffMeta.txt");
@@ -32,9 +38,9 @@ public class VerifyResolutionUnit {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.iut = new ResolutionUnit();
+		iut = new TiffCoreTests();
 	}
-
+	
 	@BeforeClass
 	public static void setUpClass() throws Exception {
 		testContext = mock(ITestContext.class);
@@ -44,23 +50,20 @@ public class VerifyResolutionUnit {
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
+		
 	}
-
-	@Test(expected = NullPointerException.class)
-	public void supplyNullTestSubject() throws SAXException, IOException {
-		ResolutionUnit iut = new ResolutionUnit();
-		iut.verifyResolutionUnitExists();
+	
+	@Test
+	public void verifyTiffVersion() throws SAXException, IOException {
+		iut = new TiffCoreTests();
+		iut.obtainTestSubject(testContext);
+		iut.verifyTiffVersion();
 	}
 
 	@Test
-	public void verifyResolutionUnitExists() throws SAXException, IOException {
-		this.iut.obtainTestSubject(testContext);
-		this.iut.verifyResolutionUnitExists();
-	}
-
-	@Test
-	public void verifyResolutionUnitValue() {
-		this.iut.obtainTestSubject(testContext);
-		this.iut.verifyResolutionUnitValue();
+	public void verifyTiffEndianness() throws SAXException, IOException {
+		iut = new TiffCoreTests();
+		iut.obtainTestSubject(testContext);
+		iut.verifyTiffEndianness();	
 	}
 }
