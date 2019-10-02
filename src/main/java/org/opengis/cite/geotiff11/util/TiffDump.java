@@ -100,7 +100,14 @@ public class TiffDump {
 
 		@Override
 		public String toString() {
-	        return String.format("Directory %d:\t Offset: %d Next: %d\nTags:\n%s\n", index, offset, next, tags.toString());
+			
+			String tagsString = "";
+			
+			for(Tag tag : tags) {
+				tagsString += tag.toString() + "\n";
+			}
+			
+	        return String.format("Directory %d:\nOffset: %d\tNext: %d\nTags:\n%s\n%s\n", index, offset, next, tagHeaderString(), tagsString);
 		}
 	}
 	
@@ -190,7 +197,7 @@ public class TiffDump {
 		
 		@Override
 	    public String toString() { 
-	        return String.format("Name: %s (%d) Type: %s (%d) Values (%d): %s", name, nameValue, type, typeValue, count, values.toString());
+	        return String.format("%20s (%d)\t%10s (%d)\t%10d %s", name.toUpperCase(), nameValue, type, typeValue, count, values.toString());
 	    } 
 	}
 	
@@ -204,8 +211,8 @@ public class TiffDump {
 		
 		Directory currentDirectory = null;
 		for(String line : contents.toLowerCase().split("\n")) {
-			if(line.contains(".tif")  && currentDirectory == null) {
-				filePath = line;
+			if((line.contains(".tif") || line.contains(".tmp"))  && currentDirectory == null) {
+				filePath = line.substring(0, line.length() - 2);
 				continue;
 			}
 			if(line.contains("magic")  && currentDirectory == null) {
@@ -233,7 +240,7 @@ public class TiffDump {
 	}
 	
 	public boolean validate() {
-		if(magic == null || version == null || filePath == null || directories.size() < 1) {
+		if(magic == null || version == null || directories.size() < 1) {
 			return false;
 		}
 		return true;
@@ -248,7 +255,7 @@ public class TiffDump {
 	
 	@Override
     public String toString() { 
-        return String.format("TiffDump: %sMagic: %s Version: %s\n%s", filePath, magic, version, directories.toString());
+        return String.format("TiffDump:\n%s\nMagic: %s Version: %s\n%s", filePath == null ? "filepath unavailable" : filePath, magic, version, directories.toString());
     }
 
 	public String getMagic() {
@@ -257,5 +264,9 @@ public class TiffDump {
 
 	public String getVersion() {
 		return version;
+	}
+	
+	static public String tagHeaderString() {
+		return String.format("%20s (%s)\t%10s (%s)\t%10s %s", "NAME", "ID", "TYPE", "T", "CNT", "[VALUES]");
 	}
 }
