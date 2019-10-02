@@ -10,9 +10,9 @@
     <listener class-name="org.opengis.cite.geotiff11.TestFailureListener" />
   </listeners>
 
-  <test name="Conformance Level 1">
+  <test name="Conformance">
     <packages>
-      <package name="org.opengis.cite.geotiff11.level1" />
+      <package name="org.opengis.cite.geotiff11.tiffTests" />
     </packages>
     <classes>
       <class name="org.opengis.cite.geotiff11.SuitePreconditions" />

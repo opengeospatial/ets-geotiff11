@@ -1,24 +1,15 @@
-package org.opengis.cite.geotiff11.old.tiffBase;
+package org.opengis.cite.geotiff11.tiffTests;
 
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.opengis.cite.geotiff11.CommonFixture;
 import org.opengis.cite.geotiff11.SuiteAttribute;
+import org.opengis.cite.geotiff11.util.TiffDump;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 
-/**
- * Eventually can probably combine this class with CommonGeotiffMeta
- * 
- * @author RDAGCMVC
- *
- */
 public class CommonTiffMeta extends CommonFixture {
-	protected List<String> list;
+	protected TiffDump tiffDump;
 
 	/**
 	 * Obtains the test subject from the ISuite context. The suite attribute
@@ -30,15 +21,19 @@ public class CommonTiffMeta extends CommonFixture {
 	 */
 	@BeforeClass
 	public void obtainTestSubject(ITestContext testContext) {
-		System.out.println("obtaining test subject now.");
+		System.out.println("obtaining test subject.");
 		Object obj = testContext.getSuite().getAttribute(SuiteAttribute.TEST_SUBJECT.getName());
 
-		if (null != obj) {
-			InputStream input = IOUtils.toInputStream(obj.toString(), StandardCharsets.UTF_8);
-			if (input != null) {
-				list = parseFile(input);
+		// TODO: put obj into tiffdump.class rather than inputstream
+		
+		if(obj != null && obj instanceof String) {
+			try {
+				tiffDump = new TiffDump((String) obj);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+		
 	}
 
 	/**

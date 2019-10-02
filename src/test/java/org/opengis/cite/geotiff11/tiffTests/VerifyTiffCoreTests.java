@@ -1,4 +1,4 @@
-package org.opengis.cite.geotiff11.old.tiffBase;
+package org.opengis.cite.geotiff11.tiffTests;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -11,17 +11,21 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.opengis.cite.geotiff11.old.tiffBase.PhotometricInterpretation;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 
-public class VerifyPhotometricInterpr {
+/**
+ * Verifies the behavior of the TiffCoreTests test class. Test stubs replace
+ * fixture constituents where appropriate.
+ */
+public class VerifyTiffCoreTests {
+
 	private static final String SUBJ = "testSubject";
 	private static ITestContext testContext;
 	private static ISuite suite;
-	PhotometricInterpretation iut;
+	TiffCoreTests iut;
 
-	public VerifyPhotometricInterpr() {
+	public VerifyTiffCoreTests() {
 		// This is the code for setting up the objects for the environment.
 		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
 		InputStream inputStream = this.getClass().getResourceAsStream("/tmp/tiffMeta.txt");
@@ -31,37 +35,32 @@ public class VerifyPhotometricInterpr {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.iut = new PhotometricInterpretation();
+		iut = new TiffCoreTests();
 	}
-
+	
 	@BeforeClass
 	public static void setUpClass() throws Exception {
 		testContext = mock(ITestContext.class);
 		suite = mock(ISuite.class);
 		when(testContext.getSuite()).thenReturn(suite);
-
 	}
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
+		
 	}
-
-	@Test(expected = NullPointerException.class)
-	public void supplyNullTestSubject() {
-		PhotometricInterpretation iut = new PhotometricInterpretation();
-		iut.verifyPhotometricInterpretationValue();
+	
+	@Test
+	public void verifyTiffVersion() {
+		iut = new TiffCoreTests();
+		iut.obtainTestSubject(testContext);
+		iut.verifyTiffVersion();
 	}
 
 	@Test
-	public void verifyPhotoInterprExists() {
-		this.iut.obtainTestSubject(testContext);
-		this.iut.verifyPhotoInterprExists();
+	public void verifyTiffEndianness() {
+		iut = new TiffCoreTests();
+		iut.obtainTestSubject(testContext);
+		iut.verifyTiffEndianness();	
 	}
-
-	@Test
-	public void verifyPhotometricInterpretationValue() {
-		this.iut.obtainTestSubject(testContext);
-		this.iut.verifyPhotometricInterpretationValue();
-	}
-
 }
