@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Tags.adoc
 public class TiffTagsTests extends CommonTiffMeta {
 
+	// TODO: Split this into multiple tests?
+	
 	/*
 	* TIFF Tags Test		
 	* Test id: http://www.opengis.net/spec/GeoTIFF/1.1/conf/TIFF.Tags		
@@ -120,8 +122,9 @@ public class TiffTagsTests extends CommonTiffMeta {
 				    // execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey/ModelTransformationTag
 				}
 
+				// validate that this IFD contains either a ModelTransformationTag or a ModelTiepointTag
+				// this could probably be it's own test?
 				Assert.assertTrue(transformTag != null || tiepointTag != null);
-				
 			}		
 		}
 
