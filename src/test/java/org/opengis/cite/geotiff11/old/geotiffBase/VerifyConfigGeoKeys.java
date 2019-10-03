@@ -10,16 +10,18 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.opengis.cite.geotiff11.old.geotiffBase.ConfigGeoKeys;
 import org.testng.ISuite;
 import org.testng.ITestContext;
+import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
 /**
  * Verifies the behavior of the configuration GeoKeys test class. Test stubs replace
  * fixture constituents where appropriate.
  */
+
+@Test(enabled=false)
 public class VerifyConfigGeoKeys {
 
 	private static final String SUBJ = "testSubjGeotiff";
@@ -54,7 +56,7 @@ public class VerifyConfigGeoKeys {
 	public static void tearDownClass() throws Exception {
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test(expectedExceptions = NullPointerException.class)
 	public void supplyNullTestSubject() {
 		ConfigGeoKeys iut = new ConfigGeoKeys();
 		iut.verifyGTModelTypeGeoKey();
