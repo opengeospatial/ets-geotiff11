@@ -20,6 +20,8 @@ import org.testng.ITestContext;
  */
 public class VerifyShortParamsTests {
 
+	// TODO: this should be expanded greatly
+	
 	private static final String SUBJ = "testSubject";
 	private static ITestContext testContext;
 	private static ISuite suite;
@@ -28,7 +30,14 @@ public class VerifyShortParamsTests {
 	public VerifyShortParamsTests() {
 		// This is the code for setting up the objects for the environment.
 		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
-		SetIUT();
+		InputStream inputStream = this.getClass().getResourceAsStream("/tmp/tiffMeta.txt");
+		try {
+			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		iut = new ShortParamsTests();
 	}
 	
 	@BeforeClass
@@ -45,22 +54,8 @@ public class VerifyShortParamsTests {
 	
 	@Test
 	public void verifyGTModelTypeGeoKey() throws Exception {
-		SetIUT();
 		iut.obtainTestSubject(testContext);
 		iut.SetUpGeoKeyDirectory();
 		iut.verifyGTModelTypeGeoKey();
-	}
-	
-	public void SetIUT() {
-		// This is the code for setting up the objects for the environment.
-		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
-		InputStream inputStream = this.getClass().getResourceAsStream("/tmp/tiffMeta.txt");
-		try {
-			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		iut = new ShortParamsTests();
 	}
 }

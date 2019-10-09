@@ -95,34 +95,51 @@ public class ShortParamsTests extends CommonTiffMeta {
 	//	0		ignore
 	//	1024	GTModelTypeGeoKey
 	
+	int processFourthShort(int index, int keyLength) {
+		// process the fourth Short integer in the Key Entry Set
+		if(keyLength == 1) {
+			// SET KeyValueOffset = GeoKeyDirectory + GeoKeyOffset + 6
+			return (int) keyEntrySet.get(index+3);
+		} else {
+			// SET KeyValueOffset = GeoKeyDirectory + (KeyValueOffset * 2)
+			return (int) keyEntrySet.get(keyLength); // TODO: verify this is a correct interpretation of the ats...
+		}
+	}
+	
+	int processThirdShort(int index) {
+		// process the third Short integer in the Key Entry Set
+		return (int) keyEntrySet.get(index + 2);
+	}
+	
+	int processSecondShort(int index) {
+		// process the second Short integer in the Key Entry Set
+		return (int) keyEntrySet.get(index + 1);
+	}
+	
+	int processFirstShort(int index) {
+		// process the first Short integer in the Key Entry Set
+		return (int) keyEntrySet.get(index);
+	}
+	
 	@Test(description = "Short Params GTModelTypeGeoKey (1024) Test")
-	public void verifyGTModelTypeGeoKey() {
+	public void verifyGTModelTypeGeoKey() throws Exception {
 		// the GTModelTypeGeoKey SHALL have ID = 1024
 		int index = keyEntrySet.indexOf(1024);
-		
 		// a GeoTIFF file SHALL include a GTModelTypeGeoKey
 		Assert.assertTrue(index != -1);
 		
 		// process the second Short integer in the Key Entry Set
-		int type = (int) keyEntrySet.get(index + 1);
-		// process the first Short integer in the Key Entry Set
-		int geoKey = (int) keyEntrySet.get(index);
-		// process the third Short integer in the Key Entry Set
-		int keyLength = (int) keyEntrySet.get(index + 2);
-		
-		// process the fourth Short integer in the Key Entry Set
-		int value;
-		
-		if(keyLength == 1) {
-			// SET KeyValueOffset = GeoKeyDirectory + GeoKeyOffset + 6
-			value = (int) keyEntrySet.get(index+3);
-		} else {
-			// SET KeyValueOffset = GeoKeyDirectory + (KeyValueOffset * 2)
-			value = (int) keyEntrySet.get(keyLength); // TODO: verify this is a correct interpretation of the ats...
-		}
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
 		
 		// the GTModelTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("GTModelTypeGeoKey should be of type SHORT.");
+		}
 		
 		// the GTModelTypeGeoKey value SHALL be: ...
 		Assert.assertTrue(Arrays.asList(0, 1, 2, 3, 32767).contains(value));
@@ -153,17 +170,42 @@ public class ShortParamsTests extends CommonTiffMeta {
 						keyEntrySet.indexOf(gTCitationGeoKeyIndex + 3) + keyEntrySet.indexOf(gTCitationGeoKeyIndex + 2));
 				System.out.println("shortparams:" + gTCitationGeoKey);
 				Assert.assertFalse(gTCitationGeoKey.isEmpty()); // TODO: this is pretty rough...
-				
 				break;
 		}
-
-		
 	}
-	
-	
-
 
 	//	1025	GTRasterTypeGeoKey
+	
+	@Test(description = "Short Params GTRasterTypeGeoKey (1025) Test")
+	public void verifyGTRasterTypeGeoKey() throws Exception {
+		// the GTModelTypeGeoKey SHALL have ID = 1025
+		int index = keyEntrySet.indexOf(1025);
+		// a GeoTIFF file SHALL include a GTModelTypeGeoKey
+		Assert.assertTrue(index != -1);
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the GTModelTypeGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("GTRasterTypeGeoKey should be of type SHORT.");
+		}
+		
+		// the GTRasterTypeGeoKey value SHALL be: ...
+		Assert.assertTrue(Arrays.asList(0, 1, 2, 32767).contains(value));
+		
+		// GTRasterTypeGeoKey values in the range 3-32766 SHALL be reserved
+		// TODO
+		
+		// GTRasterTypeGeoKey values in the range 32768-65535 SHALL be private
+		// TODO
+	}
+	
 	//	2048	GeodeticCRSGeoKey
 	//	2050	GeodeticDatumGeoKey
 	//	2051	PrimeMeridianGeoKey
