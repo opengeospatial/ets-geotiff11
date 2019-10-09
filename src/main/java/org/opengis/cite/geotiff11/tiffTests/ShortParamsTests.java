@@ -180,8 +180,11 @@ public class ShortParamsTests extends CommonTiffMeta {
 	public void verifyGTRasterTypeGeoKey() throws Exception {
 		// the GTModelTypeGeoKey SHALL have ID = 1025
 		int index = keyEntrySet.indexOf(1025);
-		// a GeoTIFF file SHALL include a GTModelTypeGeoKey
-		Assert.assertTrue(index != -1);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
 		
 		// process the second Short integer in the Key Entry Set
 		int type = processSecondShort(index);
