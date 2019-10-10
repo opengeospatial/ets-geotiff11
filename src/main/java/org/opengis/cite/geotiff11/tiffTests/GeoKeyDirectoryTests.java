@@ -14,7 +14,8 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 	/*
 	 * GeoKey Directory Test Test
 	 * id: http://www.opengis.net/spec/GeoTIFF/1.1/conf/GeoKeyDirectory
-	 * Requirements: http://www.opengis.net/spec/GeoTIFF/1.1/req/GeoKeyDirectoryTag.keyDirectoryVersion
+	 * Requirements:
+	 *  http://www.opengis.net/spec/GeoTIFF/1.1/req/GeoKeyDirectoryTag.keyDirectoryVersion
 	 *  http://www.opengis.net/spec/GeoTIFF/1.1/req/GeoKeyDirectoryTag.keyDirectoryVersionValue
 	 *  http://www.opengis.net/spec/GeoTIFF/1.1/req/GeoKeyDirectoryTag.keyRevision
 	 *  http://www.opengis.net/spec/GeoTIFF/1.1/req/GeoKeyDirectoryTag.keyRevisionValue
@@ -36,23 +37,35 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 	 * directory KeySetCount Local The number of entries in the GeoKey directory
 	 */
 
-	@Test(description = "GeoKey Directory Test	")
-	public void verifyGeoKeyDirectoryTests() throws Exception {
+	@Test(description = "GeoKey Directory Test", groups = {"verifyGeoKeyDirectory"})
+	public void verifyGeoKeyDirectory() throws Exception {
 
 		for (TiffDump.Directory directory : tiffDump.getDirectories()) {
 
 			// verify specific tag values
 			if (directory.getOffset() != 0) {
 
+				// the GeoKeyDirectoryTag SHALL have ID = 34735
 				List<Object> keyEntrySet = directory.getTag(34735).getValues();
+				
+				// the GeoKeyDirectoryTag SHALL have type = SHORT (2-byte unsigned integer)
+				Assert.assertTrue(directory.getTag(34735).getTypeValue() == 3);
+				
 				if (keyEntrySet != null) {
-					// verify that Bytes 0-1 = 1 (Key Directory Version)
+					
+					// the GeoKeyDirectoryTag SHALL include at least 4 keys (short integers) as header information
+					Assert.assertTrue(keyEntrySet.size() >= 4);
+					
+					// each Key Entry in the Key Entry Set SHALL include 4 unsigned short integer values
+					Assert.assertTrue(keyEntrySet.size() % 4 == 0);
+					
+					// verify that Bytes 0-1 = 1 (the value of KeyDirectoryVersion SHALL be 1)
 					Assert.assertTrue(keyEntrySet.get(0).equals(1));
-					// verify that Bytes 2-3 = 1 (Key Revision)
+					// verify that Bytes 2-3 = 1 (the value of KeyRevision SHALL be 1)
 					Assert.assertTrue(keyEntrySet.get(1).equals(1));
-					// verify that Bytes 4-5 = 0 or 1 (Key Minor Revision)
+					// verify that Bytes 4-5 = 0 or 1 (the MinorRevision for this standard SHALL be O or 1)
 					Assert.assertTrue(keyEntrySet.get(2).equals(0) || keyEntrySet.get(2).equals(1));
-					// bytes 6-7 contain the number of Key Entry Sets in this directory
+					// bytes 6-7 contain the number of Key Entry Sets in this directory (the GeoKeyDirectoryTag SHALL hold NumberOfKeys KeyEntry Sets in addition to the header information)
 					int keySetCount = (int) keyEntrySet.get(3);
 					
 					int count = 0;

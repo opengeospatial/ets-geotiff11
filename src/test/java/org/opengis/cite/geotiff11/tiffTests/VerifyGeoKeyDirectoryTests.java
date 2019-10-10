@@ -54,6 +54,6 @@ public class VerifyGeoKeyDirectoryTests {
 	public void verifyTiffTags() throws Exception {
 		iut = new GeoKeyDirectoryTests();
 		iut.obtainTestSubject(testContext);
-		iut.verifyGeoKeyDirectoryTests();
+		iut.verifyGeoKeyDirectory();
 	}
 }

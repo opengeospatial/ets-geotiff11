@@ -43,7 +43,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 	private List<Object> keyEntrySet;
 	
 	@BeforeClass
-	public void SetUpGeoKeyDirectory() {
+	public void setUpGeoKeyDirectory() {
 		directory = tiffDump.getGeoKeyDirectory();
 		Assert.assertTrue(directory != null);
 		keyEntrySet = directory.getTag(34735).getValues();	
@@ -121,7 +121,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 		return (int) keyEntrySet.get(index);
 	}
 	
-	@Test(description = "Short Params GTModelTypeGeoKey (1024) Test")
+	@Test(description = "Short Params GTModelTypeGeoKey (1024) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGTModelTypeGeoKey() throws Exception {
 		// the GTModelTypeGeoKey SHALL have ID = 1024
 		int index = keyEntrySet.indexOf(1024);
@@ -176,7 +176,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 
 	//	1025	GTRasterTypeGeoKey
 	
-	@Test(description = "Short Params GTRasterTypeGeoKey (1025) Test")
+	@Test(description = "Short Params GTRasterTypeGeoKey (1025) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGTRasterTypeGeoKey() throws Exception {
 		// the GTModelTypeGeoKey SHALL have ID = 1025
 		int index = keyEntrySet.indexOf(1025);
@@ -192,7 +192,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 		int keyLength = processThirdShort(index);
 		int value = processFourthShort(index, keyLength);
 		
-		// the GTModelTypeGeoKey SHALL have type = SHORT		
+		// the GTRasterTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == 34735);
 		// or
 		if(!(type == 0 || type == 34735)) {
@@ -203,13 +203,58 @@ public class ShortParamsTests extends CommonTiffMeta {
 		Assert.assertTrue(Arrays.asList(0, 1, 2, 32767).contains(value));
 		
 		// GTRasterTypeGeoKey values in the range 3-32766 SHALL be reserved
-		// TODO
+		Assert.assertFalse(value >= 3 && value <= 32766);
 		
 		// GTRasterTypeGeoKey values in the range 32768-65535 SHALL be private
-		// TODO
+		// value out of bounds
+		Assert.assertFalse(value > 65535 || value < 0);
 	}
 	
 	//	2048	GeodeticCRSGeoKey
+	
+	@Test(description = "Short Params GeodeticCRSGeoKey (2048) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyGeodeticCRSGeoKey() throws Exception {
+		// the GeodeticCRSGeoKey SHALL have ID = 2048
+		int index = keyEntrySet.indexOf(2048);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the GeodeticCRSGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("GeodeticCRSGeoKey should be of type SHORT.");
+		}
+	
+		
+		// if the GeodeticCRSGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, GeodeticDatumGeoKey 2050 and at least one of GeogAngularUnitsGeoKey 2054 or GeogLinearUnitsGeoKey 2052 SHALL be populated
+		if(value == 32767) {
+			Assert.assertTrue(keyEntrySet.indexOf(2049) != -1 && keyEntrySet.indexOf(2050) != -1 && (keyEntrySet.indexOf(2054) != -1 || keyEntrySet.indexOf(2052) != -1));
+		} else {
+			// GeodeticCRSGeoKey values in the range 1001-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1001 && value <= 1023);
+			
+			// GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)
+			Assert.assertFalse(!keyEntrySet.get(2).equals(1) && value >= 1024 && value <= 32766);
+			
+			// GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic Codes
+			Assert.assertFalse(!keyEntrySet.get(2).equals(0) && value >= 1 && value <= 1000);
+					
+			// GeodeticCRSGeoKeyvalues in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0);
+		}
+	}
+	
 	//	2050	GeodeticDatumGeoKey
 	//	2051	PrimeMeridianGeoKey
 	//	2052	UnitsGeoKey (Linear Units)
