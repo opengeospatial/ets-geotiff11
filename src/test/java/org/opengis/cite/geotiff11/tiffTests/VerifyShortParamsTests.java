@@ -59,10 +59,24 @@ public class VerifyShortParamsTests {
 		iut.verifyGTModelTypeGeoKey();
 	}
 	
-@Test
-public void verifyGTRasterTypeGeoKey() throws Exception {
-	iut.obtainTestSubject(testContext);
-	iut.setUpGeoKeyDirectory();
-	iut.verifyGTRasterTypeGeoKey();
-}
+	@Test
+	public void verifyGTRasterTypeGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyGTRasterTypeGeoKey();
+	}
+	
+	@Test
+	public void verifyGeodeticCRSGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyGeodeticCRSGeoKey();
+	}
+	
+	@Test
+	public void verifyGeodeticDatumGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyGeodeticDatumGeoKey();
+	}
 }

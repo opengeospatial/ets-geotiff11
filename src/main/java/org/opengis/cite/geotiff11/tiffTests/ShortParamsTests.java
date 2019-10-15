@@ -41,54 +41,19 @@ public class ShortParamsTests extends CommonTiffMeta {
 
 	private TiffDump.Directory directory;
 	private List<Object> keyEntrySet;
+	private int minorRevision;
 	
+	/*
+	 * Prepare directory and key entry set, fail the test if the geotiff is invalid.
+	 */
 	@BeforeClass
 	public void setUpGeoKeyDirectory() {
 		directory = tiffDump.getGeoKeyDirectory();
 		Assert.assertTrue(directory != null);
 		keyEntrySet = directory.getTag(34735).getValues();	
 		Assert.assertTrue(keyEntrySet != null);
+		minorRevision = (int) keyEntrySet.get(2);
 	}
-	
-/*	@Test(description = "GeoKey Directory Test	")
-	public void verifyGeoKeyDirectoryTests() throws Exception {
-
-		TiffDump.Directory directory = tiffDump.getGeoKeyDirectory();
-
-		List<Object> keyEntrySet = directory.getTag(34735).getValues();
-		if (keyEntrySet != null) {
-			for(int i = 4; i < keyEntrySet.size(); i += 4) {							
-				// process the second Short integer in the Key Entry Set
-				int type = (int) keyEntrySet.get(i+1);
-				
-				// get the Short Params
-				if(type == 0 || type == 34735) {
-					// process the first Short integer in the Key Entry Set
-					int geoKey = (int) keyEntrySet.get(i);
-					// process the third Short integer in the Key Entry Set
-					int keyLength = (int) keyEntrySet.get(i+2);
-					
-					int value;
-					
-					if(keyLength == 1) {
-						// SET KeyValueOffset = GeoKeyDirectory + GeoKeyOffset + 6
-						value = (int) keyEntrySet.get(i+3);
-					} else {
-						// SET KeyValueOffset = GeoKeyDirectory + (KeyValueOffset * 2)
-						value = (int) keyEntrySet.get(keyLength); // TODO: verify this is a correct interpretation of the ats...
-					}
-					
-					// validate
-					if(geoKey == 0) {
-						continue;
-					}
-					if(geoKey == 1024) {
-						continue;
-					}
-				}	
-			}
-		}
-	}*/
 	
 	//  https://github.com/opengeospatial/geotiff/blob/68d8f902293ad64526889daa055892ea30f9e9ea/GeoTIFF_Standard/Detailed%20Test%20Suite/abstract_tests/Requirements_Trace_Matrix.adoc
 	//	GeoKey	Requirements Class
@@ -145,10 +110,10 @@ public class ShortParamsTests extends CommonTiffMeta {
 		Assert.assertTrue(Arrays.asList(0, 1, 2, 3, 32767).contains(value));
 
 		// GTModelTypeGeoKey values in the range 4-32766 SHALL be reserved
-		// TODO
+		Assert.assertFalse(value >= 4 && value <= 32766);
 		
 		// GTModelTypeGeoKey values in the range 32768-65535 SHALL be private
-		// TODO
+		Assert.assertFalse(value > 65535 || value < 0);
 		
 		// if the GTModelTypeGeoKey value is 1 (Model CRS is a projected 2D CRS) then the GeoTIFF file SHALL include a ProjectedCRSGeoKey
 		// if the GTModelTypeGeoKey value is 2 (Model CRS is a geographic 2D CRS) then the GeoTIFF file SHALL include a GeodeticCRSGeoKey
@@ -178,7 +143,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 	
 	@Test(description = "Short Params GTRasterTypeGeoKey (1025) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGTRasterTypeGeoKey() throws Exception {
-		// the GTModelTypeGeoKey SHALL have ID = 1025
+		// the GTRasterTypeGeoKey SHALL have ID = 1025
 		int index = keyEntrySet.indexOf(1025);
 
 		// not required
@@ -234,7 +199,6 @@ public class ShortParamsTests extends CommonTiffMeta {
 		if(!(type == 0 || type == 34735)) {
 			throw new Exception("GeodeticCRSGeoKey should be of type SHORT.");
 		}
-	
 		
 		// if the GeodeticCRSGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, GeodeticDatumGeoKey 2050 and at least one of GeogAngularUnitsGeoKey 2054 or GeogLinearUnitsGeoKey 2052 SHALL be populated
 		if(value == 32767) {
@@ -244,10 +208,10 @@ public class ShortParamsTests extends CommonTiffMeta {
 			Assert.assertFalse(value >= 1001 && value <= 1023);
 			
 			// GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)
-			Assert.assertFalse(!keyEntrySet.get(2).equals(1) && value >= 1024 && value <= 32766);
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
 			
 			// GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic Codes
-			Assert.assertFalse(!keyEntrySet.get(2).equals(0) && value >= 1 && value <= 1000);
+			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 1000);
 					
 			// GeodeticCRSGeoKeyvalues in the range 32768-65535 SHALL be private
 			// value out of bounds
@@ -256,6 +220,49 @@ public class ShortParamsTests extends CommonTiffMeta {
 	}
 	
 	//	2050	GeodeticDatumGeoKey
+	
+	@Test(description = "Short Params GeodeticDatumGeoKey (2050) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyGeodeticDatumGeoKey() throws Exception {
+		// the GeodeticDatumGeoKey SHALL have ID = 2050
+		int index = keyEntrySet.indexOf(2050);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the GeodeticDatumGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("GeodeticDatumGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// If the GeodeticDatumGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, PrimeMeridianGeoKey 2051 and EllipsoidGeoKey 2056 SHALL be populated
+			Assert.assertTrue(keyEntrySet.indexOf(2049) != -1 && keyEntrySet.indexOf(2051) != -1 && keyEntrySet.indexOf(2056) != -1);
+		} else {		
+			// GeodeticDatumGeoKey values in the range 1024-32766 SHALL be EPSG geodetic datum codes
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+			
+			// GeodeticDatumGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POS Datum Codes
+			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 1000);
+					
+			// GeodeticDatumGeoKey values in the range 1001-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1001 && value <= 1023);
+			
+			// GeodeticDatumGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0);
+		}
+	}
+	
 	//	2051	PrimeMeridianGeoKey
 	//	2052	UnitsGeoKey (Linear Units)
 	//	2054	UnitsGeoKey (Angular Units)
