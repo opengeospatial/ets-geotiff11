@@ -107,4 +107,32 @@ public class VerifyShortParamsTests {
 		iut.setUpGeoKeyDirectory();
 		iut.verifyEllipsoidGeoKey();
 	}
+	
+	@Test
+	public void verifyGeogAzimuthUnitsGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyGeogAzimuthUnitsGeoKey();
+	}
+	
+	@Test
+	public void verifyProjectedCRSGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyProjectedCRSGeoKey();
+	}
+	
+	@Test
+	public void verifyProjectionGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyProjectionGeoKey();
+	}
+	
+	@Test
+	public void verifyProjMethodGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyProjMethodGeoKey();
+	}
 }

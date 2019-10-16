@@ -105,7 +105,6 @@ public class ShortParamsTests extends CommonTiffMeta {
 		// a GeoTIFF file SHALL include a GTModelTypeGeoKey
 		Assert.assertTrue(index != -1);
 		
-		// process the second Short integer in the Key Entry Set
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
@@ -448,10 +447,181 @@ public class ShortParamsTests extends CommonTiffMeta {
 		}
 	}
 	
-	//	2060	UnitsGeoKey (Azimuth Units)
+	//	2060	UnitsGeoKey (Azimuth Units) GeogAzimuthUnitsGeoKey
+	
+	@Test(description = "Short Params GeogAzimuthUnitsGeoKey (2060) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyGeogAzimuthUnitsGeoKey() throws Exception {
+		// the GeogAzimuthUnitsGeoKey SHALL have ID = 2060
+		int index = keyEntrySet.indexOf(GEOGAZIMUTHUNITSGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("GeogAzimuthUnitsGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// A GeogAngularUnitsGeoKey or a GeogAzimuthUnitsGeoKey value of 32767 SHALL be a user-defined angular unit. If the value is 32767 (User-Defined) then the GeodeticCitationGeoKey and the GeogAngularUnitSizeGeoKey SHALL be populated
+			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEOGANGULARUNITSIZEGEOKEY));
+		} else {		
+			// GeogAngularUnitsGeoKey and GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle
+			// TODO: how to check type? need some sort of lookup table for epsg uom codes
+			// TODO: what about obsolete?
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+					
+			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1 && value <= 1023);
+			
+			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0);
+		}
+	}
+	
 	//	3072	ProjectedCRSGeoKey
+	
+	@Test(description = "Short Params ProjectedCRSGeoKey (2056) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyProjectedCRSGeoKey() throws Exception {
+		// the ProjectedCRSGeoKey SHALL have ID = 3072
+		int index = keyEntrySet.indexOf(PROJECTEDCRSGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the ProjectedCRSGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("ProjectedCRSGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// A ProjectedCRSGeoKey value of 32767 SHALL be a user-defined projected CRS. If the ProjectedCRSGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey, GeodeticCRSGeoKey and ProjectionGeoKey SHALL be populated
+			Assert.assertTrue(keyExists(PROJECTEDCITATIONGEOKEY) && keyExists(GEODETICCRSGEOKEY) && keyExists(PROJECTIONGEOKEY));
+		} else {		
+			// ProjectedCRSGeoKey values in the range 1024-32766 SHALL be EPSG Projected CRS Codes
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+			
+			// ProjectedCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Datum Codes
+			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 1000);
+			
+			// ProjectedCRSGeoKey values in the range 1001-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1001 && value <= 1023);
+			
+			// ProjectedCRSGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0); // TODO: should value < 0 be value < 1?
+		}
+	}
+	
 	//	3074	ProjectionGeoKey
+	
+	@Test(description = "Short Params ProjectionGeoKey (3074) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyProjectionGeoKey() throws Exception {
+		// the ProjectionGeoKey SHALL have ID = 3074
+		int index = keyEntrySet.indexOf(PROJECTIONGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the ProjectionGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("ProjectionGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// If the ProjectionGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey, ProjectionMethodGeoKey, and ProjLinearUnitsGeoKey SHALL be populated
+			Assert.assertTrue(keyExists(PROJECTEDCITATIONGEOKEY) && keyExists(PROJMETHODGEOKEY) && keyExists(PROJLINEARUNITSGEOKEY));
+		} else {		
+			// ProjectionGeoKey values in the range 1024-32766 SHALL be valid EPSG map projection (coordinate operation) codes
+			// TODO: check validity of EPSG codes
+			// TODO: check minorRevision != 1?
+			Assert.assertFalse(value >= 1024 && value <= 32766);
+			
+			// ProjectionGeoKey values in the range 1-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1 && value <= 1023);
+			
+			// ProjectionGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0); // TODO: should value < 0 be value < 1?
+		}
+	}
+	
 	//	3075	ProjMethodGeoKey
+	
+	@Test(description = "Short Params ProjMethodGeoKey (3075) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyProjMethodGeoKey() throws Exception {
+		// the ProjMethodGeoKey SHALL have ID = 3075
+		int index = keyEntrySet.indexOf(PROJMETHODGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the ProjMethodGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("ProjMethodGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// If the ProjectionMethodGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey 
+			Assert.assertTrue(keyExists(PROJECTEDCITATIONGEOKEY));
+			// and keys for each map projection parameter (coordinate operation parameter) appropriate to that method SHALL be populated
+		
+		} else {		
+			// ProjMethodGeoKey values in the range 1-27 SHALL be GeoTIFF map projection method codes
+			// TODO: check codes
+			// TODO: check minorRevision != 1?
+			Assert.assertFalse(value >= 1 && value <= 27);
+			
+			// ProjMethodGeoKey values in the range 28-32766 SHALL be reserved
+			Assert.assertFalse(value >= 28 && value <= 32766);
+			
+			// ProjMethodGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0); // TODO: should value < 0 be value < 1?
+		}
+	}
+	
 	//	3076	UnitsGeoKey (Linear Units)
 	//	4096	VerticalGeoKey
 	//	4098	VerticalDatumGeoKey
