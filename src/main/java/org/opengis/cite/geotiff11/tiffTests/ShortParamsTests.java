@@ -8,6 +8,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static org.opengis.cite.geotiff11.util.GeoKeyID.*;
+
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_Short_Param.adoc
 
 public class ShortParamsTests extends CommonTiffMeta {
@@ -50,7 +52,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 	public void setUpGeoKeyDirectory() {
 		directory = tiffDump.getGeoKeyDirectory();
 		Assert.assertTrue(directory != null);
-		keyEntrySet = directory.getTag(34735).getValues();	
+		keyEntrySet = directory.getTag(GEOKEYDIRECTORYTAG).getValues();	
 		Assert.assertTrue(keyEntrySet != null);
 		minorRevision = (int) keyEntrySet.get(2);
 	}
@@ -60,6 +62,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 	//	0		ignore
 	//	1024	GTModelTypeGeoKey
 	
+	// helper functions
 	int processFourthShort(int index, int keyLength) {
 		// process the fourth Short integer in the Key Entry Set
 		if(keyLength == 1) {
@@ -86,10 +89,15 @@ public class ShortParamsTests extends CommonTiffMeta {
 		return (int) keyEntrySet.get(index);
 	}
 	
+	boolean keyExists(int key) {
+		return keyEntrySet.indexOf(key) != -1;
+	}
+	
+	// tests
 	@Test(description = "Short Params GTModelTypeGeoKey (1024) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGTModelTypeGeoKey() throws Exception {
 		// the GTModelTypeGeoKey SHALL have ID = 1024
-		int index = keyEntrySet.indexOf(1024);
+		int index = keyEntrySet.indexOf(GTMODELTYPEGEOKEY);
 		// a GeoTIFF file SHALL include a GTModelTypeGeoKey
 		Assert.assertTrue(index != -1);
 		
@@ -101,7 +109,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 		
 		// the GTModelTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == 34735);
-		// or
+		// or TODO: which one should I use?
 		if(!(type == 0 || type == 34735)) {
 			throw new Exception("GTModelTypeGeoKey should be of type SHORT.");
 		}
@@ -115,22 +123,22 @@ public class ShortParamsTests extends CommonTiffMeta {
 		// GTModelTypeGeoKey values in the range 32768-65535 SHALL be private
 		Assert.assertFalse(value > 65535 || value < 0);
 		
-		// if the GTModelTypeGeoKey value is 1 (Model CRS is a projected 2D CRS) then the GeoTIFF file SHALL include a ProjectedCRSGeoKey
-		// if the GTModelTypeGeoKey value is 2 (Model CRS is a geographic 2D CRS) then the GeoTIFF file SHALL include a GeodeticCRSGeoKey
-		// if the GTModelTypeGeoKey value is 3 (Model CRS is a geocentric CRS) then the GeoTIFF file SHALL include a GeodeticCRSGeoKey
-		// if the GTModelTypeGeoKey value is 32767 (user-defined) then the GTCitationGeoKey SHALL be populated
 		switch(value) {		
+			// if the GTModelTypeGeoKey value is 1 (Model CRS is a projected 2D CRS) then the GeoTIFF file SHALL include a ProjectedCRSGeoKey 3072
 			case 1:
-				Assert.assertTrue(keyEntrySet.indexOf(3072) != -1);
+				Assert.assertTrue(keyExists(PROJECTEDCRSGEOKEY));
 				break;
+			// if the GTModelTypeGeoKey value is 2 (Model CRS is a geographic 2D CRS) then the GeoTIFF file SHALL include a GeodeticCRSGeoKey 2048
+			// if the GTModelTypeGeoKey value is 3 (Model CRS is a geocentric CRS) then the GeoTIFF file SHALL include a GeodeticCRSGeoKey 2048
 			case 2:
 			case 3:
-				Assert.assertTrue(keyEntrySet.indexOf(3072) != -1);
+				Assert.assertTrue(keyExists(GEODETICCRSGEOKEY));
 				break;
+			// if the GTModelTypeGeoKey value is 32767 (user-defined) then the GTCitationGeoKey SHALL be populated
 			case 32767:
-				int gTCitationGeoKeyIndex = keyEntrySet.indexOf(1026);
+				int gTCitationGeoKeyIndex = keyEntrySet.indexOf(GTCITATIONGEOKEY);
 				Assert.assertTrue(gTCitationGeoKeyIndex != -1);
-				String gTCitationGeoKey = ((String) directory.getTag(34737).getValues().get(0)).substring(
+				String gTCitationGeoKey = ((String) directory.getTag(GEOASCIIPARAMSTAG).getValues().get(0)).substring(
 						keyEntrySet.indexOf(gTCitationGeoKeyIndex + 3), 
 						keyEntrySet.indexOf(gTCitationGeoKeyIndex + 3) + keyEntrySet.indexOf(gTCitationGeoKeyIndex + 2));
 				System.out.println("shortparams:" + gTCitationGeoKey);
@@ -144,7 +152,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 	@Test(description = "Short Params GTRasterTypeGeoKey (1025) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGTRasterTypeGeoKey() throws Exception {
 		// the GTRasterTypeGeoKey SHALL have ID = 1025
-		int index = keyEntrySet.indexOf(1025);
+		int index = keyEntrySet.indexOf(GTRASTERTYPEGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -180,7 +188,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 	@Test(description = "Short Params GeodeticCRSGeoKey (2048) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGeodeticCRSGeoKey() throws Exception {
 		// the GeodeticCRSGeoKey SHALL have ID = 2048
-		int index = keyEntrySet.indexOf(2048);
+		int index = keyEntrySet.indexOf(GEODETICCRSGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -202,7 +210,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 		
 		// if the GeodeticCRSGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, GeodeticDatumGeoKey 2050 and at least one of GeogAngularUnitsGeoKey 2054 or GeogLinearUnitsGeoKey 2052 SHALL be populated
 		if(value == 32767) {
-			Assert.assertTrue(keyEntrySet.indexOf(2049) != -1 && keyEntrySet.indexOf(2050) != -1 && (keyEntrySet.indexOf(2054) != -1 || keyEntrySet.indexOf(2052) != -1));
+			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEODETICDATUMGEOKEY) && (keyExists(GEOGANGULARUNITSGEOKEY) || keyExists(GEOGLINEARUNITSGEOKEY)));
 		} else {
 			// GeodeticCRSGeoKey values in the range 1001-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1001 && value <= 1023);
@@ -224,7 +232,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 	@Test(description = "Short Params GeodeticDatumGeoKey (2050) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGeodeticDatumGeoKey() throws Exception {
 		// the GeodeticDatumGeoKey SHALL have ID = 2050
-		int index = keyEntrySet.indexOf(2050);
+		int index = keyEntrySet.indexOf(GEODETICDATUMGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -246,7 +254,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 		
 		if(value == 32767) {
 			// If the GeodeticDatumGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, PrimeMeridianGeoKey 2051 and EllipsoidGeoKey 2056 SHALL be populated
-			Assert.assertTrue(keyEntrySet.indexOf(2049) != -1 && keyEntrySet.indexOf(2051) != -1 && keyEntrySet.indexOf(2056) != -1);
+			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(PRIMEMERIDIANGEOKEY) && keyExists(ELLIPSOIDGEOKEY));
 		} else {		
 			// GeodeticDatumGeoKey values in the range 1024-32766 SHALL be EPSG geodetic datum codes
 			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);

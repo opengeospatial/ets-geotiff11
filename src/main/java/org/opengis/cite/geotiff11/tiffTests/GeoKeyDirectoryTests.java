@@ -6,6 +6,8 @@ import org.opengis.cite.geotiff11.util.TiffDump;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.opengis.cite.geotiff11.util.GeoKeyID.*;
+
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_GeoKeyDirectory.adoc
 public class GeoKeyDirectoryTests extends CommonTiffMeta {
 
@@ -46,10 +48,10 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 			if (directory.getOffset() != 0) {
 
 				// the GeoKeyDirectoryTag SHALL have ID = 34735
-				List<Object> keyEntrySet = directory.getTag(34735).getValues();
+				List<Object> keyEntrySet = directory.getTag(GEOKEYDIRECTORYTAG).getValues();
 				
 				// the GeoKeyDirectoryTag SHALL have type = SHORT (2-byte unsigned integer)
-				Assert.assertTrue(directory.getTag(34735).getTypeValue() == 3);
+				Assert.assertTrue(directory.getTag(GEOKEYDIRECTORYTAG).getTypeValue() == 3);
 				
 				if (keyEntrySet != null) {
 					

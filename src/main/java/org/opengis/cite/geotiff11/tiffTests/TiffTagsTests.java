@@ -4,6 +4,8 @@ import org.opengis.cite.geotiff11.util.TiffDump;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.opengis.cite.geotiff11.util.GeoKeyID.*;
+
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Tags.adoc
 public class TiffTagsTests extends CommonTiffMeta {
 
@@ -64,7 +66,7 @@ public class TiffTagsTests extends CommonTiffMeta {
 			// verify specific tag values
 			if(directory.getOffset() != 0) {
 				
-				TiffDump.Tag geoKeyDirectory = directory.getTag(34735);
+				TiffDump.Tag geoKeyDirectory = directory.getTag(GEOKEYDIRECTORYTAG);
 				if(geoKeyDirectory != null) {
 					// validate that Bytes 2-3 = 3 (Short Integer)
 					Assert.assertTrue(geoKeyDirectory.getTypeValue() == 3);
@@ -73,7 +75,7 @@ public class TiffTagsTests extends CommonTiffMeta {
 										
 					if(geoKeyDirectory.getValues() != null) {					
 						// validate that there is a GTModelType GeoKey in the GeoKey Directory
-						Assert.assertTrue(geoKeyDirectory.containsValue(1024));
+						Assert.assertTrue(geoKeyDirectory.containsValue(GTMODELTYPEGEOKEY));
 						
 						// execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/GeoKeyDirectory
 						
@@ -83,26 +85,26 @@ public class TiffTagsTests extends CommonTiffMeta {
 						
 				}
 				
-				TiffDump.Tag doubles = directory.getTag(34736);
+				TiffDump.Tag doubles = directory.getTag(GEODOUBLEPARAMSTAG);
 				if(doubles != null) {
 					Assert.assertTrue(doubles.getTypeValue() == 12);
 					//doubleValues = doubles.getValues();
 				}
 				
-				TiffDump.Tag asciis = directory.getTag(34737);
+				TiffDump.Tag asciis = directory.getTag(GEOASCIIPARAMSTAG);
 				if(asciis != null) {
 					Assert.assertTrue(asciis.getTypeValue() == 2);
 					//asciiValues = asciis.getValues();
 				}
 				
-				TiffDump.Tag tiepointTag  = directory.getTag(33922);
+				TiffDump.Tag tiepointTag  = directory.getTag(MODELTIEPOINTTAG);
 				if(tiepointTag != null) {
 					Assert.assertTrue(tiepointTag.getTypeValue() == 12);
 
 					// execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey/ModelTiepointTag
 				}
 				
-				TiffDump.Tag pixelScaleTag = directory.getTag(33550);
+				TiffDump.Tag pixelScaleTag = directory.getTag(MODELPIXELSCALETAG);
 				if(pixelScaleTag != null) {
 					Assert.assertTrue(pixelScaleTag.getTypeValue() == 12);
 					
@@ -112,7 +114,7 @@ public class TiffTagsTests extends CommonTiffMeta {
 				    // execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey/ModelPixelScaleTag
 				}
 				
-				TiffDump.Tag transformTag = directory.getTag(34264);
+				TiffDump.Tag transformTag = directory.getTag(MODELTRANSFORMATIONTAG);
 				if(transformTag != null) {
 					Assert.assertTrue(transformTag.getTypeValue() == 12);
 					
