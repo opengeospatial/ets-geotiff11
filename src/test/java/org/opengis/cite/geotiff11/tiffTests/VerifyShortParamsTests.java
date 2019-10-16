@@ -79,4 +79,32 @@ public class VerifyShortParamsTests {
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGeodeticDatumGeoKey();
 	}
+	
+	@Test
+	public void verifyPrimeMeridianGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyPrimeMeridianGeoKey();
+	}
+	
+	@Test
+	public void verifyGeogLinearUnitsGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyGeogLinearUnitsGeoKey();
+	}
+	
+	@Test
+	public void verifyGeogAngularUnitsGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyGeogAngularUnitsGeoKey();
+	}
+	
+	@Test
+	public void verifyEllipsoidGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyEllipsoidGeoKey();
+	}
 }

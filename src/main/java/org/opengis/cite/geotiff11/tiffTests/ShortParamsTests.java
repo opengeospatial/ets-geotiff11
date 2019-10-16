@@ -93,7 +93,11 @@ public class ShortParamsTests extends CommonTiffMeta {
 		return keyEntrySet.indexOf(key) != -1;
 	}
 	
+	
+	// TODO: value testing - needs code lookup tables
+	
 	// tests
+	
 	@Test(description = "Short Params GTModelTypeGeoKey (1024) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGTModelTypeGeoKey() throws Exception {
 		// the GTModelTypeGeoKey SHALL have ID = 1024
@@ -272,9 +276,178 @@ public class ShortParamsTests extends CommonTiffMeta {
 	}
 	
 	//	2051	PrimeMeridianGeoKey
-	//	2052	UnitsGeoKey (Linear Units)
-	//	2054	UnitsGeoKey (Angular Units)
+	
+	@Test(description = "Short Params PrimeMeridianGeoKey (2051) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyPrimeMeridianGeoKey() throws Exception {
+		// the PrimeMeridianGeoKey SHALL have ID = 2051
+		int index = keyEntrySet.indexOf(PRIMEMERIDIANGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the PrimeMeridianGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("PrimeMeridianGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// If the PrimeMeridianGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey, and PrimeMeridianLongGeoKey SHALL be populated
+			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(PRIMEMERIDIANLONGITUDEGEOKEY));
+		} else {		
+			// PrimeMeridianGeoKey values in the range 1024-32766 SHALL be EPSG Prime Meridian Codes
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+			
+			// PrimeMeridianGeoKey values in the range 1-100 SHALL be obsolete EPSG/POSC Datum Codes
+			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 100);
+					
+			// PrimeMeridianGeoKey values in the range 101-1023 SHALL be reserved
+			Assert.assertFalse(value >= 101 && value <= 1023);
+			
+			// PrimeMeridianGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0);
+		}
+	}
+	
+	//	2052	UnitsGeoKey (Linear Units) GeogLinearUnitsGeoKey
+	
+	@Test(description = "Short Params GeogLinearUnitsGeoKey (2052) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyGeogLinearUnitsGeoKey() throws Exception {
+		// the GeogLinearUnitsGeoKey SHALL have ID = 2051
+		int index = keyEntrySet.indexOf(GEOGLINEARUNITSGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("GeogLinearUnitsGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// A GeogLinearUnitsGeoKey value of 32767 SHALL be a user-defined linear unit. If the value is 32767 (User-Defined) then the GeodeticCitationGeoKey and the GeogLinearUnitSizeGeoKey SHALL be populated
+			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEOGLINEARUNITSIZEGEOKEY));
+		} else {		
+			// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
+			// TODO: how to check type? need some sort of lookup table for epsg uom codes
+			// TODO: what about obsolete?
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+					
+			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1 && value <= 1023);
+			
+			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0);
+		}
+	}
+	
+	//	2054	UnitsGeoKey (Angular Units) GeogAngularUnitsGeoKey
+	
+	@Test(description = "Short Params GeogAngularUnitsGeoKey (2052) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyGeogAngularUnitsGeoKey() throws Exception {
+		// the GeogAngularUnitsGeoKey SHALL have ID = 2054
+		int index = keyEntrySet.indexOf(GEOGANGULARUNITSGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("GeogAngularUnitsGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// A GeogAngularUnitsGeoKey or a GeogAzimuthUnitsGeoKey value of 32767 SHALL be a user-defined angular unit. If the value is 32767 (User-Defined) then the GeodeticCitationGeoKey and the GeogAngularUnitSizeGeoKey SHALL be populated
+			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEOGANGULARUNITSIZEGEOKEY));
+		} else {		
+			// GeogAngularUnitsGeoKey and GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle
+			// TODO: how to check type? need some sort of lookup table for epsg uom codes
+			// TODO: what about obsolete?
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+					
+			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1 && value <= 1023);
+			
+			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0);
+		}
+	}
+	
 	//	2056	EllipsoidGeoKey
+	
+	@Test(description = "Short Params EllipsoidGeoKey (2056) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyEllipsoidGeoKey() throws Exception {
+		// the PrimeMeridianGeoKey SHALL have ID = 2056
+		int index = keyEntrySet.indexOf(ELLIPSOIDGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the EllipsoidGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("EllipsoidGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// If the EllipsoidGeoKey value is 32767 (User-Defined) then the GTCitationGeoKey and the EllipsoidSemiMajorAxisGeoKey SHALL be populated together with the one of either the EllipsoidSemiMinorAxisGeoKey or the EllipsoidInvFlatteningGeoKey
+			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(ELLIPSOIDSEMIMAJORAXISGEOKEY) && (keyExists(ELLIPSOIDSEMIMINORAXISGEOKEY) || keyExists(ELLIPSOIDINVFLATTENINGGEOKEY)));
+		} else {		
+			// EllipsoidGeoKey values in the range 1024-32766 SHALL be EPSG ellipsoid Codes
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+			
+			// EllipsoidGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POSC Datum Codes
+			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 1000);
+			
+			// no reserved
+			
+			// EllipsoidGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0); // TODO: Check if between 1000-1023?
+		}
+	}
+	
 	//	2060	UnitsGeoKey (Azimuth Units)
 	//	3072	ProjectedCRSGeoKey
 	//	3074	ProjectionGeoKey
