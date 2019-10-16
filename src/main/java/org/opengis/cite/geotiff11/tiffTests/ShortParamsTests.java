@@ -226,7 +226,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 					
 			// GeodeticCRSGeoKeyvalues in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0);
+			Assert.assertFalse(value > 65535 || value <= 0);
 		}
 	}
 	
@@ -270,7 +270,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 			
 			// GeodeticDatumGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0);
+			Assert.assertFalse(value > 65535 || value <= 0);
 		}
 	}
 	
@@ -314,7 +314,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 			
 			// PrimeMeridianGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0);
+			Assert.assertFalse(value > 65535 || value <= 0);
 		}
 	}
 	
@@ -322,7 +322,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 	
 	@Test(description = "Short Params GeogLinearUnitsGeoKey (2052) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGeogLinearUnitsGeoKey() throws Exception {
-		// the GeogLinearUnitsGeoKey SHALL have ID = 2051
+		// the GeogLinearUnitsGeoKey SHALL have ID = 2052
 		int index = keyEntrySet.indexOf(GEOGLINEARUNITSGEOKEY);
 
 		// not required
@@ -357,7 +357,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 			
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0);
+			Assert.assertFalse(value > 65535 || value <= 0);
 		}
 	}
 	
@@ -400,7 +400,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 			
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0);
+			Assert.assertFalse(value > 65535 || value <= 0);
 		}
 	}
 	
@@ -443,7 +443,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 			
 			// EllipsoidGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0); // TODO: Check if between 1000-1023?
+			Assert.assertFalse(value > 65535 || value <= 0); // TODO: Check if between 1000-1023?
 		}
 	}
 	
@@ -486,7 +486,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 			
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0);
+			Assert.assertFalse(value > 65535 || value <= 0);
 		}
 	}
 	
@@ -530,7 +530,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 			
 			// ProjectedCRSGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0); // TODO: should value < 0 be value < 1?
+			Assert.assertFalse(value > 65535 || value <= 0); // TODO: should value < 0 be value < 1?
 		}
 	}
 	
@@ -573,7 +573,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 			
 			// ProjectionGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0); // TODO: should value < 0 be value < 1?
+			Assert.assertFalse(value > 65535 || value <= 0); // TODO: should value < 0 be value < 1?
 		}
 	}
 	
@@ -618,13 +618,175 @@ public class ShortParamsTests extends CommonTiffMeta {
 			
 			// ProjMethodGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0); // TODO: should value < 0 be value < 1?
+			Assert.assertFalse(value > 65535 || value <= 0); // TODO: should value < 0 be value < 1?
 		}
 	}
 	
-	//	3076	UnitsGeoKey (Linear Units)
-	//	4096	VerticalGeoKey
-	//	4098	VerticalDatumGeoKey
-	//	4099	UnitsGeoKey (Vertical Units)
+	//	3076	UnitsGeoKey (Linear Units) ProjLinearUnitsGeoKey
+	
+	@Test(description = "Short Params ProjLinearUnitsGeoKey (3076) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyProjLinearUnitsGeoKey() throws Exception {
+		// the GeogLinearUnitsGeoKey SHALL have ID = 3076
+		int index = keyEntrySet.indexOf(PROJLINEARUNITSGEOKEY);
 
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("ProjLinearUnitsGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// A ProjLinearUnitsGeoKey value of 32767 SHALL be a user-defined linear unit. If the value is 32767 (User-Defined) then the ProjectedCitationGeoKey and the ProjLinearUnitSizeGeoKey SHALL be populated
+			Assert.assertTrue(keyExists(PROJECTEDCITATIONGEOKEY) && keyExists(PROJLINEARUNITSIZEGEOKEY));
+		} else {		
+			// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
+			// TODO: how to check type? need some sort of lookup table for epsg uom codes
+			// TODO: what about obsolete?
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+					
+			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1 && value <= 1023);
+			
+			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value <= 0);
+		}
+	}
+	
+	//	4096	VerticalGeoKey
+	
+	@Test(description = "Short Params VerticalGeoKey (4096) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyVerticalGeoKey() throws Exception {
+		// the VerticalGeoKey SHALL have ID = 4096
+		int index = keyEntrySet.indexOf(VERTICALGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the VerticalGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("VerticalGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// If the VerticalGeoKey value is 32767 (User-Defined) then the VerticalCitationGeoKey, the VerticalUnitsGeoKey and VerticalDatumGeoKey SHALL be populated
+			Assert.assertTrue(keyExists(VERTICALCITATIONGEOKEY) && keyExists(VERTICALUNITSGEOKEY) && keyExists(VERTICALDATUMGEOKEY));
+		} else {		
+			// VerticalGeoKey values in the range 1024-32766 SHALL be either EPSG Vertical CRS Codes or EPSG geographic 3D CRS codes
+			// TODO: check codes
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+			
+			// VerticalGeoKey values in the range 1-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1 && value <= 1023);
+			
+			// VerticalGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value <= 0);
+		}
+	}
+	
+	//	4098	VerticalDatumGeoKey
+	
+	@Test(description = "Short Params VerticalDatumGeoKey (2050) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyVerticalDatumGeoKey() throws Exception {
+		// the VerticalDatumGeoKey SHALL have ID = 4098
+		int index = keyEntrySet.indexOf(VERTICALDATUMGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the VerticalDatumGeoKey SHALL have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("VerticalDatumGeoKey should be of type SHORT.");
+		}
+		
+		if(value == 32767) {
+			// If the VerticalDatumGeoKey value is 32767 (User-Defined) then the VerticalCitationGeoKey SHALL be populated.
+			Assert.assertTrue(keyExists(VERTICALCITATIONGEOKEY));
+		} else {		
+			// VerticalDatumGeoKey values in the range 1024-32766 SHALL be EPSG vertical datum codes
+			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+					
+			// VerticalDatumGeoKey values in the range 1-1023 SHALL be reserved
+			Assert.assertFalse(value >= 1 && value <= 1023);
+			
+			// VerticalDatumGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value <= 0);
+		}
+	}
+	
+	//	4099	UnitsGeoKey (Vertical Units) VerticalUnitsGeoKey
+
+	@Test(description = "Short Params VerticalUnitsGeoKey (4099) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyVerticalUnitsGeoKey() throws Exception {
+		// the VerticalUnitsGeoKey SHALL have ID = 4099
+		int index = keyEntrySet.indexOf(VERTICALUNITSGEOKEY);
+
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		// process the second Short integer in the Key Entry Set
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
+		Assert.assertTrue(type == 0 || type == 34735);
+		// or
+		if(!(type == 0 || type == 34735)) {
+			throw new Exception("VerticalUnitsGeoKey should be of type SHORT.");
+		}
+		
+		// a VerticalUnitsGeoKey value of 32767 (user defined) SHALL not be used
+		Assert.assertFalse(value == 32767);
+	
+		// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
+		// TODO: how to check type? need some sort of lookup table for epsg uom codes
+		// TODO: what about obsolete?
+		Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+				
+		// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
+		Assert.assertFalse(value >= 1 && value <= 1023);
+		
+		// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
+		// value out of bounds
+		Assert.assertFalse(value > 65535 || value <= 0);
+	
+	}
 }

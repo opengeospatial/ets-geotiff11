@@ -20,7 +20,7 @@ import org.testng.ITestContext;
  */
 public class VerifyShortParamsTests {
 
-	// TODO: this should be expanded greatly
+	// TODO: this should be expanded greatly...
 	
 	private static final String SUBJ = "testSubject";
 	private static ITestContext testContext;
@@ -134,5 +134,33 @@ public class VerifyShortParamsTests {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyProjMethodGeoKey();
+	}
+	
+	@Test
+	public void verifyProjLinearUnitsGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyProjLinearUnitsGeoKey();
+	}
+	
+	@Test
+	public void verifyVerticalUnitsGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyVerticalUnitsGeoKey();
+	}
+	
+	@Test
+	public void verifyVerticalGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyVerticalGeoKey();
+	}
+	
+	@Test
+	public void verifyVerticalDatumGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyVerticalDatumGeoKey();
 	}
 }
