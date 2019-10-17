@@ -12,7 +12,7 @@ import static org.opengis.cite.geotiff11.util.GeoKeyID.*;
 
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_Short_Param.adoc
 
-public class ShortParamsTests extends CommonTiffMeta {
+public class ShortParamsTests extends GeoKeysTests {
 	
 	/*
 	 * GeoKey Directory Test Test
@@ -40,29 +40,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 	 * Pre-conditions: The GeoKeyDirectory and GeoKeyOffset values have been set Test Variables:
 	 * Test Variables: ...
 	 */
-
-	private TiffDump.Directory directory;
-	private List<Object> keyEntrySet;
-	private int minorRevision;
 	
-	/*
-	 * Prepare directory and key entry set, fail the test if the geotiff is invalid.
-	 */
-	@BeforeClass
-	public void setUpGeoKeyDirectory() {
-		directory = tiffDump.getGeoKeyDirectory();
-		Assert.assertTrue(directory != null);
-		keyEntrySet = directory.getTag(GEOKEYDIRECTORYTAG).getValues();	
-		Assert.assertTrue(keyEntrySet != null);
-		minorRevision = (int) keyEntrySet.get(2);
-	}
-	
-	//  https://github.com/opengeospatial/geotiff/blob/68d8f902293ad64526889daa055892ea30f9e9ea/GeoTIFF_Standard/Detailed%20Test%20Suite/abstract_tests/Requirements_Trace_Matrix.adoc
-	//	GeoKey	Requirements Class
-	//	0		ignore
-	//	1024	GTModelTypeGeoKey
-	
-	// helper functions
 	int processFourthShort(int index, int keyLength) {
 		// process the fourth Short integer in the Key Entry Set
 		if(keyLength == 1) {
@@ -74,25 +52,10 @@ public class ShortParamsTests extends CommonTiffMeta {
 		}
 	}
 	
-	int processThirdShort(int index) {
-		// process the third Short integer in the Key Entry Set
-		return (int) keyEntrySet.get(index + 2);
-	}
-	
-	int processSecondShort(int index) {
-		// process the second Short integer in the Key Entry Set
-		return (int) keyEntrySet.get(index + 1);
-	}
-	
-	int processFirstShort(int index) {
-		// process the first Short integer in the Key Entry Set
-		return (int) keyEntrySet.get(index);
-	}
-	
-	boolean keyExists(int key) {
-		return keyEntrySet.indexOf(key) != -1;
-	}
-	
+	//  https://github.com/opengeospatial/geotiff/blob/68d8f902293ad64526889daa055892ea30f9e9ea/GeoTIFF_Standard/Detailed%20Test%20Suite/abstract_tests/Requirements_Trace_Matrix.adoc
+	//	GeoKey	Requirements Class
+	//	0		ignore
+	//	1024	GTModelTypeGeoKey
 	
 	// TODO: value testing - needs code lookup tables
 	
@@ -393,6 +356,7 @@ public class ShortParamsTests extends CommonTiffMeta {
 			// GeogAngularUnitsGeoKey and GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle
 			// TODO: how to check type? need some sort of lookup table for epsg uom codes
 			// TODO: what about obsolete?
+			// TODO: check minorrevision?
 			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
 					
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
