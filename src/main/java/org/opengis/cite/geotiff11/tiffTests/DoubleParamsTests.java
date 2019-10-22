@@ -73,6 +73,8 @@ public class DoubleParamsTests extends GeoKeysTests {
 			throw new Exception("GeogLinearUnitSizeGeoKey should be of type DOUBLE.");
 		}
 		
+		// the units of the GeogLinearUnitSizeGeoKey value SHALL be meters
+		// TODO: need to either 1) implement codes search tables 2) add listgeo to implementation...
 		
 	}
 	
