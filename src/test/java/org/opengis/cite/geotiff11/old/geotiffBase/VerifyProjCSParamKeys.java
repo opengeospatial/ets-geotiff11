@@ -10,12 +10,14 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
+
 import org.opengis.cite.geotiff11.old.geotiffBase.ProjCSParamKeys;
 import org.testng.ISuite;
 import org.testng.ITestContext;
+import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
+@Test(enabled=false)
 public class VerifyProjCSParamKeys {
 
 	private static final String SUBJ = "testSubjGeotiff";
@@ -49,7 +51,7 @@ public class VerifyProjCSParamKeys {
 	public static void tearDownClass() throws Exception {
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test(expectedExceptions = NullPointerException.class)
 	public void supplyNullTestSubject() throws SAXException, IOException {
 		ProjCSParamKeys iut = new ProjCSParamKeys();
 		iut.verifyProjectedCSTypeGeoKey();
