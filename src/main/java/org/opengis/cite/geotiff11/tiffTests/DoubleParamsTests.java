@@ -3,6 +3,8 @@ package org.opengis.cite.geotiff11.tiffTests;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.csv.CSVRecord;
+import org.opengis.cite.geotiff11.util.EPSGDataSet;
 import org.opengis.cite.geotiff11.util.TiffDump;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -68,17 +70,30 @@ public class DoubleParamsTests extends GeoKeysTests {
 		
 		// the GeogLinearUnitSizeGeoKey SHALL have type = DOUBLE		
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
-		// or TODO: which one should I use?
-		if(!(type == GEODOUBLEPARAMSTAG)) {
-			throw new Exception("GeogLinearUnitSizeGeoKey should be of type DOUBLE.");
-		}
 		
-		// the units of the GeogLinearUnitSizeGeoKey value SHALL be meters
-		// TODO: need to either implement codes search tables
-		
+		// the units of the GeogLinearUnitSizeGeoKey value SHALL be meters		
+		Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value), "TARGET_UOM_CODE").equals(EPSGDataSet.METER));
 	}
 	
 //	2055	UnitSizeGeoKey (Geog Angular)
+	
+	@Test(description = "Short Params GeogAngularUnitSizeGeoKey (2055) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyGeogAngularUnitSizeGeoKey() throws Exception {
+		// the GeogAngularUnitSizeGeoKey SHALL have ID = 2055
+		int index = keyEntrySet.indexOf(GEOGANGULARUNITSIZEGEOKEY);
+		
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		int value = processFourthShort(index, keyLength);
+		
+		// the GeogAngularUnitSizeGeoKey SHALL have type = DOUBLE		
+		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+		
+		// the units of the GeogAngularUnitSizeGeoKey value SHALL be radians
+		Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value), "TARGET_UOM_CODE").equals(EPSGDataSet.RADIAN));
+	}
+	
 //	2057	EllipsoidSemiMajorAxisGeoKey
 //	2058	EllipsoidSemiMinorAxisGeoKey
 //	2059	EllipsoidInvFlatteningGeoKey

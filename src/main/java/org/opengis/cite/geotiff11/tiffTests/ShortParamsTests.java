@@ -1,8 +1,11 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.csv.CSVRecord;
+import org.opengis.cite.geotiff11.util.EPSGDataSet;
 import org.opengis.cite.geotiff11.util.TiffDump;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -57,12 +60,12 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	0		ignore
 	//	1024	GTModelTypeGeoKey
 	
-	// TODO: value testing - needs code lookup tables
+	// TODO: value testing - needs code lookup tables - starting this no
 	
 	// tests
 	
 	@Test(description = "Short Params GTModelTypeGeoKey (1024) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGTModelTypeGeoKey() throws Exception {
+	public void verifyGTModelTypeGeoKey() {
 		// the GTModelTypeGeoKey SHALL have ID = 1024
 		int index = keyEntrySet.indexOf(GTMODELTYPEGEOKEY);
 		// a GeoTIFF file SHALL include a GTModelTypeGeoKey
@@ -74,11 +77,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the GTModelTypeGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or TODO: which one should I use?
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("GTModelTypeGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		// the GTModelTypeGeoKey value SHALL be: ...
 		Assert.assertTrue(Arrays.asList(0, 1, 2, 3, 32767).contains(value));
@@ -116,7 +115,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	1025	GTRasterTypeGeoKey
 	
 	@Test(description = "Short Params GTRasterTypeGeoKey (1025) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGTRasterTypeGeoKey() throws Exception {
+	public void verifyGTRasterTypeGeoKey() {
 		// the GTRasterTypeGeoKey SHALL have ID = 1025
 		int index = keyEntrySet.indexOf(GTRASTERTYPEGEOKEY);
 
@@ -132,11 +131,8 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the GTRasterTypeGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("GTRasterTypeGeoKey should be of type SHORT.");
-		}
 		
 		// the GTRasterTypeGeoKey value SHALL be: ...
 		Assert.assertTrue(Arrays.asList(0, 1, 2, 32767).contains(value));
@@ -152,7 +148,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2048	GeodeticCRSGeoKey
 	
 	@Test(description = "Short Params GeodeticCRSGeoKey (2048) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeodeticCRSGeoKey() throws Exception {
+	public void verifyGeodeticCRSGeoKey() throws IOException {
 		// the GeodeticCRSGeoKey SHALL have ID = 2048
 		int index = keyEntrySet.indexOf(GEODETICCRSGEOKEY);
 
@@ -168,24 +164,26 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the GeodeticCRSGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("GeodeticCRSGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		// if the GeodeticCRSGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, GeodeticDatumGeoKey 2050 and at least one of GeogAngularUnitsGeoKey 2054 or GeogLinearUnitsGeoKey 2052 SHALL be populated
 		if(value == 32767) {
 			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEODETICDATUMGEOKEY) && (keyExists(GEOGANGULARUNITSGEOKEY) || keyExists(GEOGLINEARUNITSGEOKEY)));
+		} else if(value >= 1024 && value <= 32766) {
+			// GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("geographic 2D") || record.get("COORD_REF_SYS_KIND").equals("geographic 3D") || record.get("COORD_REF_SYS_KIND").equals("geocentric"));
+		} else if(value >= 1 && value <= 1000) {
+			// GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic Codes
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));
+			Assert.assertTrue(minorRevision == 0);
+			Assert.assertTrue(record.get("DEPRECATED").equals("1"));
+			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("geographic 2D") || record.get("COORD_REF_SYS_KIND").equals("geographic 3D") || record.get("COORD_REF_SYS_KIND").equals("geocentric"));
 		} else {
 			// GeodeticCRSGeoKey values in the range 1001-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1001 && value <= 1023);
-			
-			// GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
-			
-			// GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic Codes
-			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 1000);
 					
 			// GeodeticCRSGeoKeyvalues in the range 32768-65535 SHALL be private
 			// value out of bounds
@@ -196,7 +194,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2050	GeodeticDatumGeoKey
 	
 	@Test(description = "Short Params GeodeticDatumGeoKey (2050) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeodeticDatumGeoKey() throws Exception {
+	public void verifyGeodeticDatumGeoKey() {
 		// the GeodeticDatumGeoKey SHALL have ID = 2050
 		int index = keyEntrySet.indexOf(GEODETICDATUMGEOKEY);
 
@@ -212,11 +210,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the GeodeticDatumGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("GeodeticDatumGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// If the GeodeticDatumGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, PrimeMeridianGeoKey 2051 and EllipsoidGeoKey 2056 SHALL be populated
@@ -240,7 +234,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2051	PrimeMeridianGeoKey
 	
 	@Test(description = "Short Params PrimeMeridianGeoKey (2051) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyPrimeMeridianGeoKey() throws Exception {
+	public void verifyPrimeMeridianGeoKey() {
 		// the PrimeMeridianGeoKey SHALL have ID = 2051
 		int index = keyEntrySet.indexOf(PRIMEMERIDIANGEOKEY);
 
@@ -256,11 +250,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the PrimeMeridianGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("PrimeMeridianGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// If the PrimeMeridianGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey, and PrimeMeridianLongGeoKey SHALL be populated
@@ -284,7 +274,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2052	UnitsGeoKey (Linear Units) GeogLinearUnitsGeoKey
 	
 	@Test(description = "Short Params GeogLinearUnitsGeoKey (2052) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeogLinearUnitsGeoKey() throws Exception {
+	public void verifyGeogLinearUnitsGeoKey() {
 		// the GeogLinearUnitsGeoKey SHALL have ID = 2052
 		int index = keyEntrySet.indexOf(GEOGLINEARUNITSGEOKEY);
 
@@ -300,11 +290,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("GeogLinearUnitsGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// A GeogLinearUnitsGeoKey value of 32767 SHALL be a user-defined linear unit. If the value is 32767 (User-Defined) then the GeodeticCitationGeoKey and the GeogLinearUnitSizeGeoKey SHALL be populated
@@ -327,7 +313,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2054	UnitsGeoKey (Angular Units) GeogAngularUnitsGeoKey
 	
 	@Test(description = "Short Params GeogAngularUnitsGeoKey (2052) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeogAngularUnitsGeoKey() throws Exception {
+	public void verifyGeogAngularUnitsGeoKey() {
 		// the GeogAngularUnitsGeoKey SHALL have ID = 2054
 		int index = keyEntrySet.indexOf(GEOGANGULARUNITSGEOKEY);
 
@@ -343,11 +329,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("GeogAngularUnitsGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// A GeogAngularUnitsGeoKey or a GeogAzimuthUnitsGeoKey value of 32767 SHALL be a user-defined angular unit. If the value is 32767 (User-Defined) then the GeodeticCitationGeoKey and the GeogAngularUnitSizeGeoKey SHALL be populated
@@ -371,7 +353,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2056	EllipsoidGeoKey
 	
 	@Test(description = "Short Params EllipsoidGeoKey (2056) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyEllipsoidGeoKey() throws Exception {
+	public void verifyEllipsoidGeoKey() {
 		// the PrimeMeridianGeoKey SHALL have ID = 2056
 		int index = keyEntrySet.indexOf(ELLIPSOIDGEOKEY);
 
@@ -387,11 +369,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the EllipsoidGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("EllipsoidGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// If the EllipsoidGeoKey value is 32767 (User-Defined) then the GTCitationGeoKey and the EllipsoidSemiMajorAxisGeoKey SHALL be populated together with the one of either the EllipsoidSemiMinorAxisGeoKey or the EllipsoidInvFlatteningGeoKey
@@ -414,7 +392,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2060	UnitsGeoKey (Azimuth Units) GeogAzimuthUnitsGeoKey
 	
 	@Test(description = "Short Params GeogAzimuthUnitsGeoKey (2060) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeogAzimuthUnitsGeoKey() throws Exception {
+	public void verifyGeogAzimuthUnitsGeoKey() {
 		// the GeogAzimuthUnitsGeoKey SHALL have ID = 2060
 		int index = keyEntrySet.indexOf(GEOGAZIMUTHUNITSGEOKEY);
 
@@ -430,11 +408,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("GeogAzimuthUnitsGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// A GeogAngularUnitsGeoKey or a GeogAzimuthUnitsGeoKey value of 32767 SHALL be a user-defined angular unit. If the value is 32767 (User-Defined) then the GeodeticCitationGeoKey and the GeogAngularUnitSizeGeoKey SHALL be populated
@@ -457,7 +431,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	3072	ProjectedCRSGeoKey
 	
 	@Test(description = "Short Params ProjectedCRSGeoKey (2056) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyProjectedCRSGeoKey() throws Exception {
+	public void verifyProjectedCRSGeoKey() {
 		// the ProjectedCRSGeoKey SHALL have ID = 3072
 		int index = keyEntrySet.indexOf(PROJECTEDCRSGEOKEY);
 
@@ -473,11 +447,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the ProjectedCRSGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("ProjectedCRSGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// A ProjectedCRSGeoKey value of 32767 SHALL be a user-defined projected CRS. If the ProjectedCRSGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey, GeodeticCRSGeoKey and ProjectionGeoKey SHALL be populated
@@ -501,7 +471,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	3074	ProjectionGeoKey
 	
 	@Test(description = "Short Params ProjectionGeoKey (3074) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyProjectionGeoKey() throws Exception {
+	public void verifyProjectionGeoKey() {
 		// the ProjectionGeoKey SHALL have ID = 3074
 		int index = keyEntrySet.indexOf(PROJECTIONGEOKEY);
 
@@ -517,11 +487,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the ProjectionGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("ProjectionGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// If the ProjectionGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey, ProjectionMethodGeoKey, and ProjLinearUnitsGeoKey SHALL be populated
@@ -544,7 +510,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	3075	ProjMethodGeoKey
 	
 	@Test(description = "Short Params ProjMethodGeoKey (3075) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyProjMethodGeoKey() throws Exception {
+	public void verifyProjMethodGeoKey() {
 		// the ProjMethodGeoKey SHALL have ID = 3075
 		int index = keyEntrySet.indexOf(PROJMETHODGEOKEY);
 
@@ -560,11 +526,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the ProjMethodGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("ProjMethodGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// If the ProjectionMethodGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey 
@@ -589,7 +551,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	3076	UnitsGeoKey (Linear Units) ProjLinearUnitsGeoKey
 	
 	@Test(description = "Short Params ProjLinearUnitsGeoKey (3076) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyProjLinearUnitsGeoKey() throws Exception {
+	public void verifyProjLinearUnitsGeoKey() {
 		// the GeogLinearUnitsGeoKey SHALL have ID = 3076
 		int index = keyEntrySet.indexOf(PROJLINEARUNITSGEOKEY);
 
@@ -605,11 +567,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("ProjLinearUnitsGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// A ProjLinearUnitsGeoKey value of 32767 SHALL be a user-defined linear unit. If the value is 32767 (User-Defined) then the ProjectedCitationGeoKey and the ProjLinearUnitSizeGeoKey SHALL be populated
@@ -632,7 +590,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	4096	VerticalGeoKey
 	
 	@Test(description = "Short Params VerticalGeoKey (4096) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyVerticalGeoKey() throws Exception {
+	public void verifyVerticalGeoKey() {
 		// the VerticalGeoKey SHALL have ID = 4096
 		int index = keyEntrySet.indexOf(VERTICALGEOKEY);
 
@@ -648,11 +606,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the VerticalGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("VerticalGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// If the VerticalGeoKey value is 32767 (User-Defined) then the VerticalCitationGeoKey, the VerticalUnitsGeoKey and VerticalDatumGeoKey SHALL be populated
@@ -674,7 +628,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	4098	VerticalDatumGeoKey
 	
 	@Test(description = "Short Params VerticalDatumGeoKey (2050) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyVerticalDatumGeoKey() throws Exception {
+	public void verifyVerticalDatumGeoKey() {
 		// the VerticalDatumGeoKey SHALL have ID = 4098
 		int index = keyEntrySet.indexOf(VERTICALDATUMGEOKEY);
 
@@ -690,11 +644,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the VerticalDatumGeoKey SHALL have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("VerticalDatumGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		if(value == 32767) {
 			// If the VerticalDatumGeoKey value is 32767 (User-Defined) then the VerticalCitationGeoKey SHALL be populated.
@@ -715,7 +665,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	4099	UnitsGeoKey (Vertical Units) VerticalUnitsGeoKey
 
 	@Test(description = "Short Params VerticalUnitsGeoKey (4099) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyVerticalUnitsGeoKey() throws Exception {
+	public void verifyVerticalUnitsGeoKey() {
 		// the VerticalUnitsGeoKey SHALL have ID = 4099
 		int index = keyEntrySet.indexOf(VERTICALUNITSGEOKEY);
 
@@ -731,11 +681,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
-		Assert.assertTrue(type == 0 || type == 34735);
-		// or
-		if(!(type == 0 || type == 34735)) {
-			throw new Exception("VerticalUnitsGeoKey should be of type SHORT.");
-		}
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
 		// a VerticalUnitsGeoKey value of 32767 (user defined) SHALL not be used
 		Assert.assertFalse(value == 32767);
