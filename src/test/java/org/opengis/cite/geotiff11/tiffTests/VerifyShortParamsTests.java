@@ -30,7 +30,7 @@ public class VerifyShortParamsTests {
 	public VerifyShortParamsTests() {
 		// This is the code for setting up the objects for the environment.
 		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
-		InputStream inputStream = this.getClass().getResourceAsStream("/tmp/tiffMeta.txt");
+		InputStream inputStream = this.getClass().getResourceAsStream("/tif/tiffMeta.txt");
 		try {
 			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
 		} catch (IOException e) {
