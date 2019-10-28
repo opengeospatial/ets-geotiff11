@@ -74,7 +74,7 @@ public class DoubleParamsTests extends GeoKeysTests {
 		}
 		
 		// the units of the GeogLinearUnitSizeGeoKey value SHALL be meters
-		// TODO: need to either 1) implement codes search tables 2) add listgeo to implementation...
+		// TODO: need to either implement codes search tables
 		
 	}
 	
