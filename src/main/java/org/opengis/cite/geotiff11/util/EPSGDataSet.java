@@ -16,39 +16,29 @@ import org.apache.commons.csv.CSVRecord;
 public final class EPSGDataSet {
 
 	// UOM types
-	public static final String METER = "9001";
-	public static final String RADIAN = "9101";
+	public static final String METERS = "9001";
+	public static final String RADIANS = "9101";
 	
 	// path and extension
-	public static final String DIRECTORY = "/src/main/resources/epsg/";
+	public static final String DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/epsg/";
 	public static final String EXTENSION = ".csv";
 	
 	// table paths
-	public static final String UOM = System.getProperty("user.dir") + DIRECTORY + "Unit of Measure" + EXTENSION;
-	public static final String CRS = System.getProperty("user.dir") + DIRECTORY + "Coordinate Reference System" + EXTENSION;
+	public static final String UOM = "unit-of-measure";
+	public static final String CRS = "coordinate-reference-system";
+	public static final String DATUM = "datum";
+	public static final String PRIMEMERIDIAN = "prime-meridian";
+	public static final String ELLIPSOID = "ellipsoid";
+	public static final String CO = "coordinate-operation";
+	public static final String COM = "coordinate-operation-method";
 
+	public static BufferedReader ReadTable(String tableName) throws IOException {
+		return Files.newBufferedReader(Paths.get(DIRECTORY + tableName + EXTENSION), Charset.forName("Cp1252"));
+	}
 	
-//	public static String getItem(String path, String column, String value, String returnColumn) throws IOException {
-//		System.out.println(Paths.get(path));
-//        BufferedReader reader = Files.newBufferedReader(Paths.get(path), Charset.forName("Cp1252"));
-//        CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withTrim());
-//        System.out.println(csvParser.toString());
-//        for (CSVRecord csvRecord: csvParser) {
-//
-//            if(csvRecord.get(column).equals(value)) {
-//                csvParser.close();
-//            	return csvRecord.get(returnColumn);
-//            }
-//        }
-//        csvParser.close();
-//        return null;
-//	}
-	
-	public static CSVRecord getRecord(String path, String column, String value) throws IOException {
-		System.out.println(Paths.get(path));
-        BufferedReader reader = Files.newBufferedReader(Paths.get(path), Charset.forName("Cp1252"));
+	public static CSVRecord getRecord(String tableName, String column, String value) throws IOException {
+        BufferedReader reader = ReadTable(tableName);
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withTrim());
-        System.out.println(csvParser.toString());
         for (CSVRecord csvRecord: csvParser) {
 
             if(csvRecord.get(column).equals(value)) {
@@ -60,17 +50,7 @@ public final class EPSGDataSet {
         return null;
 	}
 	
-	public static String getItem(String path, String column, String value, String returnColumn) throws IOException {
-		return getRecord(path, column,  value).get(returnColumn);
-	}
-	
-	public static void main(String[] args) throws IOException { 
-		//System.out.println(getItem(UOM, "UOM_CODE", "1024", "TARGET_UOM_CODE"));
-		
-		//CSVRecord record = EPSGDataSet.getRecord(CRS, "COORD_REF_SYS_CODE", Integer.toString(2015));
-		
-		//System.out.println(record.get("DEPRECATED").equals("0"));
-		
-		
+	public static String getItem(String tableName, String column, String value, String returnColumn) throws IOException {
+		return getRecord(tableName, column,  value).get(returnColumn);
 	}
 }

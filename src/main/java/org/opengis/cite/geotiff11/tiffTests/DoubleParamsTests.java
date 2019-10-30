@@ -52,7 +52,7 @@ public class DoubleParamsTests extends GeoKeysTests {
 		List<Object> doubleParamsSet = directory.getTag(GEODOUBLEPARAMSTAG).getValues();	
 		Assert.assertTrue(doubleParamsSet != null);
 		// SET KeyValueOffset = DoubleValues + (KeyValueOffset * 8)
-		return (int) doubleParamsSet.get(keyLength); // TODO: verify this is a correct interpretation of the ats...
+		return (int) doubleParamsSet.get(keyLength); // TODO: verify this is a correct interpretation of the ats.
 	}
 	
 	//	GeoKey	Requirements Class
@@ -71,8 +71,8 @@ public class DoubleParamsTests extends GeoKeysTests {
 		// the GeogLinearUnitSizeGeoKey SHALL have type = DOUBLE		
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
 		
-		// the units of the GeogLinearUnitSizeGeoKey value SHALL be meters		
-		Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value), "TARGET_UOM_CODE").equals(EPSGDataSet.METER));
+		// the units of the GeogLinearUnitSizeGeoKey value SHALL be meters // probably should handle this in the shorts
+		Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value), "TARGET_UOM_CODE").equals(EPSGDataSet.METERS));
 	}
 	
 //	2055	UnitSizeGeoKey (Geog Angular)
@@ -90,8 +90,8 @@ public class DoubleParamsTests extends GeoKeysTests {
 		// the GeogAngularUnitSizeGeoKey SHALL have type = DOUBLE		
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
 		
-		// the units of the GeogAngularUnitSizeGeoKey value SHALL be radians
-		Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value), "TARGET_UOM_CODE").equals(EPSGDataSet.RADIAN));
+		// the units of the GeogAngularUnitSizeGeoKey value SHALL be radians // probably should handle this in the shorts
+		// Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value), "TARGET_UOM_CODE").equals(EPSGDataSet.RADIANS));
 	}
 	
 //	2057	EllipsoidSemiMajorAxisGeoKey

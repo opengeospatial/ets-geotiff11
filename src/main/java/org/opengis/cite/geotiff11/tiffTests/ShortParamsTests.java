@@ -67,7 +67,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	@Test(description = "Short Params GTModelTypeGeoKey (1024) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGTModelTypeGeoKey() {
 		// the GTModelTypeGeoKey SHALL have ID = 1024
-		int index = keyEntrySet.indexOf(GTMODELTYPEGEOKEY);
+		int index = getKeyIndex(GTMODELTYPEGEOKEY);
 		// a GeoTIFF file SHALL include a GTModelTypeGeoKey
 		Assert.assertTrue(index != -1);
 		
@@ -101,11 +101,11 @@ public class ShortParamsTests extends GeoKeysTests {
 				break;
 			// if the GTModelTypeGeoKey value is 32767 (user-defined) then the GTCitationGeoKey SHALL be populated
 			case 32767:
-				int gTCitationGeoKeyIndex = keyEntrySet.indexOf(GTCITATIONGEOKEY);
+				int gTCitationGeoKeyIndex = getKeyIndex(GTCITATIONGEOKEY);
 				Assert.assertTrue(gTCitationGeoKeyIndex != -1);
 				String gTCitationGeoKey = ((String) directory.getTag(GEOASCIIPARAMSTAG).getValues().get(0)).substring(
-						keyEntrySet.indexOf(gTCitationGeoKeyIndex + 3), 
-						keyEntrySet.indexOf(gTCitationGeoKeyIndex + 3) + keyEntrySet.indexOf(gTCitationGeoKeyIndex + 2));
+						getKeyIndex(gTCitationGeoKeyIndex + 3), 
+						getKeyIndex(gTCitationGeoKeyIndex + 3) + getKeyIndex(gTCitationGeoKeyIndex + 2));
 				System.out.println("shortparams:" + gTCitationGeoKey);
 				Assert.assertFalse(gTCitationGeoKey.isEmpty()); // TODO: this is pretty rough...
 				break;
@@ -117,7 +117,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	@Test(description = "Short Params GTRasterTypeGeoKey (1025) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGTRasterTypeGeoKey() {
 		// the GTRasterTypeGeoKey SHALL have ID = 1025
-		int index = keyEntrySet.indexOf(GTRASTERTYPEGEOKEY);
+		int index = getKeyIndex(GTRASTERTYPEGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -150,7 +150,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	@Test(description = "Short Params GeodeticCRSGeoKey (2048) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGeodeticCRSGeoKey() throws IOException {
 		// the GeodeticCRSGeoKey SHALL have ID = 2048
-		int index = keyEntrySet.indexOf(GEODETICCRSGEOKEY);
+		int index = getKeyIndex(GEODETICCRSGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -172,15 +172,13 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
 			Assert.assertTrue(minorRevision == 1);
 			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
 			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("geographic 2D") || record.get("COORD_REF_SYS_KIND").equals("geographic 3D") || record.get("COORD_REF_SYS_KIND").equals("geocentric"));
 		} else if(value >= 1 && value <= 1000) {
 			// GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic Codes
-			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));
 			Assert.assertTrue(minorRevision == 0);
-			Assert.assertTrue(record.get("DEPRECATED").equals("1"));
-			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("geographic 2D") || record.get("COORD_REF_SYS_KIND").equals("geographic 3D") || record.get("COORD_REF_SYS_KIND").equals("geocentric"));
 		} else {
 			// GeodeticCRSGeoKey values in the range 1001-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1001 && value <= 1023);
@@ -194,9 +192,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2050	GeodeticDatumGeoKey
 	
 	@Test(description = "Short Params GeodeticDatumGeoKey (2050) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeodeticDatumGeoKey() {
+	public void verifyGeodeticDatumGeoKey() throws IOException {
 		// the GeodeticDatumGeoKey SHALL have ID = 2050
-		int index = keyEntrySet.indexOf(GEODETICDATUMGEOKEY);
+		int index = getKeyIndex(GEODETICDATUMGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -215,10 +213,14 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// If the GeodeticDatumGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, PrimeMeridianGeoKey 2051 and EllipsoidGeoKey 2056 SHALL be populated
 			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(PRIMEMERIDIANGEOKEY) && keyExists(ELLIPSOIDGEOKEY));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
 			// GeodeticDatumGeoKey values in the range 1024-32766 SHALL be EPSG geodetic datum codes
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
-			
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.DATUM, "DATUM_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("DATUM_TYPE").equals("geodetic"));
+		} else {	
 			// GeodeticDatumGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POS Datum Codes
 			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 1000);
 					
@@ -234,9 +236,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2051	PrimeMeridianGeoKey
 	
 	@Test(description = "Short Params PrimeMeridianGeoKey (2051) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyPrimeMeridianGeoKey() {
+	public void verifyPrimeMeridianGeoKey() throws IOException {
 		// the PrimeMeridianGeoKey SHALL have ID = 2051
-		int index = keyEntrySet.indexOf(PRIMEMERIDIANGEOKEY);
+		int index = getKeyIndex(PRIMEMERIDIANGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -255,9 +257,13 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// If the PrimeMeridianGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey, and PrimeMeridianLongGeoKey SHALL be populated
 			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(PRIMEMERIDIANLONGITUDEGEOKEY));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
 			// PrimeMeridianGeoKey values in the range 1024-32766 SHALL be EPSG Prime Meridian Codes
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.PRIMEMERIDIAN, "PRIME_MERIDIAN_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+		} else {		
 			
 			// PrimeMeridianGeoKey values in the range 1-100 SHALL be obsolete EPSG/POSC Datum Codes
 			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 100);
@@ -274,9 +280,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2052	UnitsGeoKey (Linear Units) GeogLinearUnitsGeoKey
 	
 	@Test(description = "Short Params GeogLinearUnitsGeoKey (2052) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeogLinearUnitsGeoKey() {
+	public void verifyGeogLinearUnitsGeoKey() throws IOException {
 		// the GeogLinearUnitsGeoKey SHALL have ID = 2052
-		int index = keyEntrySet.indexOf(GEOGLINEARUNITSGEOKEY);
+		int index = getKeyIndex(GEOGLINEARUNITSGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -295,12 +301,14 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// A GeogLinearUnitsGeoKey value of 32767 SHALL be a user-defined linear unit. If the value is 32767 (User-Defined) then the GeodeticCitationGeoKey and the GeogLinearUnitSizeGeoKey SHALL be populated
 			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEOGLINEARUNITSIZEGEOKEY));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
 			// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
-			// TODO: how to check type? need some sort of lookup table for epsg uom codes
-			// TODO: what about obsolete?
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
-					
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("length"));
+		} else {						
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023);
 			
@@ -312,10 +320,10 @@ public class ShortParamsTests extends GeoKeysTests {
 	
 	//	2054	UnitsGeoKey (Angular Units) GeogAngularUnitsGeoKey
 	
-	@Test(description = "Short Params GeogAngularUnitsGeoKey (2052) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeogAngularUnitsGeoKey() {
+	@Test(description = "Short Params GeogAngularUnitsGeoKey (2054) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyGeogAngularUnitsGeoKey() throws IOException {
 		// the GeogAngularUnitsGeoKey SHALL have ID = 2054
-		int index = keyEntrySet.indexOf(GEOGANGULARUNITSGEOKEY);
+		int index = getKeyIndex(GEOGANGULARUNITSGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -334,13 +342,14 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// A GeogAngularUnitsGeoKey or a GeogAzimuthUnitsGeoKey value of 32767 SHALL be a user-defined angular unit. If the value is 32767 (User-Defined) then the GeodeticCitationGeoKey and the GeogAngularUnitSizeGeoKey SHALL be populated
 			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEOGANGULARUNITSIZEGEOKEY));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
 			// GeogAngularUnitsGeoKey and GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle
-			// TODO: how to check type? need some sort of lookup table for epsg uom codes
-			// TODO: what about obsolete?
-			// TODO: check minorrevision?
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
-					
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("angle"));
+		} else {					
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023);
 			
@@ -353,9 +362,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2056	EllipsoidGeoKey
 	
 	@Test(description = "Short Params EllipsoidGeoKey (2056) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyEllipsoidGeoKey() {
+	public void verifyEllipsoidGeoKey() throws IOException {
 		// the PrimeMeridianGeoKey SHALL have ID = 2056
-		int index = keyEntrySet.indexOf(ELLIPSOIDGEOKEY);
+		int index = getKeyIndex(ELLIPSOIDGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -374,7 +383,13 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// If the EllipsoidGeoKey value is 32767 (User-Defined) then the GTCitationGeoKey and the EllipsoidSemiMajorAxisGeoKey SHALL be populated together with the one of either the EllipsoidSemiMinorAxisGeoKey or the EllipsoidInvFlatteningGeoKey
 			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(ELLIPSOIDSEMIMAJORAXISGEOKEY) && (keyExists(ELLIPSOIDSEMIMINORAXISGEOKEY) || keyExists(ELLIPSOIDINVFLATTENINGGEOKEY)));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
+			// EllipsoidGeoKey values in the range 1024-32766 SHALL be EPSG ellipsoid Codes
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.ELLIPSOID, "ELLIPSOID_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+		} else {	
 			// EllipsoidGeoKey values in the range 1024-32766 SHALL be EPSG ellipsoid Codes
 			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
 			
@@ -392,9 +407,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2060	UnitsGeoKey (Azimuth Units) GeogAzimuthUnitsGeoKey
 	
 	@Test(description = "Short Params GeogAzimuthUnitsGeoKey (2060) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeogAzimuthUnitsGeoKey() {
+	public void verifyGeogAzimuthUnitsGeoKey() throws IOException {
 		// the GeogAzimuthUnitsGeoKey SHALL have ID = 2060
-		int index = keyEntrySet.indexOf(GEOGAZIMUTHUNITSGEOKEY);
+		int index = getKeyIndex(GEOGAZIMUTHUNITSGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -413,12 +428,14 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// A GeogAngularUnitsGeoKey or a GeogAzimuthUnitsGeoKey value of 32767 SHALL be a user-defined angular unit. If the value is 32767 (User-Defined) then the GeodeticCitationGeoKey and the GeogAngularUnitSizeGeoKey SHALL be populated
 			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEOGANGULARUNITSIZEGEOKEY));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
 			// GeogAngularUnitsGeoKey and GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle
-			// TODO: how to check type? need some sort of lookup table for epsg uom codes
-			// TODO: what about obsolete?
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
-					
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("angle"));
+		} else {								
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023);
 			
@@ -431,9 +448,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	3072	ProjectedCRSGeoKey
 	
 	@Test(description = "Short Params ProjectedCRSGeoKey (2056) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyProjectedCRSGeoKey() {
+	public void verifyProjectedCRSGeoKey() throws IOException {
 		// the ProjectedCRSGeoKey SHALL have ID = 3072
-		int index = keyEntrySet.indexOf(PROJECTEDCRSGEOKEY);
+		int index = getKeyIndex(PROJECTEDCRSGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -452,10 +469,14 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// A ProjectedCRSGeoKey value of 32767 SHALL be a user-defined projected CRS. If the ProjectedCRSGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey, GeodeticCRSGeoKey and ProjectionGeoKey SHALL be populated
 			Assert.assertTrue(keyExists(PROJECTEDCITATIONGEOKEY) && keyExists(GEODETICCRSGEOKEY) && keyExists(PROJECTIONGEOKEY));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
 			// ProjectedCRSGeoKey values in the range 1024-32766 SHALL be EPSG Projected CRS Codes
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
-			
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("projected"));
+		} else {		
 			// ProjectedCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Datum Codes
 			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 1000);
 			
@@ -471,9 +492,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	3074	ProjectionGeoKey
 	
 	@Test(description = "Short Params ProjectionGeoKey (3074) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyProjectionGeoKey() {
+	public void verifyProjectionGeoKey() throws IOException {
 		// the ProjectionGeoKey SHALL have ID = 3074
-		int index = keyEntrySet.indexOf(PROJECTIONGEOKEY);
+		int index = getKeyIndex(PROJECTIONGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -492,12 +513,13 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// If the ProjectionGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey, ProjectionMethodGeoKey, and ProjLinearUnitsGeoKey SHALL be populated
 			Assert.assertTrue(keyExists(PROJECTEDCITATIONGEOKEY) && keyExists(PROJMETHODGEOKEY) && keyExists(PROJLINEARUNITSGEOKEY));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
 			// ProjectionGeoKey values in the range 1024-32766 SHALL be valid EPSG map projection (coordinate operation) codes
-			// TODO: check validity of EPSG codes
-			// TODO: check minorRevision != 1?
-			Assert.assertFalse(value >= 1024 && value <= 32766);
-			
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CO, "COORD_OP_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+		} else {					
 			// ProjectionGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023);
 			
@@ -512,7 +534,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	@Test(description = "Short Params ProjMethodGeoKey (3075) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyProjMethodGeoKey() {
 		// the ProjMethodGeoKey SHALL have ID = 3075
-		int index = keyEntrySet.indexOf(PROJMETHODGEOKEY);
+		int index = getKeyIndex(PROJMETHODGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -532,12 +554,10 @@ public class ShortParamsTests extends GeoKeysTests {
 			// If the ProjectionMethodGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey 
 			Assert.assertTrue(keyExists(PROJECTEDCITATIONGEOKEY));
 			// and keys for each map projection parameter (coordinate operation parameter) appropriate to that method SHALL be populated
-		
-		} else {		
+			// TODO
+		} else {
 			// ProjMethodGeoKey values in the range 1-27 SHALL be GeoTIFF map projection method codes
-			// TODO: check codes
 			// TODO: check minorRevision != 1?
-			Assert.assertFalse(value >= 1 && value <= 27);
 			
 			// ProjMethodGeoKey values in the range 28-32766 SHALL be reserved
 			Assert.assertFalse(value >= 28 && value <= 32766);
@@ -551,9 +571,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	3076	UnitsGeoKey (Linear Units) ProjLinearUnitsGeoKey
 	
 	@Test(description = "Short Params ProjLinearUnitsGeoKey (3076) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyProjLinearUnitsGeoKey() {
+	public void verifyProjLinearUnitsGeoKey() throws IOException {
 		// the GeogLinearUnitsGeoKey SHALL have ID = 3076
-		int index = keyEntrySet.indexOf(PROJLINEARUNITSGEOKEY);
+		int index = getKeyIndex(PROJLINEARUNITSGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -572,12 +592,14 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// A ProjLinearUnitsGeoKey value of 32767 SHALL be a user-defined linear unit. If the value is 32767 (User-Defined) then the ProjectedCitationGeoKey and the ProjLinearUnitSizeGeoKey SHALL be populated
 			Assert.assertTrue(keyExists(PROJECTEDCITATIONGEOKEY) && keyExists(PROJLINEARUNITSIZEGEOKEY));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
 			// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
-			// TODO: how to check type? need some sort of lookup table for epsg uom codes
-			// TODO: what about obsolete?
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
-					
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("length"));
+		} else {					
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023);
 			
@@ -590,9 +612,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	4096	VerticalGeoKey
 	
 	@Test(description = "Short Params VerticalGeoKey (4096) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyVerticalGeoKey() {
+	public void verifyVerticalGeoKey() throws IOException {
 		// the VerticalGeoKey SHALL have ID = 4096
-		int index = keyEntrySet.indexOf(VERTICALGEOKEY);
+		int index = getKeyIndex(VERTICALGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -611,6 +633,13 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// If the VerticalGeoKey value is 32767 (User-Defined) then the VerticalCitationGeoKey, the VerticalUnitsGeoKey and VerticalDatumGeoKey SHALL be populated
 			Assert.assertTrue(keyExists(VERTICALCITATIONGEOKEY) && keyExists(VERTICALUNITSGEOKEY) && keyExists(VERTICALDATUMGEOKEY));
+		} else if(value >= 1024 && value <= 32766) {
+			// VerticalGeoKey values in the range 1024-32766 SHALL be either EPSG Vertical CRS Codes or EPSG geographic 3D CRS codes
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("vertical") || record.get("COORD_REF_SYS_KIND").equals("geographic 3D"));
 		} else {		
 			// VerticalGeoKey values in the range 1024-32766 SHALL be either EPSG Vertical CRS Codes or EPSG geographic 3D CRS codes
 			// TODO: check codes
@@ -628,9 +657,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	4098	VerticalDatumGeoKey
 	
 	@Test(description = "Short Params VerticalDatumGeoKey (2050) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyVerticalDatumGeoKey() {
+	public void verifyVerticalDatumGeoKey() throws IOException {
 		// the VerticalDatumGeoKey SHALL have ID = 4098
-		int index = keyEntrySet.indexOf(VERTICALDATUMGEOKEY);
+		int index = getKeyIndex(VERTICALDATUMGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -649,10 +678,14 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value == 32767) {
 			// If the VerticalDatumGeoKey value is 32767 (User-Defined) then the VerticalCitationGeoKey SHALL be populated.
 			Assert.assertTrue(keyExists(VERTICALCITATIONGEOKEY));
-		} else {		
+		} else if(value >= 1024 && value <= 32766) {
 			// VerticalDatumGeoKey values in the range 1024-32766 SHALL be EPSG vertical datum codes
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
-					
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.DATUM, "DATUM_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("DATUM_TYPE").equals("vertical"));
+		} else {					
 			// VerticalDatumGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023);
 			
@@ -665,9 +698,9 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	4099	UnitsGeoKey (Vertical Units) VerticalUnitsGeoKey
 
 	@Test(description = "Short Params VerticalUnitsGeoKey (4099) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyVerticalUnitsGeoKey() {
+	public void verifyVerticalUnitsGeoKey() throws IOException {
 		// the VerticalUnitsGeoKey SHALL have ID = 4099
-		int index = keyEntrySet.indexOf(VERTICALUNITSGEOKEY);
+		int index = getKeyIndex(VERTICALUNITSGEOKEY);
 
 		// not required
 		if(index == -1) {
@@ -686,10 +719,14 @@ public class ShortParamsTests extends GeoKeysTests {
 		// a VerticalUnitsGeoKey value of 32767 (user defined) SHALL not be used
 		Assert.assertFalse(value == 32767);
 	
-		// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
-		// TODO: how to check type? need some sort of lookup table for epsg uom codes
-		// TODO: what about obsolete?
-		Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766);
+		if(value >= 1024 && value <= 32766) {
+			// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
+			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
+			Assert.assertTrue(record != null);
+			Assert.assertTrue(minorRevision == 1);
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("length"));
+		}
 				
 		// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
 		Assert.assertFalse(value >= 1 && value <= 1023);

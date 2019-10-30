@@ -60,7 +60,16 @@ public abstract class GeoKeysTests extends CommonTiffMeta {
 	}
 	
 	boolean keyExists(int key) {
-		return keyEntrySet.indexOf(key) != -1;
+		return getKeyIndex(key) != -1;
+	}
+	
+	int getKeyIndex(int key) {
+		int index = keyEntrySet.indexOf(key);
+		
+		if(index % 4 != 0) { // keys occur every 4th short
+			return -1;
+		}
+		return index;
 	}
 	
 }
