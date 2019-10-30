@@ -312,7 +312,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	
 	//	2054	UnitsGeoKey (Angular Units) GeogAngularUnitsGeoKey
 	
-	@Test(description = "Short Params GeogAngularUnitsGeoKey (2052) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	@Test(description = "Short Params GeogAngularUnitsGeoKey (2054) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGeogAngularUnitsGeoKey() {
 		// the GeogAngularUnitsGeoKey SHALL have ID = 2054
 		int index = keyEntrySet.indexOf(GEOGANGULARUNITSGEOKEY);
