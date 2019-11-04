@@ -53,4 +53,7 @@ public final class EPSGDataSet {
 	public static String getItem(String tableName, String column, String value, String returnColumn) throws IOException {
 		return getRecord(tableName, column,  value).get(returnColumn);
 	}
+	public static String getItem(String tableName, String column, int value, String returnColumn) throws IOException {
+		return getItem(tableName, column, Integer.toString(value), returnColumn);
+	}
 }

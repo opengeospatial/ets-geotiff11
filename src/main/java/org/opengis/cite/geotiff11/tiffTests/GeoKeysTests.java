@@ -31,18 +31,16 @@ public abstract class GeoKeysTests extends CommonTiffMeta {
 	
 	// helper functions
 	
-//	int processFourthShort(int index, int keyLength) {
-//		// process the fourth Short integer in the Key Entry Set
-//		if(keyLength == 1) {
-//			// SET KeyValueOffset = GeoKeyDirectory + GeoKeyOffset + 6
-//			return (int) keyEntrySet.get(index+3);
-//		} else {
-//			// SET KeyValueOffset = GeoKeyDirectory + (KeyValueOffset * 2)
-//			return (int) keyEntrySet.get(keyLength); // TODO: verify this is a correct interpretation of the ats...
-//		}
-//	}
-	
-	abstract int processFourthShort(int index, int keyLength);
+	int processFourthShortForShort(int index, int keyLength) {
+		// process the fourth Short integer in the Key Entry Set
+		if(keyLength == 1) {
+			// SET KeyValueOffset = GeoKeyDirectory + GeoKeyOffset + 6
+			return (int) keyEntrySet.get(index+3);
+		} else {
+			// SET KeyValueOffset = GeoKeyDirectory + (KeyValueOffset * 2)
+			return (int) keyEntrySet.get(keyLength); // TODO: verify this is a correct interpretation of the ats...
+		}
+	}
 	
 	int processThirdShort(int index) {
 		// process the third Short integer in the Key Entry Set

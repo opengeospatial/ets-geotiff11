@@ -44,17 +44,6 @@ public class ShortParamsTests extends GeoKeysTests {
 	 * Test Variables: ...
 	 */
 	
-	int processFourthShort(int index, int keyLength) {
-		// process the fourth Short integer in the Key Entry Set
-		if(keyLength == 1) {
-			// SET KeyValueOffset = GeoKeyDirectory + GeoKeyOffset + 6
-			return (int) keyEntrySet.get(index+3);
-		} else {
-			// SET KeyValueOffset = GeoKeyDirectory + (KeyValueOffset * 2)
-			return (int) keyEntrySet.get(keyLength); // TODO: verify this is a correct interpretation of the ats...
-		}
-	}
-	
 	//  https://github.com/opengeospatial/geotiff/blob/68d8f902293ad64526889daa055892ea30f9e9ea/GeoTIFF_Standard/Detailed%20Test%20Suite/abstract_tests/Requirements_Trace_Matrix.adoc
 	//	GeoKey	Requirements Class
 	//	0		ignore
@@ -74,7 +63,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GTModelTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -128,7 +117,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GTRasterTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -161,7 +150,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GeodeticCRSGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -205,7 +194,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GeodeticDatumGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -249,7 +238,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the PrimeMeridianGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -293,7 +282,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -334,7 +323,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -375,7 +364,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the EllipsoidGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -420,7 +409,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -461,7 +450,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the ProjectedCRSGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -505,7 +494,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the ProjectionGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -545,7 +534,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the ProjMethodGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -584,7 +573,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -625,7 +614,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the VerticalGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -670,7 +659,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the VerticalDatumGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
@@ -711,7 +700,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShort(index, keyLength);
+		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
