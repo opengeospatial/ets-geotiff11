@@ -31,6 +31,7 @@ public abstract class GeoKeysTests extends CommonTiffMeta {
 	
 	// helper functions
 	
+	// the fourth unsigned short integer in the Key Entry SHALL hold either the key value (if TIFF Tag location = or the index into the tag indicated by the TIFF Tag Location value.
 	int processFourthShortForShort(int index, int keyLength) {
 		// process the fourth Short integer in the Key Entry Set
 		if(keyLength == 1) {
@@ -42,16 +43,19 @@ public abstract class GeoKeysTests extends CommonTiffMeta {
 		}
 	}
 	
+	// the Third unsigned short integer in the Key Entry SHALL indicate the number of values associated with this key.
 	int processThirdShort(int index) {
 		// process the third Short integer in the Key Entry Set
 		return (int) keyEntrySet.get(index + 2);
 	}
 	
+	// the second unsigned short integer in the Key Entry SHALL hold the TIFF Tag Location. The value of this entry shall be a valid GeoTIFF tag identifier or a zero (0)
 	int processSecondShort(int index) {
 		// process the second Short integer in the Key Entry Set
 		return (int) keyEntrySet.get(index + 1);
 	}
 	
+	// the first unsigned short integer in the Key Entry SHALL hold the key identifier.
 	int processFirstShort(int index) {
 		// process the first Short integer in the Key Entry Set
 		return (int) keyEntrySet.get(index);

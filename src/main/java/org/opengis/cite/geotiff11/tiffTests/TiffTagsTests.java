@@ -47,6 +47,8 @@ public class TiffTagsTests extends CommonTiffMeta {
 	* 	TagValue		Parameter	Location of the value of a TIFF tag in the GeoTIFF file
 	*/
 	
+	// TODO: revisit this and break up into appropriate tests
+	
 	@Test(description = "TIFF Tags Test")
 	public void verifyTiffTags() throws Exception {		
 		
@@ -56,8 +58,8 @@ public class TiffTagsTests extends CommonTiffMeta {
 		
 		for(TiffDump.Directory directory : tiffDump.getDirectories()) {
 			
-			// verify tag order is ascending
-			int previousValue = -99999;
+			// The TIFF tags in a GeoTIFF file SHALL be written out to the file with the tag-IDs sorted in ascending order
+			int previousValue = Integer.MIN_VALUE;
 			for (TiffDump.Tag tag : directory.getTags()) {
 				Assert.assertTrue(tag.getNameValue() > previousValue);
 				previousValue = tag.getNameValue();
@@ -118,10 +120,13 @@ public class TiffTagsTests extends CommonTiffMeta {
 				if(transformTag != null) {
 					Assert.assertTrue(transformTag.getTypeValue() == 12);
 					
-					// validate that this IFD contains a ModelTiepointTag
+					// validate that this IFD does not contain a ModelPixelScaleTag
 					Assert.assertTrue(pixelScaleTag == null);
 					
 				    // execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey/ModelTransformationTag
+		
+					// The ModelTransformationTag SHALL have 16 values representing the terms of the 4 by 4 transformation matrix. The terms SHALL be in row-major order
+					Assert.assertTrue(transformTag.getValues().size() == 16);
 				}
 
 				// validate that this IFD contains either a ModelTransformationTag or a ModelTiepointTag
