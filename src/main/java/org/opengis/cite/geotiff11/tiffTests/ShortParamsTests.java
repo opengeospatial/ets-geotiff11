@@ -92,12 +92,21 @@ public class ShortParamsTests extends GeoKeysTests {
 			case 32767:
 				int gTCitationGeoKeyIndex = getKeyIndex(GTCITATIONGEOKEY);
 				Assert.assertTrue(gTCitationGeoKeyIndex != -1);
-				String gTCitationGeoKey = ((String) directory.getTag(GEOASCIIPARAMSTAG).getValues().get(0)).substring(
-						getKeyIndex(gTCitationGeoKeyIndex + 3), 
-						getKeyIndex(gTCitationGeoKeyIndex + 3) + getKeyIndex(gTCitationGeoKeyIndex + 2));
-				System.out.println("shortparams:" + gTCitationGeoKey);
-				Assert.assertFalse(gTCitationGeoKey.isEmpty()); // TODO: this is pretty rough...
-				break;
+				
+				int citation_type = processSecondShort(gTCitationGeoKeyIndex);
+				int citation_keyLength = processThirdShort(gTCitationGeoKeyIndex);
+				int citation_value = (int) keyEntrySet.get(gTCitationGeoKeyIndex+3);
+				
+				Assert.assertTrue(GEOASCIIPARAMSTAG == citation_type);
+				if (GEOASCIIPARAMSTAG == citation_type)
+				{
+					String gTCitationGeoKey = ((String) directory.getTag(GEOASCIIPARAMSTAG).getValues().get(0) ).substring(
+							citation_value, 
+							citation_keyLength - 1);
+					System.out.println("shortparams:" + gTCitationGeoKey);
+					Assert.assertFalse(gTCitationGeoKey.isEmpty()); // TODO: this is pretty rough...
+					break;
+				}
 		}
 	}
 
