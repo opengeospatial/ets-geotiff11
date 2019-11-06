@@ -56,4 +56,26 @@ public class VerifyAsciiParamsTests {
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGTCitationGeoKey();
 	}
+	
+	@Test
+	public void verifyGeodeticCitationGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyGeodeticCitationGeoKey();
+	}
+	
+	@Test
+	public void verifyProjectedCitationGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyProjectedCitationGeoKey();
+	}
+	
+	@Test
+	public void verifyVerticalCitationGeoKey() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.verifyVerticalCitationGeoKey();
+	}
+	
 }

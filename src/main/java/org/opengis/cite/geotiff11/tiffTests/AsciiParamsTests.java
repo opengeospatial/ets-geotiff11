@@ -46,9 +46,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 		// process the fourth Short integer in the Key Entry Set
 		Assert.assertTrue(directory.hasTag(GEOASCIIPARAMSTAG));
 		String asciiParamsSet = directory.getTag(GEOASCIIPARAMSTAG).getValues().get(0).toString();	
-		
-		System.out.println(asciiParamsSet);
-		
+				
 		// SET KeyValueOffset to the value
 		
 		// Read the contents of the GeoTIFF file starting at KeyValueOffset up to and including the first NULL.
@@ -62,9 +60,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 			Assert.assertTrue(asciiParamsSet.charAt(i) != '\0');
 			value += asciiParamsSet.charAt(i);
 		}
-		
-		System.out.println(value);
-		
+				
 		return value;
 	}
 	
@@ -93,7 +89,66 @@ public class AsciiParamsTests extends GeoKeysTests {
 	}
 	
 //	2049	CitationGeoKeys/GeodeticCitationGeoKey
+	
+	@Test(description = "Ascii Params GeodeticCitationGeoKey (2049) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyGeodeticCitationGeoKey() throws Exception {
+		// the GeodeticCitationGeoKey SHALL have ID = 2049
+		int index = getKeyIndex(GEODETICCITATIONGEOKEY);
+		
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		String value = processFourthShortForAscii(index, keyLength);
+		
+		// the GeogLinearUnitSizeGeoKey SHALL have type = ASCII		
+		Assert.assertTrue(type == GEOASCIIPARAMSTAG);
+	}
+	
 //	3073	CitationGeoKeys/ProjectedCitationGeoKey
+	
+	@Test(description = "Ascii Params ProjectedCitationGeoKey (3073) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyProjectedCitationGeoKey() throws Exception {
+		// the ProjectedCitationGeoKey SHALL have ID = 3073
+		int index = getKeyIndex(PROJECTEDCITATIONGEOKEY);
+		
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		String value = processFourthShortForAscii(index, keyLength);
+		
+		// the GeogLinearUnitSizeGeoKey SHALL have type = ASCII		
+		Assert.assertTrue(type == GEOASCIIPARAMSTAG);
+	}
+	
 //	4097	CitationGeoKeys/VerticalCitationGeoKey
 
+	@Test(description = "Ascii Params VerticalCitationGeoKey (4097) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
+	public void verifyVerticalCitationGeoKey() throws Exception {
+		// the VerticalCitationGeoKey SHALL have ID = 4097
+		int index = getKeyIndex(VERTICALCITATIONGEOKEY);
+		
+		// not required
+		if(index == -1) {
+			return;
+		}
+		
+		int type = processSecondShort(index);
+		int geoKey = processFirstShort(index);
+		int keyLength = processThirdShort(index);
+		String value = processFourthShortForAscii(index, keyLength);
+		
+		// the GeogLinearUnitSizeGeoKey SHALL have type = ASCII		
+		Assert.assertTrue(type == GEOASCIIPARAMSTAG);
+	}
+	
 }
