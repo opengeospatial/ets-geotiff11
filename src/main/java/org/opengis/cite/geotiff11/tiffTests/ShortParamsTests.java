@@ -49,7 +49,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	0		ignore
 	//	1024	GTModelTypeGeoKey
 	
-	// TODO: value testing - needs code lookup tables - starting this no
+	// TODO: Parameter values stored in the GeoKeysDirectory SHALL appear after the last Key Entry ??? How to implement this?
 	
 	// tests
 	
