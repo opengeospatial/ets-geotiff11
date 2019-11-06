@@ -54,6 +54,7 @@ public class VerifyAsciiParamsTests {
 	public void verifyGTCitationGeoKey() throws Exception {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
+		iut.setUpAsciiParamsSet();
 		iut.verifyGTCitationGeoKey();
 	}
 	
@@ -61,6 +62,7 @@ public class VerifyAsciiParamsTests {
 	public void verifyGeodeticCitationGeoKey() throws Exception {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
+		iut.setUpAsciiParamsSet();
 		iut.verifyGeodeticCitationGeoKey();
 	}
 	
@@ -68,6 +70,7 @@ public class VerifyAsciiParamsTests {
 	public void verifyProjectedCitationGeoKey() throws Exception {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
+		iut.setUpAsciiParamsSet();
 		iut.verifyProjectedCitationGeoKey();
 	}
 	
@@ -75,7 +78,31 @@ public class VerifyAsciiParamsTests {
 	public void verifyVerticalCitationGeoKey() throws Exception {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
+		iut.setUpAsciiParamsSet();
 		iut.verifyVerticalCitationGeoKey();
 	}
 	
+	@Test
+	public void verifyGeoAsciiParamsTagCount() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.setUpAsciiParamsSet();
+		iut.verifyGeoAsciiParamsTagCount();
+	}
+	
+	@Test
+	public void verifyGeoAsciiParamsTagType() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.setUpAsciiParamsSet();
+		iut.verifyGeoAsciiParamsTagType();
+	}
+	
+	@Test
+	public void verifyGeoAsciiParamsTagNULLWrite() throws Exception {
+		iut.obtainTestSubject(testContext);
+		iut.setUpGeoKeyDirectory();
+		iut.setUpAsciiParamsSet();
+		iut.verifyGeoAsciiParamsTagNULLWrite();
+	}
 }
