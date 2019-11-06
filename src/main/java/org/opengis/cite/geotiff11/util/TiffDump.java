@@ -110,6 +110,10 @@ public class TiffDump {
 			
 	        return String.format("Directory %d:\nOffset: %d\tNext: %d\nTags:\n%s\n%s\n", index, offset, next, tagHeaderString(), tagsString);
 		}
+
+		public boolean hasTag(int tag) {
+			return getTag(tag) != null;
+		}
 	}
 	
     /**

@@ -47,12 +47,13 @@ public class DoubleParamsTests extends GeoKeysTests {
 	*		KeyValueOffset	Local		The location of the GeoKey value in the file
 	*/
 	
-	int processFourthShortForDouble(int index, int keyLength) {
+	float processFourthShortForDouble(int index) {
+		int doubleIndex = (int) keyEntrySet.get(index+3);
 		// process the fourth Short integer in the Key Entry Set
 		List<Object> doubleParamsSet = directory.getTag(GEODOUBLEPARAMSTAG).getValues();	
 		Assert.assertTrue(doubleParamsSet != null);
 		// SET KeyValueOffset = DoubleValues + (KeyValueOffset * 8)
-		return (int) doubleParamsSet.get(keyLength); // TODO: verify this is a correct interpretation of the ats.
+		return  (float) doubleParamsSet.get(doubleIndex);
 	}
 	
 	
@@ -73,15 +74,15 @@ public class DoubleParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShortForDouble(index, keyLength);
+		float value = processFourthShortForDouble(index);
 		
 		// the GeogLinearUnitSizeGeoKey SHALL have type = DOUBLE		
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
 		
 		// the units of the GeogLinearUnitSizeGeoKey value SHALL be meters
 		Assert.assertTrue(keyExists(GEOGLINEARUNITSGEOKEY));
-		int unitsValue = (int) processFourthShortForShort(getKeyIndex(GEOGLINEARUNITSGEOKEY), processSecondShort(getKeyIndex(GEOGLINEARUNITSGEOKEY)));
-		Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.METERS));	
+		int unitsValue = (int) processFourthShortForShort(getKeyIndex(GEOGLINEARUNITSGEOKEY), processThirdShort(getKeyIndex(GEOGLINEARUNITSGEOKEY)));
+		if(unitsValue != 32767) Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.METERS));	
 	}
 	
 //	2055	UnitSizeGeoKey (Geog Angular)
@@ -99,15 +100,15 @@ public class DoubleParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShortForDouble(index, keyLength);
+		float value = processFourthShortForDouble(index);
 		
 		// the GeogAngularUnitSizeGeoKey SHALL have type = DOUBLE		
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
 		
 		// the units of the GeogAngularUnitSizeGeoKey value SHALL be radians
 		Assert.assertTrue(keyExists(GEOGANGULARUNITSGEOKEY));
-		int unitsValue = (int) processFourthShortForShort(getKeyIndex(GEOGANGULARUNITSGEOKEY), processSecondShort(getKeyIndex(GEOGANGULARUNITSGEOKEY)));
-		Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.RADIANS));
+		int unitsValue = (int) processFourthShortForShort(getKeyIndex(GEOGANGULARUNITSGEOKEY), processThirdShort(getKeyIndex(GEOGANGULARUNITSGEOKEY)));
+		if(unitsValue != 32767) Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.RADIANS));
 	}
 	
 //	2057	EllipsoidSemiMajorAxisGeoKey
@@ -125,7 +126,7 @@ public class DoubleParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShortForDouble(index, keyLength);
+		float value = processFourthShortForDouble(index);
 		
 		// the EllipsoidSemiMajorAxisGeoKey SHALL have type = DOUBLE
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
@@ -149,7 +150,7 @@ public class DoubleParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShortForDouble(index, keyLength);
+		float value = processFourthShortForDouble(index);
 		
 		// the EllipsoidSemiMinorAxisGeoKey SHALL have type = DOUBLE
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
@@ -173,7 +174,7 @@ public class DoubleParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShortForDouble(index, keyLength);
+		float value = processFourthShortForDouble(index);
 		
 		// the EllipsoidInvFlatteningGeoKey SHALL have type = DOUBLE
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);	
@@ -194,7 +195,7 @@ public class DoubleParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShortForDouble(index, keyLength);
+		float value = processFourthShortForDouble(index);
 		
 		// the PrimeMeridianLongitudeGeoKey SHALL have type = DOUBLE
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
@@ -219,15 +220,15 @@ public class DoubleParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShortForDouble(index, keyLength);
+		float value = processFourthShortForDouble(index);
 		
 		// the ProjLinearUnitSizeGeoKey SHALL have type = DOUBLE		
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
 		
 		// the units of the ProjLinearUnitSizeGeoKey value SHALL be meters
 		Assert.assertTrue(keyExists(PROJLINEARUNITSGEOKEY));
-		int unitsValue = (int) processFourthShortForShort(getKeyIndex(PROJLINEARUNITSGEOKEY), processSecondShort(getKeyIndex(PROJLINEARUNITSGEOKEY)));
-		Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.METERS));
+		int unitsValue = (int) processFourthShortForShort(getKeyIndex(PROJLINEARUNITSGEOKEY), processThirdShort(getKeyIndex(PROJLINEARUNITSGEOKEY)));
+		if(unitsValue != 32767) Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.METERS));
 	}
 
 //	3092	ProjScalarParameters (Scale at Natural Origin)
@@ -274,7 +275,7 @@ public class DoubleParamsTests extends GeoKeysTests {
 		int type = processSecondShort(index);
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
-		int value = processFourthShortForDouble(index, keyLength);
+		float value = processFourthShortForDouble(index);
 		
 		// the ProjLinearUnitSizeGeoKey SHALL have type = DOUBLE		
 		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
