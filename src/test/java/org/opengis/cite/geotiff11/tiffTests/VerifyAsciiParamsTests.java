@@ -30,7 +30,7 @@ public class VerifyAsciiParamsTests {
 	public VerifyAsciiParamsTests() {
 		// This is the code for setting up the objects for the environment.
 		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
-		InputStream inputStream = this.getClass().getResourceAsStream("/tif/tiffMeta.txt");
+		InputStream inputStream = this.getClass().getResourceAsStream("/tif/ComprehensiveAndUserDefined.txt");
 		try {
 			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
 		} catch (IOException e) {
