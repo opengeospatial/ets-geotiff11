@@ -11,6 +11,10 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
+import org.opengis.cite.geotiff11.util.CreateDataSets;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 
@@ -18,23 +22,18 @@ import org.testng.ITestContext;
  * Verifies the behavior of the TiffTagsTests test class. Test stubs replace
  * fixture constituents where appropriate.
  */
-public class VerifyTiffTagTests {
+@RunWith(Theories.class)
+public class VerifyTiffTagTests extends CreateDataSets {
 
-	private static final String SUBJ = "testSubject";
 	private static ITestContext testContext;
-	private static ISuite suite;
 	TiffTagsTests iut;
 
 	public VerifyTiffTagTests() {
-		// This is the code for setting up the objects for the environment.
-		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
-		InputStream inputStream = this.getClass().getResourceAsStream("/tif/ComprehensiveAndUserDefined.txt");
-		try {
-			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	}
+	
+	private void dataSetSetUp(InputStream inputStream)
+	{
+		testDataSets(inputStream);
 		iut = new TiffTagsTests();
 	}
 	
@@ -50,8 +49,10 @@ public class VerifyTiffTagTests {
 		
 	}
 	
-	@Test
-	public void verifyTiffTags() throws Exception {
+	@Theory
+	public void verifyTiffTags(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut = new TiffTagsTests();
 		iut.obtainTestSubject(testContext);
 		iut.verifyTiffTags();
