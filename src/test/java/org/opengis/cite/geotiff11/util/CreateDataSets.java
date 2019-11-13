@@ -16,9 +16,11 @@ public class CreateDataSets {
 	public static @DataPoint InputStream PrivateValuesFile = CreateDataSets.class.getResourceAsStream("/tif/PrivateValues.txt"); 
 	public static @DataPoint InputStream UserDefinedFile = CreateDataSets.class.getResourceAsStream("/tif/ComprehensiveAndUserDefined.txt");
 	public static @DataPoint InputStream EPSGValuesFile = CreateDataSets.class.getResourceAsStream("/tif/EPSGValues.txt");
+	public static @DataPoint InputStream OneValuesFile = CreateDataSets.class.getResourceAsStream("/tif/OneValues.txt");
 	private static String privateValuesString;
 	private static String userDefinedString;
 	private static String EPSGValuesString;
+	private static String OneValuesString;
 	
 	public void testDataSets(InputStream inputStream)
 	{		
@@ -33,7 +35,7 @@ public class CreateDataSets {
 				}				
 				value = privateValuesString;		
 			}	
-			if (inputStream.equals(UserDefinedFile))
+			else if (inputStream.equals(UserDefinedFile))
 			{
 				if (userDefinedString == null || userDefinedString.isEmpty())
 				{
@@ -42,7 +44,7 @@ public class CreateDataSets {
 				}
 				value = userDefinedString;
 			}
-			if (inputStream.equals(EPSGValuesFile))
+			else if (inputStream.equals(EPSGValuesFile))
 			{
 				if (EPSGValuesString == null || EPSGValuesString.isEmpty())
 				{
@@ -50,6 +52,15 @@ public class CreateDataSets {
 					System.out.println(EPSGValuesString);
 				}
 				value = EPSGValuesString;
+			}
+			else if (inputStream.equals(OneValuesFile))
+			{
+				if (OneValuesString == null || OneValuesString.isEmpty())
+				{
+					OneValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
+					System.out.println(OneValuesString);
+				}
+				value = OneValuesString;
 			}
 
 			when(suite.getAttribute(SUBJ)).thenReturn(value);
