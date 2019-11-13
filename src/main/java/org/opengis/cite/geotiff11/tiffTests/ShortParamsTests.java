@@ -68,14 +68,22 @@ public class ShortParamsTests extends GeoKeysTests {
 		// the GTModelTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
-		// the GTModelTypeGeoKey value SHALL be: ...
-		Assert.assertTrue(Arrays.asList(0, 1, 2, 3, 32767).contains(value));
+		if (value >= 4 && value <= 32766)
+		{
+			// GTModelTypeGeoKey values in the range 4-32766 SHALL be reserved
+			Assert.assertFalse(value >= 4 && value <= 32766);
+		}
+		else if (value < 32768)
+		{
+			// the GTModelTypeGeoKey value SHALL be: ...
+			Assert.assertTrue(Arrays.asList(0, 1, 2, 3, 32767).contains(value));
+		}
+		else
+		{		
+			// GTModelTypeGeoKey values in the range 32768-65535 SHALL be private
+			Assert.assertFalse(value > 65535 || value < 0);		
+		}
 
-		// GTModelTypeGeoKey values in the range 4-32766 SHALL be reserved
-		Assert.assertFalse(value >= 4 && value <= 32766);
-		
-		// GTModelTypeGeoKey values in the range 32768-65535 SHALL be private
-		Assert.assertFalse(value > 65535 || value < 0);
 		
 		switch(value) {		
 			// if the GTModelTypeGeoKey value is 1 (Model CRS is a projected 2D CRS) then the GeoTIFF file SHALL include a ProjectedCRSGeoKey 3072
