@@ -15,9 +15,10 @@ public class CreateDataSets {
 	protected static ISuite suite;
 	public static @DataPoint InputStream PrivateValuesFile = CreateDataSets.class.getResourceAsStream("/tif/PrivateValues.txt"); 
 	public static @DataPoint InputStream UserDefinedFile = CreateDataSets.class.getResourceAsStream("/tif/ComprehensiveAndUserDefined.txt");
+	public static @DataPoint InputStream EPSGValuesFile = CreateDataSets.class.getResourceAsStream("/tif/EPSGValues.txt");
 	private static String privateValuesString;
 	private static String userDefinedString;
-	
+	private static String EPSGValuesString;
 	
 	public void testDataSets(InputStream inputStream)
 	{		
@@ -31,8 +32,7 @@ public class CreateDataSets {
 					System.out.println(privateValuesString);			
 				}				
 				value = privateValuesString;		
-			}
-			
+			}	
 			if (inputStream.equals(UserDefinedFile))
 			{
 				if (userDefinedString == null || userDefinedString.isEmpty())
@@ -41,6 +41,15 @@ public class CreateDataSets {
 					System.out.println(userDefinedString);
 				}
 				value = userDefinedString;
+			}
+			if (inputStream.equals(EPSGValuesFile))
+			{
+				if (EPSGValuesString == null || EPSGValuesString.isEmpty())
+				{
+					EPSGValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
+					System.out.println(EPSGValuesString);
+				}
+				value = EPSGValuesString;
 			}
 
 			when(suite.getAttribute(SUBJ)).thenReturn(value);
