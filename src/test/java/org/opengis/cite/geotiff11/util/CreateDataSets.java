@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.experimental.theories.*;
-import org.junit.runner.RunWith;
 import org.testng.ISuite;
 
 public class CreateDataSets {

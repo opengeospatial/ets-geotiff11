@@ -1,7 +1,5 @@
 package org.opengis.cite.geotiff11;
 
-import static org.junit.Assert.*;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,12 +12,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 
-import net.sf.saxon.s9api.XdmValue;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.opengis.cite.geotiff11.util.XMLUtils;
 import org.testng.Assert;
 import org.w3c.dom.Document;
 

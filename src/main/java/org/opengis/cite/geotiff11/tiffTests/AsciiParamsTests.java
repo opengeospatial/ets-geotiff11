@@ -1,11 +1,5 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.csv.CSVRecord;
-import org.opengis.cite.geotiff11.util.EPSGDataSet;
-import org.opengis.cite.geotiff11.util.TiffDump;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

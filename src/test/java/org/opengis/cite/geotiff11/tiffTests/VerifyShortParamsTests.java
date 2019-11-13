@@ -3,14 +3,9 @@ package org.opengis.cite.geotiff11.tiffTests;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
-import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.experimental.theories.*;
 import org.junit.runner.RunWith;
 import org.opengis.cite.geotiff11.util.CreateDataSets;

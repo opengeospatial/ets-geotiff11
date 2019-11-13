@@ -1,7 +1,5 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
-import java.util.Arrays;
-
 import org.opengis.cite.geotiff11.CommonFixture;
 import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.util.TiffDump;

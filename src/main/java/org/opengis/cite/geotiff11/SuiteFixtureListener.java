@@ -13,11 +13,8 @@ import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.util.ClientUtils;
 import org.opengis.cite.geotiff11.util.TestSuiteLogger;
 import org.opengis.cite.geotiff11.util.URIUtils;
-import org.opengis.cite.geotiff11.util.XMLUtils;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
-import org.w3c.dom.Document;
-
 import com.sun.jersey.api.client.Client;
 
 /**
