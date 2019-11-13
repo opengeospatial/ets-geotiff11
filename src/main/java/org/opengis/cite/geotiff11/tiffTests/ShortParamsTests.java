@@ -68,18 +68,16 @@ public class ShortParamsTests extends GeoKeysTests {
 		// the GTModelTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		
-		if (value >= 4 && value <= 32766)
-		{
-			// GTModelTypeGeoKey values in the range 4-32766 SHALL be reserved
-			Assert.assertFalse(value >= 4 && value <= 32766);
-		}
-		else if (value < 32768)
+		if (value == 0 || value == 1 || value == 2 || value== 3 || value== 32767)
 		{
 			// the GTModelTypeGeoKey value SHALL be: ...
 			Assert.assertTrue(Arrays.asList(0, 1, 2, 3, 32767).contains(value));
 		}
 		else
 		{		
+			// GTModelTypeGeoKey values in the range 4-32766 SHALL be reserved
+			Assert.assertFalse(value >= 4 && value <= 32766);
+			
 			// GTModelTypeGeoKey values in the range 32768-65535 SHALL be private
 			Assert.assertFalse(value > 65535 || value < 0);		
 		}
@@ -140,15 +138,20 @@ public class ShortParamsTests extends GeoKeysTests {
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
 		// or
 		
-		// the GTRasterTypeGeoKey value SHALL be: ...
-		Assert.assertTrue(Arrays.asList(0, 1, 2, 32767).contains(value));
-		
-		// GTRasterTypeGeoKey values in the range 3-32766 SHALL be reserved
-		Assert.assertFalse(value >= 3 && value <= 32766);
-		
-		// GTRasterTypeGeoKey values in the range 32768-65535 SHALL be private
-		// value out of bounds
-		Assert.assertFalse(value > 65535 || value < 0);
+		if (value == 0 || value == 1 || value == 2 || value== 3 || value== 32767)
+		{
+			// the GTRasterTypeGeoKey value SHALL be: ...
+			Assert.assertTrue(Arrays.asList(0, 1, 2, 32767).contains(value));
+		}
+		else
+		{
+			// GTRasterTypeGeoKey values in the range 3-32766 SHALL be reserved
+			Assert.assertFalse(value >= 3 && value <= 32766);
+			
+			// GTRasterTypeGeoKey values in the range 32768-65535 SHALL be private
+			// value out of bounds
+			Assert.assertFalse(value > 65535 || value < 0);
+		}
 	}
 	
 	//	2048	GeodeticCRSGeoKey

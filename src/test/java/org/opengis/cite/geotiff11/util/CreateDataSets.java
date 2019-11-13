@@ -14,9 +14,9 @@ import org.testng.ISuite;
 public class CreateDataSets {
 	private static final String SUBJ = "testSubject";
 	protected static ISuite suite;
-	public static @DataPoint InputStream tiffMetaFile = CreateDataSets.class.getResourceAsStream("/tif/tiffMeta.txt"); 
+	public static @DataPoint InputStream PrivateValuesFile = CreateDataSets.class.getResourceAsStream("/tif/PrivateValues.txt"); 
 	public static @DataPoint InputStream UserDefinedFile = CreateDataSets.class.getResourceAsStream("/tif/ComprehensiveAndUserDefined.txt");
-	private static String tiffMetaString;
+	private static String privateValuesString;
 	private static String userDefinedString;
 	
 	
@@ -24,14 +24,14 @@ public class CreateDataSets {
 	{		
 		try {
 			String value = null;
-			if(inputStream.equals(tiffMetaFile))
+			if(inputStream.equals(PrivateValuesFile))
 			{
-				if (tiffMetaString == null || tiffMetaString.isEmpty())
+				if (privateValuesString == null || privateValuesString.isEmpty())
 				{
-					tiffMetaString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
-					System.out.println(tiffMetaString);			
+					privateValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
+					System.out.println(privateValuesString);			
 				}				
-				value = tiffMetaString;		
+				value = privateValuesString;		
 			}
 			
 			if (inputStream.equals(UserDefinedFile))
