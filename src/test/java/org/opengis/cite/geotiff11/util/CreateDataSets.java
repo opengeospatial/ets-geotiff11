@@ -23,37 +23,39 @@ public class CreateDataSets {
 	private static String OneValuesString;
 	
 	public void testDataSets(InputStream inputStream) {		
+		
 		try {
+			//check each input to set value for validation
 			String value = null;
 			if(inputStream.equals(PrivateValuesFile)) {
-				if (privateValuesString == null || privateValuesString.isEmpty())
-				{
+				//set the return value for validation
+				if (privateValuesString == null || privateValuesString.isEmpty()) {				
 					privateValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);							
-				}				
+				}					
 				value = privateValuesString;		
 			}	
 			else if (inputStream.equals(UserDefinedFile)) {
-				if (userDefinedString == null || userDefinedString.isEmpty())
-				{
+				//set the return value for validation
+				if (userDefinedString == null || userDefinedString.isEmpty()) {				
 					userDefinedString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
 				}
 				value = userDefinedString;
 			}
 			else if (inputStream.equals(EPSGValuesFile)) {
-				if (EPSGValuesString == null || EPSGValuesString.isEmpty())
-				{
+				//set the return value for validation
+				if (EPSGValuesString == null || EPSGValuesString.isEmpty())  {
 					EPSGValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
 				}
 				value = EPSGValuesString;
 			}
 			else if (inputStream.equals(OneValuesFile)) {
-				if (OneValuesString == null || OneValuesString.isEmpty())
-				{
+				//set the return value for validation
+				if (OneValuesString == null || OneValuesString.isEmpty()){		
 					OneValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
 				}
 				value = OneValuesString;
 			}
-
+			
 			when(suite.getAttribute(SUBJ)).thenReturn(value);
 
 		} 
