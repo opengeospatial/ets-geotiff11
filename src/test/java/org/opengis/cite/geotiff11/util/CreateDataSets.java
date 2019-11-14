@@ -22,54 +22,44 @@ public class CreateDataSets {
 	private static String EPSGValuesString;
 	private static String OneValuesString;
 	
-	public void testDataSets(InputStream inputStream)
-	{		
+	public void testDataSets(InputStream inputStream) {		
 		try {
 			String value = null;
-			if(inputStream.equals(PrivateValuesFile))
-			{
+			if(inputStream.equals(PrivateValuesFile)) {
 				if (privateValuesString == null || privateValuesString.isEmpty())
 				{
-					privateValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
-					System.out.println(privateValuesString);			
+					privateValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);							
 				}				
 				value = privateValuesString;		
 			}	
-			else if (inputStream.equals(UserDefinedFile))
-			{
+			else if (inputStream.equals(UserDefinedFile)) {
 				if (userDefinedString == null || userDefinedString.isEmpty())
 				{
 					userDefinedString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
-					System.out.println(userDefinedString);
 				}
 				value = userDefinedString;
 			}
-			else if (inputStream.equals(EPSGValuesFile))
-			{
+			else if (inputStream.equals(EPSGValuesFile)) {
 				if (EPSGValuesString == null || EPSGValuesString.isEmpty())
 				{
 					EPSGValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
-					System.out.println(EPSGValuesString);
 				}
 				value = EPSGValuesString;
 			}
-			else if (inputStream.equals(OneValuesFile))
-			{
+			else if (inputStream.equals(OneValuesFile)) {
 				if (OneValuesString == null || OneValuesString.isEmpty())
 				{
 					OneValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
-					System.out.println(OneValuesString);
 				}
 				value = OneValuesString;
 			}
 
 			when(suite.getAttribute(SUBJ)).thenReturn(value);
 
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
 }
