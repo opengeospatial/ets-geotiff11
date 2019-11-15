@@ -17,16 +17,19 @@ public class CreateDataSets {
 	public static @DataPoint InputStream UserDefinedFile = CreateDataSets.class.getResourceAsStream("/tif/ComprehensiveAndUserDefined.txt");
 	public static @DataPoint InputStream EPSGValuesFile = CreateDataSets.class.getResourceAsStream("/tif/EPSGValues.txt");
 	public static @DataPoint InputStream OneValuesFile = CreateDataSets.class.getResourceAsStream("/tif/OneValues.txt");
+	public static @DataPoint InputStream TwoValuesFile = CreateDataSets.class.getResourceAsStream("/tif/TwoValues.txt");
 	private static String privateValuesString;
 	private static String userDefinedString;
 	private static String EPSGValuesString;
 	private static String OneValuesString;
+	private static String TwoValuesString;
 	
 	public void testDataSets(InputStream inputStream) {		
 		
 		try {
 			//check each input to set value for validation
 			String value = null;
+
 			if(inputStream.equals(PrivateValuesFile)) {
 				//set the return value for validation
 				if (privateValuesString == null || privateValuesString.isEmpty()) {				
@@ -54,6 +57,13 @@ public class CreateDataSets {
 					OneValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
 				}
 				value = OneValuesString;
+			}
+			else if (inputStream.equals(TwoValuesFile)) {
+				//set the return value for validation
+				if (TwoValuesString == null || TwoValuesString.isEmpty()){		
+					TwoValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
+				}
+				value = TwoValuesString;
 			}
 			
 			when(suite.getAttribute(SUBJ)).thenReturn(value);
