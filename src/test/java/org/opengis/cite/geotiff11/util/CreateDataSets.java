@@ -18,7 +18,7 @@ public class CreateDataSets {
 	public static @DataPoint InputStream EPSGValuesFile = CreateDataSets.class.getResourceAsStream("/tif/EPSGValues.txt");
 	public static @DataPoint InputStream OneValuesFile = CreateDataSets.class.getResourceAsStream("/tif/OneValues.txt");
 	public static @DataPoint InputStream TwoValuesFile = CreateDataSets.class.getResourceAsStream("/tif/TwoValues.txt");
-	public static @DataPoint InputStream ThreeValuesFile = CreateDataSets.class.getResourceAsStream("/tif/ThreeValues.txt");
+	public static @DataPoint InputStream ThreeValuesFile = CreateDataSets.class.getResourceAsStream("/tif/ThreeValuesAndEllipsoidGeoKey.txt");
 	public static @DataPoint InputStream ZeroValuesFile = CreateDataSets.class.getResourceAsStream("/tif/ZeroValues.txt");
 	
 	private static String privateValuesString;
