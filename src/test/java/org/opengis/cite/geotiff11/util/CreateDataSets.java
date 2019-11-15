@@ -19,13 +19,15 @@ public class CreateDataSets {
 	public static @DataPoint InputStream OneValuesFile = CreateDataSets.class.getResourceAsStream("/tif/OneValues.txt");
 	public static @DataPoint InputStream TwoValuesFile = CreateDataSets.class.getResourceAsStream("/tif/TwoValues.txt");
 	public static @DataPoint InputStream ThreeValuesFile = CreateDataSets.class.getResourceAsStream("/tif/ThreeValues.txt");
+	public static @DataPoint InputStream ZeroValuesFile = CreateDataSets.class.getResourceAsStream("/tif/ZeroValues.txt");
+	
 	private static String privateValuesString;
 	private static String userDefinedString;
 	private static String EPSGValuesString;
 	private static String OneValuesString;
 	private static String TwoValuesString;
 	private static String ThreeValuesString;
-	
+	private static String ZeroValuesString;
 	
 	public void testDataSets(InputStream inputStream) {		
 		
@@ -74,6 +76,13 @@ public class CreateDataSets {
 					ThreeValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
 				}
 				value = ThreeValuesString;
+			}
+			else if (inputStream.equals(ZeroValuesFile)) {
+				//set the return value for validation
+				if (ZeroValuesString == null || ZeroValuesString.isEmpty()){		
+					ZeroValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
+				}
+				value = ZeroValuesString;
 			}
 			
 			when(suite.getAttribute(SUBJ)).thenReturn(value);
