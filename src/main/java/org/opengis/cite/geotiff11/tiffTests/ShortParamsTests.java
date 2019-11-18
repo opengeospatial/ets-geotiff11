@@ -40,15 +40,13 @@ public class ShortParamsTests extends GeoKeysTests {
 	 * Test Variables: ...
 	 */
 	
+	// TODO: Parameter values stored in the GeoKeysDirectory SHALL appear after the last Key Entry ??? How to implement this?
+	
 	//  https://github.com/opengeospatial/geotiff/blob/68d8f902293ad64526889daa055892ea30f9e9ea/GeoTIFF_Standard/Detailed%20Test%20Suite/abstract_tests/Requirements_Trace_Matrix.adoc
 	//	GeoKey	Requirements Class
 	//	0		ignore
 	//	1024	GTModelTypeGeoKey
-	
-	// TODO: Parameter values stored in the GeoKeysDirectory SHALL appear after the last Key Entry ??? How to implement this?
-	
-	// tests
-	
+			
 	@Test(description = "Short Params GTModelTypeGeoKey (1024) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGTModelTypeGeoKey() {
 		// the GTModelTypeGeoKey SHALL have ID = 1024
@@ -63,21 +61,12 @@ public class ShortParamsTests extends GeoKeysTests {
 		
 		// the GTModelTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
-		
-		if (value == 0 || value == 1 || value == 2 || value== 3 || value== 32767)
-		{
-			// the GTModelTypeGeoKey value SHALL be: ...
-			Assert.assertTrue(Arrays.asList(0, 1, 2, 3, 32767).contains(value));
-		}
-		else
-		{		
-			// GTModelTypeGeoKey values in the range 4-32766 SHALL be reserved
-			Assert.assertFalse(value >= 4 && value <= 32766);
 			
-			// GTModelTypeGeoKey values in the range 32768-65535 SHALL be private
-			Assert.assertFalse(value > 65535 || value < 0);		
-		}
-
+		// GTModelTypeGeoKey values in the range 4-32766 SHALL be reserved
+		Assert.assertFalse(value >= 4 && value <= 32766);
+		
+		// GTModelTypeGeoKey values in the range 32768-65535 SHALL be private
+		Assert.assertFalse(value > 65535 || value < 0);		
 		
 		switch(value) {		
 			// if the GTModelTypeGeoKey value is 1 (Model CRS is a projected 2D CRS) then the GeoTIFF file SHALL include a ProjectedCRSGeoKey 3072
@@ -92,23 +81,8 @@ public class ShortParamsTests extends GeoKeysTests {
 				break;
 			// if the GTModelTypeGeoKey value is 32767 (user-defined) then the GTCitationGeoKey SHALL be populated
 			case 32767:
-				int gTCitationGeoKeyIndex = getKeyIndex(GTCITATIONGEOKEY);
-				Assert.assertTrue(gTCitationGeoKeyIndex != -1);
-				
-				int citation_type = processSecondShort(gTCitationGeoKeyIndex);
-				int citation_keyLength = processThirdShort(gTCitationGeoKeyIndex);
-				int citation_value = (int) keyEntrySet.get(gTCitationGeoKeyIndex+3);
-				
-				Assert.assertTrue(GEOASCIIPARAMSTAG == citation_type);
-				if (GEOASCIIPARAMSTAG == citation_type)
-				{
-					String gTCitationGeoKey = ((String) directory.getTag(GEOASCIIPARAMSTAG).getValues().get(0) ).substring(
-							citation_value, 
-							citation_keyLength - 1);
-					System.out.println("shortparams:" + gTCitationGeoKey);
-					Assert.assertFalse(gTCitationGeoKey.isEmpty()); // TODO: this is pretty rough...
-					break;
-				}
+				Assert.assertTrue(keyExists(GTCITATIONGEOKEY));
+				break;
 		}
 	}
 
