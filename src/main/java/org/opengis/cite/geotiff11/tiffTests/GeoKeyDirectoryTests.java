@@ -75,6 +75,7 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 					for(int i = 4; i < keyEntrySet.size(); i += 4) {
 						int geoKey = (int) keyEntrySet.get(i);
 						
+						// the GeoKey entries in a GeoTIFF file SHALL be written out to the file with the key-IDs sorted in ascending order
 						// verify that the GeoKey (first Short integer) is greater than the previous GeoKey
 						Assert.assertTrue(geoKey > previousGeoKey);
 						previousGeoKey = geoKey;

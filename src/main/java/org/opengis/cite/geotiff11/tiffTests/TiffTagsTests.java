@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 
 import static org.opengis.cite.geotiff11.util.GeoKeyID.*;
 
+import java.util.List;
+
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Tags.adoc
 public class TiffTagsTests extends CommonTiffMeta {
 
@@ -66,6 +68,7 @@ public class TiffTagsTests extends CommonTiffMeta {
 			}			
 			
 			// verify specific tag values
+			// WHILE IFD_Offset is not 0, process this IFD
 			if(directory.getOffset() != 0) {
 				
 				TiffDump.Tag geoKeyDirectory = directory.getTag(GEOKEYDIRECTORYTAG);
@@ -87,10 +90,12 @@ public class TiffTagsTests extends CommonTiffMeta {
 						
 				}
 				
+				// the GeoDoubleParamsTag SHALL have ID = 34736
 				TiffDump.Tag doubles = directory.getTag(GEODOUBLEPARAMSTAG);
 				if(doubles != null) {
+					// the GeoDoubleParamsTag MAY hold any number of key parameters with type = double
 					Assert.assertTrue(doubles.getTypeValue() == 12);
-					//doubleValues = doubles.getValues();
+					//List<Object> doubleValues = doubles.getValues();
 				}
 				
 				TiffDump.Tag asciis = directory.getTag(GEOASCIIPARAMSTAG);
@@ -99,13 +104,18 @@ public class TiffTagsTests extends CommonTiffMeta {
 					//asciiValues = asciis.getValues();
 				}
 				
+				// the ModelTiepointTag SHALL have ID = 33922
 				TiffDump.Tag tiepointTag  = directory.getTag(MODELTIEPOINTTAG);
 				if(tiepointTag != null) {
 					Assert.assertTrue(tiepointTag.getTypeValue() == 12);
-
+					
 					// execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey/ModelTiepointTag
-				}
+
+					// the ModelTiepointTag SHALL have 6 values for each of the K tiepoints
+					Assert.assertTrue(tiepointTag.getCount() == 6);
+					}
 				
+				// the ModelPixelScaleTag SHALL have ID = 33550
 				TiffDump.Tag pixelScaleTag = directory.getTag(MODELPIXELSCALETAG);
 				if(pixelScaleTag != null) {
 					Assert.assertTrue(pixelScaleTag.getTypeValue() == 12);
@@ -114,8 +124,12 @@ public class TiffTagsTests extends CommonTiffMeta {
 					Assert.assertTrue(tiepointTag != null);
 					
 				    // execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey/ModelPixelScaleTag
+					
+					// the ModelPixelScaleTag SHALL have 3 values representing the scale factor in the X, Y, and Z directions
+					Assert.assertTrue(pixelScaleTag.getCount() == 3);
 				}
 				
+				// the ModelTransformationTag SHALL have ID = 34264
 				TiffDump.Tag transformTag = directory.getTag(MODELTRANSFORMATIONTAG);
 				if(transformTag != null) {
 					Assert.assertTrue(transformTag.getTypeValue() == 12);

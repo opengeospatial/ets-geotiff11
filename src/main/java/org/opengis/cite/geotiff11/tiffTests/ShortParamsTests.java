@@ -40,7 +40,11 @@ public class ShortParamsTests extends GeoKeysTests {
 	 * Test Variables: ...
 	 */
 	
+	// In the case where a Parameter of type Short has more than one value, those values SHALL be stored in the GeoKeysDirectory
 	// TODO: Parameter values stored in the GeoKeysDirectory SHALL appear after the last Key Entry ??? How to implement this?
+	
+	// GeoKeys with a value of 0 SHALL indicate intentionally omitted parameters
+	// GeoKeys with a value of 32767 SHALL indicate user-defined parameters
 	
 	//  https://github.com/opengeospatial/geotiff/blob/68d8f902293ad64526889daa055892ea30f9e9ea/GeoTIFF_Standard/Detailed%20Test%20Suite/abstract_tests/Requirements_Trace_Matrix.adoc
 	//	GeoKey	Requirements Class
@@ -106,14 +110,9 @@ public class ShortParamsTests extends GeoKeysTests {
 		
 		// the GTRasterTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG);
-		// or
 		
-		if (value == 0 || value == 1 || value == 2 || value== 3 || value== 32767)
-		{
-			// the GTRasterTypeGeoKey value SHALL be: ...
-			Assert.assertTrue(Arrays.asList(0, 1, 2, 32767).contains(value));
-		}
-		else
+		// the GTRasterTypeGeoKey value SHALL be: 0, 1, 2, 32767, else
+		if (!Arrays.asList(0, 1, 2, 32767).contains(value))
 		{
 			// GTRasterTypeGeoKey values in the range 3-32766 SHALL be reserved
 			Assert.assertFalse(value >= 3 && value <= 32766);
@@ -164,7 +163,7 @@ public class ShortParamsTests extends GeoKeysTests {
 					
 			// GeodeticCRSGeoKeyvalues in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0);
+			Assert.assertFalse(value > 65535 || value < 0);
 		}
 	}
 	
@@ -208,7 +207,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// GeodeticDatumGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0);
+			Assert.assertFalse(value > 65535 || value < 0);
 		}
 	}
 	
@@ -252,7 +251,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// PrimeMeridianGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0);
+			Assert.assertFalse(value > 65535 || value < 0);
 		}
 	}
 	
@@ -293,14 +292,14 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0);
+			Assert.assertFalse(value > 65535 || value < 0);
 		}
 	}
 	
 	//	2054	UnitsGeoKey (Angular Units) GeogAngularUnitsGeoKey
 	
 	@Test(description = "Short Params GeogAngularUnitsGeoKey (2054) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeogAngularUnitsGeoKey() throws Exception {
+	public void verifyGeogAngularUnitsGeoKey() throws IOException {
 		// the GeogAngularUnitsGeoKey SHALL have ID = 2054
 		int index = getKeyIndex(GEOGANGULARUNITSGEOKEY);
 
@@ -334,7 +333,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0);
+			Assert.assertFalse(value > 65535 || value < 0);
 		}
 	}
 	
@@ -379,7 +378,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// EllipsoidGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0); // TODO: Check if between 1000-1023?
+			Assert.assertFalse(value > 65535 || value < 0); // TODO: Check if between 1000-1023?
 		}
 	}
 	
@@ -420,7 +419,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0);
+			Assert.assertFalse(value > 65535 || value < 0);
 		}
 	}
 	
@@ -464,7 +463,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// ProjectedCRSGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0); // TODO: should value < 0 be value < 1?
+			Assert.assertFalse(value > 65535 || value < 0); // TODO: should value < 0 be value < 1?
 		}
 	}
 	
@@ -504,7 +503,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// ProjectionGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0); // TODO: should value < 0 be value < 1?
+			Assert.assertFalse(value > 65535 || value < 0); // TODO: should value < 0 be value < 1?
 		}
 	}
 	
@@ -543,7 +542,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// ProjMethodGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0); // TODO: should value < 0 be value < 1?
+			Assert.assertFalse(value > 65535 || value < 0); // TODO: should value < 0 be value < 1?
 		}
 	}
 	
@@ -584,7 +583,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0);
+			Assert.assertFalse(value > 65535 || value < 0);
 		}
 	}
 	
@@ -629,7 +628,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// VerticalGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0);
+			Assert.assertFalse(value > 65535 || value < 0);
 		}
 	}
 	
@@ -670,7 +669,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// VerticalDatumGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value <= 0);
+			Assert.assertFalse(value > 65535 || value < 0);
 		}
 	}
 	
@@ -712,7 +711,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		
 		// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 		// value out of bounds
-		Assert.assertFalse(value > 65535 || value <= 0);
+		Assert.assertFalse(value > 65535 || value < 0);
 	
 	}
 }
