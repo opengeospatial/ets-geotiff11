@@ -39,8 +39,11 @@ public class AsciiParamsTests extends GeoKeysTests {
 	
 	@BeforeClass
 	public void setUpAsciiParamsSet() {
-		asciiParamsSet = directory.getTag(GEOASCIIPARAMSTAG).getValues().get(0).toString();	
-		asciiParamsSet = asciiParamsSet.replace("\\0", "\0");
+		if (directory.hasTag(GEOASCIIPARAMSTAG))
+		{
+			asciiParamsSet = directory.getTag(GEOASCIIPARAMSTAG).getValues().get(0).toString();	
+			asciiParamsSet = asciiParamsSet.replace("\\0", "\0");
+		}
 	}
 	
 	@Test(description = "Ascii Params Tag Count Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
@@ -68,6 +71,8 @@ public class AsciiParamsTests extends GeoKeysTests {
 	@Test(description = "Ascii Params Tag NULLWrite Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyGeoAsciiParamsTagNULLWrite() throws Exception {
 		// NULL (ASCII code = 0) characters SHALL not be present in the string content written in the GeoAsciiParamsTag
+		if (asciiParamsSet == null) return;
+		
 		for(int i = 0; i < asciiParamsSet.length() - 1; i++) {
 			Assert.assertTrue(asciiParamsSet.charAt(i) != '\0');
 			System.out.println(asciiParamsSet.charAt(i));

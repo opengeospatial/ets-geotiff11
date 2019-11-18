@@ -300,7 +300,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	//	2054	UnitsGeoKey (Angular Units) GeogAngularUnitsGeoKey
 	
 	@Test(description = "Short Params GeogAngularUnitsGeoKey (2054) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
-	public void verifyGeogAngularUnitsGeoKey() throws IOException {
+	public void verifyGeogAngularUnitsGeoKey() throws Exception {
 		// the GeogAngularUnitsGeoKey SHALL have ID = 2054
 		int index = getKeyIndex(GEOGANGULARUNITSGEOKEY);
 
