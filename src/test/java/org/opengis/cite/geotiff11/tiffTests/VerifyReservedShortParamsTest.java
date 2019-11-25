@@ -11,9 +11,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.experimental.theories.*;
-import org.junit.runner.RunWith;
-import org.opengis.cite.geotiff11.util.CreateDataSets;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 
@@ -21,7 +18,6 @@ import org.testng.ITestContext;
  * Verifies the behavior of the TiffTagsTests test class. Test stubs replace
  * fixture constituents where appropriate.
  */
-@RunWith(Theories.class)
 public class VerifyReservedShortParamsTest {
 
 	// TODO: this should be expanded greatly...
