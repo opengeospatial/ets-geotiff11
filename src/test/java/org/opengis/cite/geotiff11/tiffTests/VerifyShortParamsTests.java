@@ -159,33 +159,10 @@ public class VerifyShortParamsTests extends CreateDataSets {
 		iut.verifyProjMethodGeoKey();
 	}
 	
-	@Test(expected = AssertionError.class)
-	public void verifyProjMethodGeoKeyReserved() throws Exception {	
-		//use mockito to define value within the reserved range (28 to 32766).
-		//and to expect an assertion error.
-		
-		InputStream inputStream  = this.getClass().getResourceAsStream("/tif/ReservedValues.txt");
-		String SUBJ = "testSubject";
-		when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
-		
-		ShortParamsTests iut2 = new ShortParamsTests() {	
-			public int processFourthShortForShort(int index, int keyLength) {
-				
-				return 28;			
-			}
-		};
-		
-		iut2.obtainTestSubject(testContext);
-		iut2.setUpGeoKeyDirectory();
-		iut2.verifyProjMethodGeoKey();
-	}
-	
 	@Theory
 	public void verifyProjLinearUnitsGeoKey(InputStream inputStream) throws Exception {
 		dataSetSetUp(inputStream);
-		
-		
-		
+				
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyProjLinearUnitsGeoKey();
