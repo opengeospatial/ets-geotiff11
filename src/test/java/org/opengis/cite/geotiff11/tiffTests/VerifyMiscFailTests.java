@@ -18,7 +18,7 @@ import org.testng.ITestContext;
  * Verifies the behavior of the TiffTagsTests test class. Test stubs replace
  * fixture constituents where appropriate.
  */
-public class VerifyObsoleteShortParamsTest {
+public class VerifyMiscFailTests {
 
 	// TODO: this should be expanded greatly...
 
@@ -27,11 +27,11 @@ public class VerifyObsoleteShortParamsTest {
 	private static final String SUBJ = "testSubject";
 	protected static ISuite suite;
 
-	public VerifyObsoleteShortParamsTest() {
+	public VerifyMiscFailTests() {
 		// This is the code for setting up the objects for the environment.
 		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
 		//The below is specifically for those test cases that should fail.
-		InputStream inputStream  = this.getClass().getResourceAsStream("/tif/ObsoleteValues.txt");
+		InputStream inputStream  = this.getClass().getResourceAsStream("/tif/MiscFailValues.txt");
 		try {
 			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
 		} catch (IOException e) {
@@ -55,61 +55,46 @@ public class VerifyObsoleteShortParamsTest {
 	}
 	
 	/* 
-	 * ProjectedCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Datum Codes.
+	 * A VerticalUnitsGeoKey value of 32767 (user defined) SHALL not be used
 	 * @throws Exception
 	 */
 	@Test(expected = AssertionError.class)
-	public void verifyProjectedCRSGeoKeyObsolete() throws Exception {			
+	public void verifyVerticalUnitsGeoKeyFail() throws Exception {			
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
-		iut.verifyProjectedCRSGeoKey();
+		iut.verifyVerticalUnitsGeoKey();
 	}
 	
 	/* 
-	 * GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic Codes
+	 * If the EllipsoidGeoKey value is 32767 (User-Defined) then the 
+	 * GTCitationGeoKey and the EllipsoidSemiMajorAxisGeoKey SHALL be 
+	 * populated together with the one of either the EllipsoidSemiMinorAxisGeoKey 
+	 * or the EllipsoidInvFlatteningGeoKey 
+	 * [test case for both of them there (this one should fail)
 	 * @throws Exception
 	 */
 	@Test(expected = AssertionError.class)
-	public void verifyGeodeticCRSGeoKeyObsolete() throws Exception {			
-		iut.obtainTestSubject(testContext);
-		iut.setUpGeoKeyDirectory();
-		iut.verifyGeodeticCRSGeoKey();
-	}
-	
-	/* 
-	 * GeodeticDatumGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POS Datum Codes.
-	 * @throws Exception
-	 */
-	@Test(expected = AssertionError.class)
-	public void verifyGeodeticDatumGeoKeyObsolete() throws Exception {			
-		iut.obtainTestSubject(testContext);
-		iut.setUpGeoKeyDirectory();
-		iut.verifyGeodeticDatumGeoKey();
-	}
-	
-	/* 
-	 * PrimeMeridianGeoKey values in the range 1-100 SHALL be obsolete EPSG/POSC Datum Codes
-	 * @throws Exception
-	 */
-	@Test(expected = AssertionError.class)
-	public void verifyPrimeMeridianGeoKeyObsolete() throws Exception {			
-		iut.obtainTestSubject(testContext);
-		iut.setUpGeoKeyDirectory();
-		iut.verifyPrimeMeridianGeoKey();
-	}
-	
-	/* 
-	 * EllipsoidGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POSC Datum Codes
-	 * @throws Exception
-	 */
-	@Test(expected = AssertionError.class)
-	public void verifyEllipsoidGeoKeyObsolete() throws Exception {	
+	public void verifyEllipsoidGeoKeyFail() throws Exception {	
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyEllipsoidGeoKey();
 	}
 	
 	
+	/* 
+	 * NULL (ASCII code = 0) characters SHALL not be present in the string content written in the GeoAsciiParamsTag
+	 * @throws Exception
+	 */
+	@Test(expected = AssertionError.class)
+	public void verifyGeoAsciiParamsTagNULLWriteFail() throws Exception {	
+		AsciiParamsTests iut2 = new AsciiParamsTests();
+		iut2 = new AsciiParamsTests();	
+		
+		iut2.obtainTestSubject(testContext);
+		iut2.setUpGeoKeyDirectory();
+		iut2.setUpAsciiParamsSet();
+		iut2.verifyGeoAsciiParamsTagNULLWrite();
+	}
 	
 
 }
