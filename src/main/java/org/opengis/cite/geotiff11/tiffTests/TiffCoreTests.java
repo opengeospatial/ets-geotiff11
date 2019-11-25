@@ -4,8 +4,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 //import edu.harvard.hul.ois.jhove.RepInfo;
-//import edu.harvard.hul.ois.jhove.module.TiffModule;
+import edu.harvard.hul.ois.jhove.module.TiffModule;
+import edu.harvard.hul.ois.jhove.module.tiff.TiffProfile;
 //import edu.harvard.hul.ois.jhove.*;
+import edu.harvard.hul.ois.jhove.module.tiff.TiffProfileGeoTIFF;
 
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Core.adoc
 public class TiffCoreTests extends CommonTiffMeta {
@@ -48,5 +50,9 @@ public class TiffCoreTests extends CommonTiffMeta {
 //		new TDump();
 		
 		// TODO: should I manually complete this or use Jhove or ?
+		
+		//TiffProfile tiffProfile = new TiffProfile();
+		
+		//tiffProfile.satisfiesProfile(ifd);
 	}
 }

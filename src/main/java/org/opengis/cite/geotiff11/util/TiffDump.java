@@ -12,38 +12,38 @@ import java.util.List;
  */
 public class TiffDump {
 
-//    public static void main(String[] args) { 
-//        TiffDump td;
-//		try {
-//			td = new TiffDump(new String("C:/Users/RDAGCDLJ/Documents/FY19/GEOTIFF/ets-geotiff11/target/test-classes/tif/cea.tif:\r\n" + 
-//					"Magic: 0x4949 <little-endian> Version: 0x2a\r\n" + 
-//					"Directory 0: offset 270276 (0x41fc4) next 0 (0)\r\n" + 
-//					"ImageWidth (256) SHORT (3) 1<514 ...>\r\n" + 
-//					"ImageLength (257) SHORT (3) 1<515>\r\n" + 
-//					"BitsPerSample (258) SHORT (3) 1<8>\r\n" + 
-//					"Compression (259) SHORT (3) 1<1>\r\n" + 
-//					"Photometric (262) SHORT (3) 1<1>\r\n" + 
-//					"StripOffsets (273) LONG (4) 35<426 8136 15846 23556 31266 38976 46686 54396 62106 69816 77526 85236 92946 100656 108366 116076 123786 131496 139206 146916 154626 162336 170046 177756>\r\n" + 
-//					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
-//					"RowsPerStrip (278) SHORT (3) 1<15>\r\n" + 
-//					"StripByteCounts (279) LONG (4) 35<7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 ...>\r\n" + 
-//					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
-//					"SampleFormat (339) SHORT (3) 1<1>\r\n" + 
-//					"33550 (0x830e) DOUBLE (12) 3<60.0221 60.0221 0>\r\n" + 
-//					"33922 (0x8482) DOUBLE (12) 6<0 0 0 -28493.2 4.25588e+006 0>\r\n" + 
-//					"34735 (0x87af) SHORT (3) 60<1 1 0 14 1024 0 1 1 1025 0 1 1 1026 34737 8 0 2048 0 1 4267 2049 34737 6 8 >\r\n" + 
-//					"34736 (0x87b0) DOUBLE (12) 4<-117.333 33.75 0 0>\r\n" + 
-//					"34737 (0x87b1) ASCII (2) 15<unnamed|NAD27|\\0>"));
-//			
-//	        		System.out.println(td);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} 
-//        
-//        //System.out.println(td.getDirectory(0)); 
-//        //System.out.println(td.getDirectory(0).getTagByName("ImageWidth")); 
-//        //System.out.println(td.getDirectory(0).getTagByName("34735"));
-//    } 
+    public static void main(String[] args) { 
+        TiffDump td;
+		try {
+			td = new TiffDump(new String("C:/Users/RDAGCDLJ/Documents/FY19/GEOTIFF/ets-geotiff11/target/test-classes/tif/cea.tif:\r\n" + 
+					"Magic: 0x4949 <little-endian> Version: 0x2a\r\n" + 
+					"Directory 0: offset 270276 (0x41fc4) next 0 (0)\r\n" + 
+					"ImageWidth (256) SHORT (3) 1<514 ...>\r\n" + 
+					"ImageLength (257) SHORT (3) 1<515>\r\n" + 
+					"BitsPerSample (258) SHORT (3) 1<8>\r\n" + 
+					"Compression (259) SHORT (3) 1<1>\r\n" + 
+					"Photometric (262) SHORT (3) 1<1>\r\n" + 
+					"StripOffsets (273) LONG (4) 35<426 8136 15846 23556 31266 38976 46686 54396 62106 69816 77526 85236 92946 100656 108366 116076 123786 131496 139206 146916 154626 162336 170046 177756>\r\n" + 
+					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
+					"RowsPerStrip (278) SHORT (3) 1<15>\r\n" + 
+					"StripByteCounts (279) LONG (4) 35<7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 ...>\r\n" + 
+					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
+					"SampleFormat (339) SHORT (3) 1<1>\r\n" + 
+					"33550 (0x830e) DOUBLE (12) 3<60.0221 60.0221 0>\r\n" + 
+					"33922 (0x8482) DOUBLE (12) 6<0 0 0 -28493.2 4.25588e+006 0>\r\n" + 
+					"34735 (0x87af) SHORT (3) 60<1 1 0 14 1024 0 1 1 1025 0 1 1 1026 34737 8 0 2048 0 1 4267 2049 34737 6 8 >\r\n" + 
+					"34736 (0x87b0) DOUBLE (12) 4<-117.333 33.75 0 0>\r\n" + 
+					"34737 (0x87b1) ASCII (2) 15<unnamed|NAD27|\\0>"));
+			
+	        		System.out.println(td);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+        
+        //System.out.println(td.getDirectory(0)); 
+        //System.out.println(td.getDirectory(0).getTagByName("ImageWidth")); 
+        //System.out.println(td.getDirectory(0).getTagByName("34735"));
+    } 
 	
     /**
      * A class representing a directory within a tiff
@@ -141,7 +141,8 @@ public class TiffDump {
 			
 			typeValue = Integer.parseInt(line.split(" ")[3].replaceAll("[()]", ""));
 			
-			count = (int) line.split(" ")[4].charAt(0);
+			count = Integer.parseInt(line.split(" ")[4].substring(0, line.split(" ")[4].indexOf('<')));
+			System.out.println(line);
 			
 			String[] values = line.substring(line.indexOf("<") + 1, line.indexOf(">")).split(" ");
 			if(values[values.length - 1].equals("...")) {
