@@ -18,7 +18,7 @@ import org.testng.ITestContext;
  * Verifies the behavior of the TiffTagsTests test class. Test stubs replace
  * fixture constituents where appropriate.
  */
-public class VerifyReservedShortParamsTest {
+public class VerifyReservedShortParamsTests {
 
 	// TODO: this should be expanded greatly...
 
@@ -27,7 +27,7 @@ public class VerifyReservedShortParamsTest {
 	private static final String SUBJ = "testSubject";
 	protected static ISuite suite;
 
-	public VerifyReservedShortParamsTest() {
+	public VerifyReservedShortParamsTests() {
 		// This is the code for setting up the objects for the environment.
 		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
 		//The below is specifically for those test cases that should fail.
