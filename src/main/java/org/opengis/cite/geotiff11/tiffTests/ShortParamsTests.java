@@ -108,7 +108,6 @@ public class ShortParamsTests extends GeoKeysTests {
 		int geoKey = processFirstShort(index);
 		int keyLength = processThirdShort(index);
 		int value = processFourthShortForShort(index, keyLength);
-		System.out.println("verifyGTRasterTypeGeoKey: value = " + value);
 		
 		// the GTRasterTypeGeoKey SHALL have type = SHORT		
 		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG, "the GTRasterTypeGeoKey SHALL have type = SHORT");

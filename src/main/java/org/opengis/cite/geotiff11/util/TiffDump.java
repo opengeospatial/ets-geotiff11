@@ -142,7 +142,6 @@ public class TiffDump {
 			typeValue = Integer.parseInt(line.split(" ")[3].replaceAll("[()]", ""));
 			
 			count = Integer.parseInt(line.split(" ")[4].substring(0, line.split(" ")[4].indexOf('<')));
-			System.out.println(line);
 			
 			String[] values = line.substring(line.indexOf("<") + 1, line.indexOf(">")).split(" ");
 			if(values[values.length - 1].equals("...")) {
