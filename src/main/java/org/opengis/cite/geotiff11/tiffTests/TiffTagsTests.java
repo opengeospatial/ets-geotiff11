@@ -52,10 +52,6 @@ public class TiffTagsTests extends CommonTiffMeta {
 	@Test(description = "TIFF Tags Test")
 	public void verifyTiffTags() throws Exception {		
 		
-		//List<Object> geoKeyDirectory = null;
-		//List<Object> doubleValues = null;
-		//List<Object> asciiValues = null;
-		
 		for(TiffDump.Directory directory : tiffDump.getDirectories()) {
 			
 			// The TIFF tags in a GeoTIFF file SHALL be written out to the file with the tag-IDs sorted in ascending order
