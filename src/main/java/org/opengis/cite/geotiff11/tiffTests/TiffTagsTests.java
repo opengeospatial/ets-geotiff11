@@ -10,8 +10,6 @@ import java.util.List;
 
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Tags.adoc
 public class TiffTagsTests extends CommonTiffMeta {
-
-	// TODO: Split this into multiple tests?
 	
 	/*
 	* TIFF Tags Test		
@@ -49,7 +47,7 @@ public class TiffTagsTests extends CommonTiffMeta {
 	* 	TagValue		Parameter	Location of the value of a TIFF tag in the GeoTIFF file
 	*/
 	
-	// TODO: revisit this and break up into appropriate tests
+	// TODO: Could be refactored to more closely resemble ats?
 	
 	@Test(description = "TIFF Tags Test")
 	public void verifyTiffTags() throws Exception {		
@@ -74,13 +72,13 @@ public class TiffTagsTests extends CommonTiffMeta {
 				TiffDump.Tag geoKeyDirectory = directory.getTag(GEOKEYDIRECTORYTAG);
 				if(geoKeyDirectory != null) {
 					// validate that Bytes 2-3 = 3 (Short Integer)
-					Assert.assertTrue(geoKeyDirectory.getTypeValue() == 3);
+					Assert.assertTrue(geoKeyDirectory.getTypeValue() == 3, "the GeoKeyDirectoryTag SHALL have type = SHORT");
 					// validate that Bytes 4-7 represent an Integer value greater than or equal to 4
-					Assert.assertTrue(geoKeyDirectory.getCount() >= 4);
+					Assert.assertTrue(geoKeyDirectory.getCount() >= 4, "the GeoKeyDirectoryTag SHALL have at least 4 values");
 										
 					if(geoKeyDirectory.getValues() != null) {					
 						// validate that there is a GTModelType GeoKey in the GeoKey Directory
-						Assert.assertTrue(geoKeyDirectory.containsValue(GTMODELTYPEGEOKEY));
+						Assert.assertTrue(geoKeyDirectory.containsValue(GTMODELTYPEGEOKEY), "validate that there is a GTModelType GeoKey in the GeoKey Directory");
 						
 						// execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/GeoKeyDirectory
 						
@@ -94,66 +92,61 @@ public class TiffTagsTests extends CommonTiffMeta {
 				TiffDump.Tag doubles = directory.getTag(GEODOUBLEPARAMSTAG);
 				if(doubles != null) {
 					// the GeoDoubleParamsTag MAY hold any number of key parameters with type = double
-					Assert.assertTrue(doubles.getTypeValue() == 12);
+					Assert.assertTrue(doubles.getTypeValue() == 12, "the GeoDoubleParamsTag MAY hold any number of key parameters with type = double");
 					//List<Object> doubleValues = doubles.getValues();
 				}
 				
+				// the GEOASCIIPARAMSTAG SHALL have ID = 34737
 				TiffDump.Tag asciis = directory.getTag(GEOASCIIPARAMSTAG);
 				if(asciis != null) {
-					Assert.assertTrue(asciis.getTypeValue() == 2);
+					Assert.assertTrue(asciis.getTypeValue() == 2, "the GeoAsciiParamsTag SHALL have type = ASCII");
 					//asciiValues = asciis.getValues();
 				}
 				
 				// the ModelTiepointTag SHALL have ID = 33922
 				TiffDump.Tag tiepointTag  = directory.getTag(MODELTIEPOINTTAG);
 				if(tiepointTag != null) {
-					Assert.assertTrue(tiepointTag.getTypeValue() == 12);
+					Assert.assertTrue(tiepointTag.getTypeValue() == 12, "the ModelTiepointTag SHALL have type = DOUBLE");
 					
 					// execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey/ModelTiepointTag
 
 					// the ModelTiepointTag SHALL have 6 values for each of the K tiepoints
-					Assert.assertTrue(tiepointTag.getCount() == 6);
+					Assert.assertTrue(tiepointTag.getCount() == 6, "the ModelTiepointTag SHALL have 6 values for each of the K tiepoints");
 					}
 				
 				// the ModelPixelScaleTag SHALL have ID = 33550
 				TiffDump.Tag pixelScaleTag = directory.getTag(MODELPIXELSCALETAG);
 				if(pixelScaleTag != null) {
-					Assert.assertTrue(pixelScaleTag.getTypeValue() == 12);
+					Assert.assertTrue(pixelScaleTag.getTypeValue() == 12, "the ModelPixelScaleTag SHALL have type = DOUBLE");
 					
 					// validate that this IFD contains a ModelTiepointTag
-					Assert.assertTrue(tiepointTag != null);
+					Assert.assertTrue(tiepointTag != null, "validate that this IFD (containing ModelPixelScaleTag) contains a ModelTiepointTag");
 					
 				    // execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey/ModelPixelScaleTag
 					
 					// the ModelPixelScaleTag SHALL have 3 values representing the scale factor in the X, Y, and Z directions
-					Assert.assertTrue(pixelScaleTag.getCount() == 3);
+					Assert.assertTrue(pixelScaleTag.getCount() == 3, "the ModelPixelScaleTag SHALL have 3 values representing the scale factor in the X, Y, and Z directions");
 				}
 				
 				// the ModelTransformationTag SHALL have ID = 34264
 				TiffDump.Tag transformTag = directory.getTag(MODELTRANSFORMATIONTAG);
 				if(transformTag != null) {
-					Assert.assertTrue(transformTag.getTypeValue() == 12);
+					Assert.assertTrue(transformTag.getTypeValue() == 12, "the ModelTransformationTag SHALL have type = DOUBLE");
 					
 					// validate that this IFD does not contain a ModelPixelScaleTag
-					Assert.assertTrue(pixelScaleTag == null);
+					Assert.assertTrue(pixelScaleTag == null, "validate that this IFD (containing ModelTransformationTag) does not contain a ModelPixelScaleTag");
 					
 				    // execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey/ModelTransformationTag
 		
 					// The ModelTransformationTag SHALL have 16 values representing the terms of the 4 by 4 transformation matrix. The terms SHALL be in row-major order
-					Assert.assertTrue(transformTag.getValues().size() == 16);
+					Assert.assertTrue(transformTag.getValues().size() == 16, "the ModelTransformationTag SHALL have 16 values representing the terms of the 4 by 4 transformation matrix");
+					// TODO: The terms SHALL be in row-major order. Is this possible to ensure?
 				}
 
 				// validate that this IFD contains either a ModelTransformationTag or a ModelTiepointTag
 				// this could probably be it's own test?
-				Assert.assertTrue(transformTag != null || tiepointTag != null);
+				Assert.assertTrue(transformTag != null || tiepointTag != null, "validate that this IFD contains either a ModelTransformationTag or a ModelTiepointTag");
 			}		
 		}
-
-// going to do above instead. may return to this structure
-//		if(geoKeyDirectory != null) {
-//			// do geokeydirectory test
-//			// validate things
-//			Assert.assertTrue(geoKeyDirectory.);
-
 	}
 }
