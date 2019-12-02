@@ -51,7 +51,7 @@ public class VerifyTestNGController {
     public void doTestRun() throws Exception {
         //URL testSubject = getClass().getResource("/atom-feed-2.xml");
     	// redirect to tif
-        URL testSubject = getClass().getResource("/tif/cea.tif");
+        URL testSubject = getClass().getResource("/tif/cea.tif"); // TODO: what is this? Why is there a hardcoded string here?
         this.testRunProps.setProperty(TestRunArg.IUT.toString(), testSubject
                 .toURI().toString());
         ByteArrayOutputStream outStream = new ByteArrayOutputStream(1024);

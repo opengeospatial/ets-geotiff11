@@ -1,23 +1,41 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.Level;
+
+import org.opengis.cite.geotiff11.SuiteAttribute;
+import org.opengis.cite.geotiff11.TestRunArg;
+import org.opengis.cite.geotiff11.util.TestSuiteLogger;
 import org.testng.Assert;
+import org.testng.ISuite;
+import org.testng.ITestContext;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import edu.harvard.hul.ois.jhove.App;
 import edu.harvard.hul.ois.jhove.JhoveBase;
-import edu.harvard.hul.ois.jhove.JhoveException;
 import edu.harvard.hul.ois.jhove.Module;
 import edu.harvard.hul.ois.jhove.OutputHandler;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
-//import edu.harvard.hul.ois.jhove.RepInfo;
-import edu.harvard.hul.ois.jhove.module.TiffModule;
-import edu.harvard.hul.ois.jhove.module.tiff.TiffProfile;
 //import edu.harvard.hul.ois.jhove.*;
-import edu.harvard.hul.ois.jhove.module.tiff.TiffProfileGeoTIFF;
 
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Core.adoc
 public class TiffCoreTests extends CommonTiffMeta {
 
+	private static String tmpFile = Paths.get(System.getProperty("user.dir"), "/src/main/resources/tmp/tiff-compliance-report.txt").toString();
+	private String tiffPath;
+	
+	@BeforeClass
+	public void setTestPath(ITestContext testContext) {
+		ISuite suite = testContext.getSuite();
+		 Map<String, String> params = suite.getXmlSuite().getParameters();
+	        TestSuiteLogger.log(Level.CONFIG, "Suite parameters\n" + params.toString());
+	        tiffPath = params.get(TestRunArg.IUT.toString());
+	}
+	
 	/*
 	 * TIFF Core Tests
 	 * 
@@ -51,34 +69,40 @@ public class TiffCoreTests extends CommonTiffMeta {
 	// a GeoTIFF file SHALL be compliant with the TIFF 6.0 specification
 	@Test(description = "TIFF Core 6.0 Compliance Test")
 	public void verifyTiffVersionSixCompliance() throws Exception {
-//		TiffModule tiff = new TiffModule();
-//		tiff.parse(raf, new RepInfo());
-//		new TDump();
-		
-		// TODO: should I manually complete this or use Jhove or ?
-		
-		//TiffProfile tiffProfile = new TiffProfile();
-		//tiffProfile.satisfiesProfile(ifd);
-
 		// https://www.javatips.net/api/jhove-master/jhove-apps/src/main/java/Jhove.java
-		
-		//App app = new App ("NAME", "RELEASE", new int[] {2019, 11, 29}, "USAGE", "RIGHTS");
-		App app = App.newAppWithName("TEST");
+		App app = App.newAppWithName("Tiff Test");
 		
 		JhoveBase je = new JhoveBase();
-		
-//        je.setEncoding (encoding);
-//        je.setTempDirectory (tempDir);
-//        je.setBufferSize (bufferSize);
-//        je.setChecksumFlag (checksum);
-//        je.setShowRawFlag (showRaw);
-//        je.setSignatureFlag (signature);
-        
-		Module module = new TiffModule();
-		
-//		OutputHandler handler = je.getHandler("XML");
+	    je.setLogLevel ("SEVERE");
+	    je.setEncoding ("utf-8");
+	    //je.setTempDirectory (Paths.get(tmpFile).getParent().toString());
+	    je.setBufferSize (4096);
+	    je.setChecksumFlag (false);
+	    je.setShowRawFlag (false);
+	    je.setSignatureFlag (false);
+	    
+		Module module = je.getModule("TIFF-hul");
 		OutputHandler handler = new XmlHandler();
+				
+		je.dispatch(app, module, null, handler, tmpFile, new String[] {tiffPath});	
+	
+		String goal = "Well-Formed and valid";
+		boolean isValid = false;
 		
-		// je.dispatch(app, module, null, handler, "C:\\Users\\RDAGCDLJ\\Desktop\\yeet.txt", new String[] {"C:\\Users\\RDAGCDLJ\\Documents\\FY20\\GeoTIFF\\example_tiffs\\cea.tif"});	
+		File file = new File(tmpFile);
+	    Scanner scanner = new Scanner(file);
+
+	    while (scanner.hasNextLine()) {
+	        String line = scanner.nextLine();
+	        if(line.contains(goal)) { 
+	            //System.out.println("found on line " + lineNum);
+	            isValid = true;
+	            break;
+	        }
+	    }
+
+	    scanner.close();
+	    
+	    Assert.assertTrue(isValid, "a GeoTIFF file SHALL be compliant with the TIFF 6.0 specification");	
 	}
 }
