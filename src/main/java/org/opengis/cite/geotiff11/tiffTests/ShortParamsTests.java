@@ -151,10 +151,10 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
-			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("geographic 2D") || record.get("COORD_REF_SYS_KIND").equals("geographic 3D") || record.get("COORD_REF_SYS_KIND").equals("geocentric"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)");
+			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("geographic 2D") || record.get("COORD_REF_SYS_KIND").equals("geographic 3D") || record.get("COORD_REF_SYS_KIND").equals("geocentric"), "GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)");
 		} else if(value >= 1 && value <= 1000) {
 			// GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic Codes
 			Assert.assertTrue(minorRevision == 0, "GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic Codes");
@@ -239,9 +239,9 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// PrimeMeridianGeoKey values in the range 1024-32766 SHALL be EPSG Prime Meridian Codes
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.PRIMEMERIDIAN, "PRIME_MERIDIAN_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "PrimeMeridianGeoKey values in the range 1024-32766 SHALL be EPSG Prime Meridian Codes");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "PrimeMeridianGeoKey values in the range 1024-32766 SHALL be EPSG Prime Meridian Codes");
 		} else {		
 			
 			// PrimeMeridianGeoKey values in the range 1-100 SHALL be obsolete EPSG/POSC Datum Codes
@@ -283,10 +283,10 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "GeogLinearUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
-			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("length"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "GeogLinearUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length");
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("length"), "GeogLinearUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length");
 		} else {						
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023, "GeogLinearUnitsGeoKey values in the range 1-1023 SHALL be reserved");
@@ -324,10 +324,10 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// GeogAngularUnitsGeoKey and GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
-			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("angle"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle");
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("angle"), "GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle");
 		} else {					
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023, "GeogAngularUnitsGeoKey values in the range 1-1023 SHALL be reserved");
@@ -365,18 +365,17 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// EllipsoidGeoKey values in the range 1024-32766 SHALL be EPSG ellipsoid Codes
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.ELLIPSOID, "ELLIPSOID_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "EllipsoidGeoKey values in the range 1024-32766 SHALL be EPSG ellipsoid Codes");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "EllipsoidGeoKey values in the range 1024-32766 SHALL be EPSG ellipsoid Codes");
 		} else {	
 			// EllipsoidGeoKey values in the range 1024-32766 SHALL be EPSG ellipsoid Codes
 			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766, "EllipsoidGeoKey values in the range 1024-32766 SHALL be EPSG ellipsoid Codes");
 			
 			// EllipsoidGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POSC Datum Codes
+			// Chuck said code lookup wasn't necessary here
 			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 1000, "EllipsoidGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POSC Datum Codes");
-			
-			// no reserved
-			
+						
 			// EllipsoidGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
 			Assert.assertFalse(value > 65535 || value < 0, "EllipsoidGeoKey value out of bounds"); // TODO: Check if between 1000-1023?
@@ -410,13 +409,13 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// GeogAngularUnitsGeoKey and GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
-			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("angle"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle");
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("angle"), "GeogAzimuthUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = angle");
 		} else {								
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
-			Assert.assertFalse(value >= 1 && value <= 1023, "GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved");
+			Assert.assertFalse(value >= 1 && value <= 1023, "GeogAzimuthUnitsGeoKey values in the range 1-1023 SHALL be reserved");
 			
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
@@ -451,10 +450,10 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// ProjectedCRSGeoKey values in the range 1024-32766 SHALL be EPSG Projected CRS Codes
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "ProjectedCRSGeoKey values in the range 1024-32766 SHALL be EPSG Projected CRS Codes");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
-			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("projected"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "ProjectedCRSGeoKey values in the range 1024-32766 SHALL be EPSG Projected CRS Codes");
+			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("projected"), "ProjectedCRSGeoKey values in the range 1024-32766 SHALL be EPSG Projected CRS Codes");
 		} else {		
 			// ProjectedCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Datum Codes
 			Assert.assertFalse(minorRevision != 0 && value >= 1 && value <= 1000, "ProjectedCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Datum Codes");
@@ -464,7 +463,7 @@ public class ShortParamsTests extends GeoKeysTests {
 			
 			// ProjectedCRSGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0, "ProjectedCRSGeoKey value out of bounds"); // TODO: should value < 0 be value < 1?
+			Assert.assertFalse(value > 65535 || value < 0, "ProjectedCRSGeoKey value out of bounds");
 		}
 	}
 	
@@ -495,16 +494,16 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// ProjectionGeoKey values in the range 1024-32766 SHALL be valid EPSG map projection (coordinate operation) codes
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CO, "COORD_OP_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "ProjectionGeoKey values in the range 1024-32766 SHALL be valid EPSG map projection (coordinate operation) codes");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "ProjectionGeoKey values in the range 1024-32766 SHALL be valid EPSG map projection (coordinate operation) codes");
 		} else {					
 			// ProjectionGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023, "ProjectionGeoKey values in the range 1-1023 SHALL be reserved");
 			
 			// ProjectionGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0, "ProjectionGeoKey value out of bounds"); // TODO: should value < 0 be value < 1?
+			Assert.assertFalse(value > 65535 || value < 0, "ProjectionGeoKey value out of bounds");
 		}
 	}
 	
@@ -533,17 +532,17 @@ public class ShortParamsTests extends GeoKeysTests {
 			// If the ProjectionMethodGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey 
 			Assert.assertTrue(keyExists(PROJECTEDCITATIONGEOKEY), "if the ProjectionMethodGeoKey value is 32767 (User-Defined) then the ProjectedCitationGeoKey ");
 			// and keys for each map projection parameter (coordinate operation parameter) appropriate to that method SHALL be populated
-			// TODO
+			// TODO: can I even test this?
 		} else {
 			// ProjMethodGeoKey values in the range 1-27 SHALL be GeoTIFF map projection method codes
-			// TODO: check minorRevision != 1?
+			// nothing to check here, is valid if passes
 			
 			// ProjMethodGeoKey values in the range 28-32766 SHALL be reserved
 			Assert.assertFalse(value >= 28 && value <= 32766, "ProjMethodGeoKey values in the range 28-32766 SHALL be reserved");
 			
 			// ProjMethodGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
-			Assert.assertFalse(value > 65535 || value < 0, "ProjMethodGeoKey value out of bounds"); // TODO: should value < 0 be value < 1?
+			Assert.assertFalse(value > 65535 || value < 0, "ProjMethodGeoKey value out of bounds");
 		}
 	}
 	
@@ -551,7 +550,7 @@ public class ShortParamsTests extends GeoKeysTests {
 	
 	@Test(description = "Short Params ProjLinearUnitsGeoKey (3076) Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
 	public void verifyProjLinearUnitsGeoKey() throws IOException {
-		// the GeogLinearUnitsGeoKey SHALL have ID = 3076
+		// the ProjLinearUnitsGeoKey SHALL have ID = 3076
 		int index = getKeyIndex(PROJLINEARUNITSGEOKEY);
 
 		// not required
@@ -566,7 +565,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		int value = processFourthShortForShort(index, keyLength);
 		
 		// the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT		
-		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG, "the GeogAngularUnitsGeoKey, the GeogAzimuthUnitsGeoKey, the GeogLinearUnitsGeoKey, the ProjLinearUnitsGeoKey and the VerticalUnitsGeoKey SHALL each have type = SHORT");
+		Assert.assertTrue(type == 0 || type == GEOKEYDIRECTORYTAG, "the ProjLinearUnitsGeoKey SHALL have type = SHORT");
 		
 		if(value == 32767) {
 			// A ProjLinearUnitsGeoKey value of 32767 SHALL be a user-defined linear unit. If the value is 32767 (User-Defined) then the ProjectedCitationGeoKey and the ProjLinearUnitSizeGeoKey SHALL be populated
@@ -574,13 +573,13 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "ProjLinearUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
-			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("length"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"),"ProjLinearUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length");
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("length"), "ProjLinearUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length");
 		} else {					
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved
-			Assert.assertFalse(value >= 1 && value <= 1023, "GeogLinearUnitsGeoKey values in the range 1-1023 SHALL be reserved");
+			Assert.assertFalse(value >= 1 && value <= 1023, "ProjLinearUnitsGeoKey values in the range 1-1023 SHALL be reserved");
 			
 			// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 32768-65535 SHALL be private
 			// value out of bounds
@@ -615,15 +614,11 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// VerticalGeoKey values in the range 1024-32766 SHALL be either EPSG Vertical CRS Codes or EPSG geographic 3D CRS codes
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "VerticalGeoKey values in the range 1024-32766 SHALL be either EPSG Vertical CRS Codes or EPSG geographic 3D CRS codes");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
-			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("vertical") || record.get("COORD_REF_SYS_KIND").equals("geographic 3D"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "VerticalGeoKey values in the range 1024-32766 SHALL be either EPSG Vertical CRS Codes or EPSG geographic 3D CRS codes");
+			Assert.assertTrue(record.get("COORD_REF_SYS_KIND").equals("vertical") || record.get("COORD_REF_SYS_KIND").equals("geographic 3D"), "VerticalGeoKey values in the range 1024-32766 SHALL be either EPSG Vertical CRS Codes or EPSG geographic 3D CRS codes");
 		} else {		
-			// VerticalGeoKey values in the range 1024-32766 SHALL be either EPSG Vertical CRS Codes or EPSG geographic 3D CRS codes
-			// TODO: check codes
-			Assert.assertFalse(minorRevision != 1 && value >= 1024 && value <= 32766, "VerticalGeoKey values in the range 1024-32766 SHALL be either EPSG Vertical CRS Codes or EPSG geographic 3D CRS codes");
-			
 			// VerticalGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023, "VerticalGeoKey values in the range 1-1023 SHALL be reserved");
 			
@@ -660,10 +655,10 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// VerticalDatumGeoKey values in the range 1024-32766 SHALL be EPSG vertical datum codes
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.DATUM, "DATUM_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "VerticalDatumGeoKey values in the range 1024-32766 SHALL be EPSG vertical datum codes");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
-			Assert.assertTrue(record.get("DATUM_TYPE").equals("vertical"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "VerticalDatumGeoKey values in the range 1024-32766 SHALL be EPSG vertical datum codes");
+			Assert.assertTrue(record.get("DATUM_TYPE").equals("vertical"), "VerticalDatumGeoKey values in the range 1024-32766 SHALL be EPSG vertical datum codes");
 		} else {					
 			// VerticalDatumGeoKey values in the range 1-1023 SHALL be reserved
 			Assert.assertFalse(value >= 1 && value <= 1023, "VerticalDatumGeoKey values in the range 1-1023 SHALL be reserved");
@@ -701,10 +696,10 @@ public class ShortParamsTests extends GeoKeysTests {
 		if(value >= 1024 && value <= 32766) {
 			// GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.UOM, "UOM_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length");
 			Assert.assertTrue(minorRevision == 1);
-			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
-			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("length"));
+			Assert.assertTrue(record.get("DEPRECATED").equals("0"), "VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length");
+			Assert.assertTrue(record.get("UNIT_OF_MEAS_TYPE").equals("length"), "VerticalUnitsGeoKey values in the range 1024-32766 SHALL be EPSG Unit Of Measure (UOM) codes with type = length");
 		}
 				
 		// GeogAngularUnitsGeoKey, GeogAzimuthUnitsGeoKey, GeogLinearUnitsGeoKey, ProjLinearUnitsGeoKey and VerticalUnitsGeoKey values in the range 1-1023 SHALL be reserved

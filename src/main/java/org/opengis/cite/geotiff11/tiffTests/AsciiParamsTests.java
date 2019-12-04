@@ -75,10 +75,8 @@ public class AsciiParamsTests extends GeoKeysTests {
 		
 		for(int i = 0; i < asciiParamsSet.length() - 1; i++) {
 			Assert.assertTrue(asciiParamsSet.charAt(i) != '\0');
-			System.out.println(asciiParamsSet.charAt(i));
 		}
-		System.out.println(asciiParamsSet.charAt(asciiParamsSet.length() - 1) == '\0');
-
+		
 		Assert.assertTrue(asciiParamsSet.charAt(asciiParamsSet.length() - 1) == '\0');
 	}
 	

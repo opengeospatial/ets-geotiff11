@@ -75,9 +75,9 @@ public class TiffTagsTests extends CommonTiffMeta {
 					if(geoKeyDirectory.getValues() != null) {					
 						// validate that there is a GTModelType GeoKey in the GeoKey Directory
 						Assert.assertTrue(geoKeyDirectory.containsValue(GTMODELTYPEGEOKEY), "validate that there is a GTModelType GeoKey in the GeoKey Directory");
-						
+															
 						// execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/GeoKeyDirectory
-						
+
 					} else {
 						throw new Exception("GeoKeyDirectory does not exist.");
 					}
