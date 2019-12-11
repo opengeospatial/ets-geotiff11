@@ -92,6 +92,8 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 						// process the second Short integer in the Key Entry Set
 						int type = (int) keyEntrySet.get(i+1);
 						
+						// this is all done elsewhere
+						
 						if(type == 0 || type == 34735) {
 							// execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Short_Param passing GeoKeyOffset as a parameter
 						}				
