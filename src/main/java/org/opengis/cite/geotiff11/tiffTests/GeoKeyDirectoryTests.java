@@ -43,15 +43,17 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 	public void verifyGeoKeyDirectory() throws Exception {
 
 		for (TiffDump.Directory directory : tiffDump.getDirectories()) {
+			
+			TiffDump.Tag geoKeyDirectory = directory.getTag(GEOKEYDIRECTORYTAG);
 
 			// verify specific tag values
-			if (directory.getOffset() != 0) {
+			if (directory.getOffset() != 0 && geoKeyDirectory != null) {
 
 				// the GeoKeyDirectoryTag SHALL have ID = 34735
-				List<Object> keyEntrySet = directory.getTag(GEOKEYDIRECTORYTAG).getValues();
+				List<Object> keyEntrySet = geoKeyDirectory.getValues();
 				
 				// the GeoKeyDirectoryTag SHALL have type = SHORT (2-byte unsigned integer)
-				Assert.assertTrue(directory.getTag(GEOKEYDIRECTORYTAG).getTypeValue() == 3);
+				Assert.assertTrue(geoKeyDirectory.getTypeValue() == 3);
 				
 				if (keyEntrySet != null) {
 					
