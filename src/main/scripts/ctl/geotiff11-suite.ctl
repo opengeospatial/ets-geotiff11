@@ -38,14 +38,13 @@
                </ul>
                <p>Two conformance levels are defined:</p>
                <ul>
-                 <li>Level 1</li>
-                 <li>Level 2</li>
+                 <li>TODO</li>
                </ul>
              </div>
              <fieldset style="background:#ccffff">
                <legend style="font-family: sans-serif; color: #000099; 
 			                 background-color:#F0F8FF; border-style: solid; 
-                       border-width: medium; padding:4px">Implementation under test</legend>
+                       border-width: medium; padding:4px">Implementation Under Test</legend>
                <p>
                  <label for="uri">
                    <h4 style="margin-bottom: 0.5em">Location of IUT (absolute http: or file: URI)</h4>
