@@ -21,6 +21,9 @@ buildNumber.properties
 /ets-geotiff11/src/main/resources/org/opengis/cite/geotiff11/xsd/iso/*
 /ets-geotiff11/src/test/resources/capabilities-simple.xml
 
+# Temp Files
+/ets-geotiff11/src/main/resources/tmp/tiff-compliance-report.txt
+
 # Eclipse
 
 /.metadata/*
