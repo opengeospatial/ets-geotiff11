@@ -28,3 +28,4 @@ buildNumber.properties
 # Eclipse
 
 /.metadata/*
+/bin/

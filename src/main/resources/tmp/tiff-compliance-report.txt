@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jhove xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://hul.harvard.edu/ois/xml/ns/jhove" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/jhove http://hul.harvard.edu/ois/xml/xsd/jhove/1.6/jhove.xsd" name="Tiff Test" release="1.16.6" date="2017-04-27">
- <date>2020-01-07T09:03:07-05:00</date>
- <repInfo uri="file:///C:/Users/RDAGCDLJ/Documents/FY20/GeoTIFF/example_tiffs/DGED_samples/1.1/U_5700N15730W_30min_2012_ArcticPS_NGA_DTM_12m_01.tif">
-  <lastModified>2020-01-07T08:51:27-05:00</lastModified>
-  <size>27042906</size>
+ <date>2020-01-07T09:42:58-05:00</date>
+ <repInfo uri="file:///C:/Users/RDAGCDLJ/Documents/FY20/GeoTIFF/example_tiffs/cea.tif">
+  <lastModified>2019-09-25T11:15:51-04:00</lastModified>
+  <size>270993</size>
   <status>Well-Formed and valid</status>
  </repInfo>
 </jhove>
