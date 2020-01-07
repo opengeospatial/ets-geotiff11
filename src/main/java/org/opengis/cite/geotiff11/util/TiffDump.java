@@ -262,12 +262,12 @@ public class TiffDump {
 			// is this really necessary? probably not
 			
 			switch(type.toUpperCase()) {
-				case "SHORT":
-				case "RATIONAL":
+				case "SHORT":	
 					for(String value : values) {
 						this.values.add(Integer.parseInt(value));
 					}
 					break;
+				case "RATIONAL":
 				case "DOUBLE":
 					for(String value : values) {
 						this.values.add(Float.parseFloat(value));
