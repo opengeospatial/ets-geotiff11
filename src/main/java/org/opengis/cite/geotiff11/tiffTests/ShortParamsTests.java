@@ -195,7 +195,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		} else if(value >= 1024 && value <= 32766) {
 			// GeodeticDatumGeoKey values in the range 1024-32766 SHALL be EPSG geodetic datum codes
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.DATUM, "DATUM_CODE", Integer.toString(value));
-			Assert.assertTrue(record != null);
+			Assert.assertTrue(record != null, "GeodeticDatumGeoKey values in the range 1024-32766 SHALL be EPSG geodetic datum codes");
 			// Assert.assertTrue(minorRevision == 1); // not necessary
 			Assert.assertTrue(record.get("DEPRECATED").equals("0"));
 			Assert.assertTrue(record.get("DATUM_TYPE").equals("geodetic"));

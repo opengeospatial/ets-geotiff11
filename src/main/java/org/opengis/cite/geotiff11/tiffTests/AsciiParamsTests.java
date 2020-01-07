@@ -77,7 +77,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 			Assert.assertTrue(asciiParamsSet.charAt(i) != '\0', "NULL (ASCII code = 0) characters SHALL not be present in the string content written in the GeoAsciiParamsTag");
 		}
 		
-		//Assert.assertTrue(asciiParamsSet.charAt(asciiParamsSet.length() - 1) == '\0', "NULL (ASCII code = 0) characters SHALL not be present in the string content written in the GeoAsciiParamsTag");
+		Assert.assertTrue(asciiParamsSet.charAt(asciiParamsSet.length() - 1) == '\0', "the string content written in the GeoAsciiParamsTag should end in NULL (ASCII code = 0) characters ");
 	}
 	
 	
@@ -95,7 +95,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 				
 		for(int i = asciiIndex; ; i++)
 		{
-			Assert.assertTrue(i < asciiParamsSet.length());			
+		Assert.assertTrue(i < asciiParamsSet.length());	
 			//Assert.assertTrue(asciiParamsSet.charAt(i) != '\0');
 			
 			// The pipe character | in the GeoAsciiParamsTag SHALL be used as the character to terminate a string written in as ASCII tag
