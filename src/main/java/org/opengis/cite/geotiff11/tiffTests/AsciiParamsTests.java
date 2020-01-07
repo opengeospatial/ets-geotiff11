@@ -41,7 +41,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 	public void setUpAsciiParamsSet() {
 		if (directory.hasTag(GEOASCIIPARAMSTAG))
 		{
-			asciiParamsSet = directory.getTag(GEOASCIIPARAMSTAG).getValues().get(0).toString();	
+			asciiParamsSet = directory.getTag(GEOASCIIPARAMSTAG).getValuesAsString().toString();	
 			asciiParamsSet = asciiParamsSet.replace("\\0", "\0");
 		}
 	}
@@ -51,12 +51,12 @@ public class AsciiParamsTests extends GeoKeysTests {
 		if(keyEntrySet.contains(GEOASCIIPARAMSTAG))
 		{
 			// The GeoAsciiParamsTag SHALL contain the values of the key parameters of type = ASCII referenced by the GeoKeyDirectoryTag.
-			Assert.assertTrue(directory.hasTag(GEOASCIIPARAMSTAG));	
+			Assert.assertTrue(directory.hasTag(GEOASCIIPARAMSTAG), "the GeoAsciiParamsTag SHALL contain the values of the key parameters of type = ASCII referenced by the GeoKeyDirectoryTag");	
 		}
 		else
 		{
-			// If there is no key parameters of type = ASCII, it SHALL not be present
-			Assert.assertFalse(directory.hasTag(GEOASCIIPARAMSTAG));
+			// TODO: ??? If there is no key parameters of type = ASCII, it SHALL not be present
+			Assert.assertFalse(directory.hasTag(GEOASCIIPARAMSTAG), "if there is no key parameters of type = ASCII, it SHALL not be present");
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 	public void verifyGeoAsciiParamsTagType() throws Exception {
 		// the GeoAsciiParamsTag SHALL have type = ASCII
 		if(directory.hasTag(GEOASCIIPARAMSTAG))
-			Assert.assertTrue(directory.getTag(GEOASCIIPARAMSTAG).getTypeValue() == 2);
+			Assert.assertTrue(directory.getTag(GEOASCIIPARAMSTAG).getTypeValue() == 2, "the GeoAsciiParamsTag SHALL have type = ASCII");
 	}
 	
 	@Test(description = "Ascii Params Tag NULLWrite Test", dependsOnGroups ={"verifyGeoKeyDirectory"})
@@ -74,10 +74,10 @@ public class AsciiParamsTests extends GeoKeysTests {
 		if (asciiParamsSet == null) return;
 		
 		for(int i = 0; i < asciiParamsSet.length() - 1; i++) {
-			Assert.assertTrue(asciiParamsSet.charAt(i) != '\0');
+			Assert.assertTrue(asciiParamsSet.charAt(i) != '\0', "NULL (ASCII code = 0) characters SHALL not be present in the string content written in the GeoAsciiParamsTag");
 		}
 		
-		Assert.assertTrue(asciiParamsSet.charAt(asciiParamsSet.length() - 1) == '\0');
+		//Assert.assertTrue(asciiParamsSet.charAt(asciiParamsSet.length() - 1) == '\0', "NULL (ASCII code = 0) characters SHALL not be present in the string content written in the GeoAsciiParamsTag");
 	}
 	
 	
@@ -92,7 +92,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 		// Verify that the contents read consists of ASCII characters.
 		// Verify that the contents read is KeyLength characters long not including the NULL.
 		String value = "";
-		
+				
 		for(int i = asciiIndex; ; i++)
 		{
 			Assert.assertTrue(i < asciiParamsSet.length());			
@@ -100,7 +100,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 			
 			// The pipe character | in the GeoAsciiParamsTag SHALL be used as the character to terminate a string written in as ASCII tag
 			if(asciiParamsSet.charAt(i) == '|') {
-				Assert.assertTrue(value.length() == keyLength - 1);
+				Assert.assertTrue(value.length() == keyLength - 1, "the pipe character | in the GeoAsciiParamsTag SHALL be used as the character to terminate a string written in as ASCII tag");
 				break;
 			}
 			value += asciiParamsSet.charAt(i);
@@ -130,7 +130,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 		String value = processFourthShortForAscii(index, keyLength);
 		
 		// the GeogLinearUnitSizeGeoKey SHALL have type = ASCII		
-		Assert.assertTrue(type == GEOASCIIPARAMSTAG);
+		Assert.assertTrue(type == GEOASCIIPARAMSTAG, "the GeogLinearUnitSizeGeoKey SHALL have type = ASCII");
 	}
 	
 //	2049	CitationGeoKeys/GeodeticCitationGeoKey
@@ -151,7 +151,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 		String value = processFourthShortForAscii(index, keyLength);
 		
 		// the GeogLinearUnitSizeGeoKey SHALL have type = ASCII		
-		Assert.assertTrue(type == GEOASCIIPARAMSTAG);
+		Assert.assertTrue(type == GEOASCIIPARAMSTAG, "the GeogLinearUnitSizeGeoKey SHALL have type = ASCII");
 	}
 	
 //	3073	CitationGeoKeys/ProjectedCitationGeoKey
@@ -172,7 +172,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 		String value = processFourthShortForAscii(index, keyLength);
 		
 		// the GeogLinearUnitSizeGeoKey SHALL have type = ASCII		
-		Assert.assertTrue(type == GEOASCIIPARAMSTAG);
+		Assert.assertTrue(type == GEOASCIIPARAMSTAG, "the GeogLinearUnitSizeGeoKey SHALL have type = ASCII");
 	}
 	
 //	4097	CitationGeoKeys/VerticalCitationGeoKey
@@ -193,7 +193,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 		String value = processFourthShortForAscii(index, keyLength);
 		
 		// the GeogLinearUnitSizeGeoKey SHALL have type = ASCII		
-		Assert.assertTrue(type == GEOASCIIPARAMSTAG);
+		Assert.assertTrue(type == GEOASCIIPARAMSTAG, "the GeogLinearUnitSizeGeoKey SHALL have type = ASCII");
 	}
 	
 }

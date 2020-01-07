@@ -237,6 +237,7 @@ public class TiffDump {
 		private String line;
 		private String name, type;
 		private int nameValue, typeValue, count;
+		private String valuesAsString;
 		private List<Object> values = new ArrayList<>();
 		
 		public Tag(String line) {
@@ -253,7 +254,8 @@ public class TiffDump {
 			
 			count = Integer.parseInt(line.split(" ")[4].substring(0, line.split(" ")[4].indexOf('<')));
 			
-			String[] values = line.substring(line.indexOf("<") + 1, line.indexOf(">")).split(" ");
+			valuesAsString = line.substring(line.indexOf("<") + 1, line.indexOf(">"));
+			String[] values = valuesAsString.split(" ");
 			if(values[values.length - 1].equals("...")) {
 				System.out.println("Value list has been truncated.");
 				values = Arrays.copyOfRange(values, 0, values.length - 1);
@@ -309,7 +311,11 @@ public class TiffDump {
 		public List<Object> getValues() {
 			return values;
 		}
-		
+				
+		public String getValuesAsString() {
+			return valuesAsString;
+		}
+
 		@Override
 	    public String toString() { 
 	        return String.format("%20s (%d)\t%10s (%d)\t%10d %s", name.toUpperCase(), nameValue, type, typeValue, count, values.toString());
