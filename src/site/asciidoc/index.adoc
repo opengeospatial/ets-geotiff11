@@ -17,6 +17,8 @@ image::img/specifications.png[]
 Several conformance classes are defined in the principal specifications; the ones
 listed below are covered by this test suite:
 
+* //TODO
+   - //TODO
 * Class A
    - List capabilities of conformance class A
 * Class B
@@ -50,11 +52,8 @@ The general structure of the test suite is shown in Table 1.
 |Conformance class
 |Test classes
 
-|Conformance Level 1
-|org.opengis.cite.geotiff11.level1.*
-
-|Conformance Level 2
-|org.opengis.cite.geotiff11.level2.*
+|Tiff Tests
+|org.opengis.cite.geotiff11.tiffTests.*
 
 |===
 
