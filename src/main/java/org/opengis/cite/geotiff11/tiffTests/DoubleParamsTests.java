@@ -73,12 +73,12 @@ public class DoubleParamsTests extends GeoKeysTests {
 		float value = processFourthShortForDouble(index);
 		
 		// the GeogLinearUnitSizeGeoKey SHALL have type = DOUBLE		
-		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+		Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the GeogLinearUnitSizeGeoKey SHALL have type = DOUBLE");
 		
 		// the units of the GeogLinearUnitSizeGeoKey value SHALL be meters
-		Assert.assertTrue(keyExists(GEOGLINEARUNITSGEOKEY));
+		Assert.assertTrue(keyExists(GEOGLINEARUNITSGEOKEY), "the units of the GeogLinearUnitSizeGeoKey value SHALL be meters");
 		int unitsValue = (int) processFourthShortForShort(getKeyIndex(GEOGLINEARUNITSGEOKEY), processThirdShort(getKeyIndex(GEOGLINEARUNITSGEOKEY)));
-		if(unitsValue != 32767) Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.METERS));	
+		if(unitsValue != 32767) Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.METERS), "the units of the GeogLinearUnitSizeGeoKey value SHALL be meters");	
 	}
 	
 //	2055	UnitSizeGeoKey (Geog Angular)
@@ -99,12 +99,12 @@ public class DoubleParamsTests extends GeoKeysTests {
 		float value = processFourthShortForDouble(index);
 		
 		// the GeogAngularUnitSizeGeoKey SHALL have type = DOUBLE		
-		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+		Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the GeogAngularUnitSizeGeoKey SHALL have type = DOUBLE");
 		
 		// the units of the GeogAngularUnitSizeGeoKey value SHALL be radians
 		Assert.assertTrue(keyExists(GEOGANGULARUNITSGEOKEY));
 		int unitsValue = (int) processFourthShortForShort(getKeyIndex(GEOGANGULARUNITSGEOKEY), processThirdShort(getKeyIndex(GEOGANGULARUNITSGEOKEY)));
-		if(unitsValue != 32767) Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.RADIANS));
+		if(unitsValue != 32767) Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.RADIANS), "the units of the GeogAngularUnitSizeGeoKey value SHALL be radians");
 	}
 	
 //	2057	EllipsoidSemiMajorAxisGeoKey
@@ -125,10 +125,10 @@ public class DoubleParamsTests extends GeoKeysTests {
 		float value = processFourthShortForDouble(index);
 		
 		// the EllipsoidSemiMajorAxisGeoKey SHALL have type = DOUBLE
-		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+		Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the EllipsoidSemiMajorAxisGeoKey SHALL have type = DOUBLE");
 		
 		// the units of the EllipsoidSemiMajorAxisGeoKey SHALL be defined by the value of GeogLinearUnitsGeoKey
-		Assert.assertTrue(keyExists(GEOGLINEARUNITSGEOKEY));
+		Assert.assertTrue(keyExists(GEOGLINEARUNITSGEOKEY), "the units of the EllipsoidSemiMajorAxisGeoKey SHALL be defined by the value of GeogLinearUnitsGeoKey");
 	}
 	
 //	2058	EllipsoidSemiMinorAxisGeoKey
@@ -149,10 +149,10 @@ public class DoubleParamsTests extends GeoKeysTests {
 		float value = processFourthShortForDouble(index);
 		
 		// the EllipsoidSemiMinorAxisGeoKey SHALL have type = DOUBLE
-		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+		Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the EllipsoidSemiMinorAxisGeoKey SHALL have type = DOUBLE");
 		
 		// the units of the EllipsoidSemiMinorAxisGeoKey SHALL be defined by the value of GeogLinearUnitsGeoKey
-		Assert.assertTrue(keyExists(GEOGLINEARUNITSGEOKEY));
+		Assert.assertTrue(keyExists(GEOGLINEARUNITSGEOKEY), "the units of the EllipsoidSemiMinorAxisGeoKey SHALL be defined by the value of GeogLinearUnitsGeoKey");
 	}
 	
 //	2059	EllipsoidInvFlatteningGeoKey
@@ -173,7 +173,7 @@ public class DoubleParamsTests extends GeoKeysTests {
 		float value = processFourthShortForDouble(index);
 		
 		// the EllipsoidInvFlatteningGeoKey SHALL have type = DOUBLE
-		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);	
+		Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the EllipsoidInvFlatteningGeoKey SHALL have type = DOUBLE");	
 	}
 		
 //	2061	PrimeMeridianLongitudeGeoKey
@@ -194,10 +194,10 @@ public class DoubleParamsTests extends GeoKeysTests {
 		float value = processFourthShortForDouble(index);
 		
 		// the PrimeMeridianLongitudeGeoKey SHALL have type = DOUBLE
-		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+		Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the PrimeMeridianLongitudeGeoKey SHALL have type = DOUBLE");
 		
 		// the unit for the PrimeMeridianLongitudeGeoKey value SHALL be GeogAngularUnits
-		Assert.assertTrue(keyExists(GEOGANGULARUNITSGEOKEY));
+		Assert.assertTrue(keyExists(GEOGANGULARUNITSGEOKEY), "the unit for the PrimeMeridianLongitudeGeoKey value SHALL be GeogAngularUnits");
 	}
 	
 	
@@ -219,12 +219,12 @@ public class DoubleParamsTests extends GeoKeysTests {
 		float value = processFourthShortForDouble(index);
 		
 		// the ProjLinearUnitSizeGeoKey SHALL have type = DOUBLE		
-		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+		Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the ProjLinearUnitSizeGeoKey SHALL have type = DOUBLE");
 		
 		// the units of the ProjLinearUnitSizeGeoKey value SHALL be meters
-		Assert.assertTrue(keyExists(PROJLINEARUNITSGEOKEY));
+		Assert.assertTrue(keyExists(PROJLINEARUNITSGEOKEY), "the units of the ProjLinearUnitSizeGeoKey value SHALL be meters");
 		int unitsValue = (int) processFourthShortForShort(getKeyIndex(PROJLINEARUNITSGEOKEY), processThirdShort(getKeyIndex(PROJLINEARUNITSGEOKEY)));
-		if(unitsValue != 32767) Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.METERS));
+		if(unitsValue != 32767) Assert.assertTrue(EPSGDataSet.getItem(EPSGDataSet.UOM, "UOM_CODE", unitsValue, "TARGET_UOM_CODE").equals(EPSGDataSet.METERS), "the units of the ProjLinearUnitSizeGeoKey value SHALL be meters");
 	}
 
 //	3092	ProjScalarParameters (Scale at Natural Origin)
@@ -251,7 +251,7 @@ public class DoubleParamsTests extends GeoKeysTests {
 			int type = processSecondShort(index);
 			
 			// all parameters in this requirements class SHALL have type = DOUBLE
-			Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+			Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the ProjScalarParameters SHALL have type = DOUBLE");
 		}
 	}	
 	
@@ -273,11 +273,11 @@ public class DoubleParamsTests extends GeoKeysTests {
 		int keyLength = processThirdShort(index);
 		float value = processFourthShortForDouble(index);
 		
-		// the ProjLinearUnitSizeGeoKey SHALL have type = DOUBLE		
-		Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+		// the ProjAzimuthAngleGeoKey SHALL have type = DOUBLE		
+		Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the ProjAzimuthAngleGeoKey SHALL have type = DOUBLE");
 		
 		// the ProjAzimuthAngleGeoKey SHALL have units as specified by the GeogAzimuthUnitsGeoKey
-		Assert.assertTrue(keyExists(GEOGAZIMUTHUNITSGEOKEY));
+		Assert.assertTrue(keyExists(GEOGAZIMUTHUNITSGEOKEY), "the ProjAzimuthAngleGeoKey SHALL have units as specified by the GeogAzimuthUnitsGeoKey");
 	}
 	
 //	3078	ProjAngularParameters (Standard Parallel 1)	
@@ -318,10 +318,10 @@ public class DoubleParamsTests extends GeoKeysTests {
 			int type = processSecondShort(index);
 			
 			// all parameters in this requirements class SHALL have type = DOUBLE
-			Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+			Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the ProjAngularParameters SHALL have type = DOUBLE");
 			
 			// all parameters in this requirements class SHALL have units as specified by the GeogAngularUnitsGeoKey
-			Assert.assertTrue(keyExists(GEOGANGULARUNITSGEOKEY));
+			Assert.assertTrue(keyExists(GEOGANGULARUNITSGEOKEY), "all parameters in this requirements class SHALL have units as specified by the GeogAngularUnitsGeoKey");
 		}
 	}
 	
@@ -357,10 +357,10 @@ public class DoubleParamsTests extends GeoKeysTests {
 			int type = processSecondShort(index);
 			
 			// all parameters in this requirements class SHALL have type = DOUBLE
-			Assert.assertTrue(type == GEODOUBLEPARAMSTAG);
+			Assert.assertTrue(type == GEODOUBLEPARAMSTAG, "the ProjLinearParameters SHALL have type = DOUBLE");
 			
 			// all parameters in this requirements class SHALL have units as specified by the ProjLinearUnitsGeoKey
-			Assert.assertTrue(keyExists(PROJLINEARUNITSGEOKEY));
+			Assert.assertTrue(keyExists(PROJLINEARUNITSGEOKEY), "all parameters in this requirements class SHALL have units as specified by the ProjLinearUnitsGeoKey");
 		}
 	}
 }
