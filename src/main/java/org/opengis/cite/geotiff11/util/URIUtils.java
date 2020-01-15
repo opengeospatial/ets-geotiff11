@@ -30,13 +30,9 @@ import com.sun.jersey.api.client.WebResource;
  */
 public class URIUtils {
 
-	// TODO: Remove listgeo
-	
     private static final String FIXUP_BASE_URI = "http://apache.org/xml/features/xinclude/fixup-base-uris";
 	private static final String EXE = "exe";
-	private static final String LISTGEO = "listgeo";
 	private static final String TIFFDUMP = "tiffdump";
-    
     
     /**
      * Parses the content of the given URI as an XML document and returns a new
@@ -119,23 +115,22 @@ public class URIUtils {
 
 	private static void runLinuxcommands(String url, String geotiffFilePath)
 	{
-		// TODO: Add -m option
-		
-		url = url.substring(url.lastIndexOf(":") + 1);
-		System.out.println("Linux parser path: " + url);
-
-		String location = URIUtils.class.getResource("/tmp").getPath();
-
-		try {
-			Runtime.getRuntime().exec("chmod +x " + url + "/parse.sh" + " && " 
-			+ url + "/parse.sh" + " && " + url + "/listgeo " + geotiffFilePath + " > " + location + "/geotiffMeta.txt");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// TODO: Add Linux option?
+//		
+//		url = url.substring(url.lastIndexOf(":") + 1);
+//		System.out.println("Linux parser path: " + url);
+//
+//		String location = URIUtils.class.getResource("/tmp").getPath();
+//
+//		try {
+//			Runtime.getRuntime().exec("chmod +x " + url + "/parse.sh" + " && " 
+//			+ url + "/parse.sh" + " && " + url + "/listgeo " + geotiffFilePath + " > " + location + "/geotiffMeta.txt");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		//Runtime.getRuntime().exec("tiffdump " + geotiffFilePath + " > " + location + "/tiffMeta.txt");
-		//Runtime.getRuntime().exec("listgeo " + geotiffFilePath + " > " + location + "/geotiffMeta.txt");
 
 	}
 	/**
@@ -150,7 +145,7 @@ public class URIUtils {
 	private static boolean readMetaData(String geotiffFilePath, String geoTiffFile, String tiffFile) {
 		String url;
 		
-		if (SystemUtils.IS_OS_LINUX) {
+		if (SystemUtils.IS_OS_LINUX) { // TODO: Linux??
 						
 			//check for 32 bit or 64 bit linux machine
 			String s = System.getProperty("os.arch");
@@ -188,9 +183,7 @@ public class URIUtils {
 			// use
 			try (PrintWriter stdin = new PrintWriter(p.getOutputStream())) {
 				stdin.println("cd " + url);
-				stdin.println(initMetadataComm(LISTGEO, geotiffFilePath, geoTiffFile, ""));
-				stdin.println("cd " + url);
-				stdin.println(initMetadataComm(TIFFDUMP, geotiffFilePath, tiffFile, "-m 1000"));
+				stdin.println(initMetadataComm(TIFFDUMP, geotiffFilePath, tiffFile, "-m 10000"));
 				stdin.flush();
 			}
 
@@ -202,7 +195,7 @@ public class URIUtils {
 				e.printStackTrace();
 				return false;
 			}
-			System.out.println("Return code = " + returnCode);
+			// System.out.println("Return code = " + returnCode);
 			return true;
 		}
 		return false;

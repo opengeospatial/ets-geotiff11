@@ -3,14 +3,13 @@ package org.opengis.cite.geotiff11.tiffTests;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
-import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
+import org.opengis.cite.geotiff11.util.CreateDataSets;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 
@@ -18,23 +17,18 @@ import org.testng.ITestContext;
  * Verifies the behavior of the TiffCoreTests test class. Test stubs replace
  * fixture constituents where appropriate.
  */
-public class VerifyTiffCoreTests {
+@RunWith(Theories.class)
+public class VerifyTiffCoreTests extends CreateDataSets{
 
-	private static final String SUBJ = "testSubject";
 	private static ITestContext testContext;
-	private static ISuite suite;
 	TiffCoreTests iut;
 
 	public VerifyTiffCoreTests() {
-		// This is the code for setting up the objects for the environment.
-		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
-		InputStream inputStream = this.getClass().getResourceAsStream("/tif/tiffMeta.txt");
-		try {
-			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	}
+	
+	private void dataSetSetUp(InputStream inputStream)
+	{
+		testDataSets(inputStream);
 		iut = new TiffCoreTests();
 	}
 	
@@ -50,15 +44,19 @@ public class VerifyTiffCoreTests {
 		
 	}
 	
-	@Test
-	public void verifyTiffVersion() {
+	@Theory
+	public void verifyTiffVersion(InputStream inputStream) {
+		dataSetSetUp(inputStream);
+		
 		iut = new TiffCoreTests();
 		iut.obtainTestSubject(testContext);
 		iut.verifyTiffVersion();
 	}
 
-	@Test
-	public void verifyTiffEndianness() {
+	@Theory
+	public void verifyTiffEndianness(InputStream inputStream) {
+		dataSetSetUp(inputStream);
+		
 		iut = new TiffCoreTests();
 		iut.obtainTestSubject(testContext);
 		iut.verifyTiffEndianness();	

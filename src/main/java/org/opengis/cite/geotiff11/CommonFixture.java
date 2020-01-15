@@ -113,29 +113,29 @@ public class CommonFixture {
 	 * @param testSubject
 	 * @return
 	 */
-	public List<String> parseFile(InputStream testSubject) {
-		List<String> list = new ArrayList<>();
-
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(testSubject, "UTF-8"));
-
-			String line = reader.readLine();
-			while (line != null) {
-				list.add(line);
-				line = reader.readLine();
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return list;
-	}
+//	public List<String> parseFile(InputStream testSubject) {
+//		List<String> list = new ArrayList<>();
+//
+//		try {
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(testSubject, "UTF-8"));
+//
+//			String line = reader.readLine();
+//			while (line != null) {
+//				list.add(line);
+//				line = reader.readLine();
+//			}
+//			reader.close();
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return list;
+//	}
     
 }

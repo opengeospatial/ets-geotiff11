@@ -3,7 +3,6 @@ package org.opengis.cite.geotiff11.tiffTests;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
@@ -11,6 +10,9 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.theories.*;
+import org.junit.runner.RunWith;
+import org.opengis.cite.geotiff11.util.CreateDataSets;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 
@@ -18,25 +20,22 @@ import org.testng.ITestContext;
  * Verifies the behavior of the TiffTagsTests test class. Test stubs replace
  * fixture constituents where appropriate.
  */
-public class VerifyShortParamsTests {
+@RunWith(Theories.class)
+public class VerifyShortParamsTests extends CreateDataSets {
 
 	// TODO: this should be expanded greatly...
-	
-	private static final String SUBJ = "testSubject";
-	private static ITestContext testContext;
-	private static ISuite suite;
+
+	private static ITestContext testContext;	
 	ShortParamsTests iut;
 
 	public VerifyShortParamsTests() {
 		// This is the code for setting up the objects for the environment.
 		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
-		InputStream inputStream = this.getClass().getResourceAsStream("/tif/tiffMeta.txt");
-		try {
-			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	}
+
+	private void dataSetSetUp(InputStream inputStream)
+	{
+		testDataSets(inputStream);
 		iut = new ShortParamsTests();
 	}
 	
@@ -52,113 +51,145 @@ public class VerifyShortParamsTests {
 		
 	}
 	
-	@Test
-	public void verifyGTModelTypeGeoKey() throws Exception {
+	@Theory
+	public void verifyGTModelTypeGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGTModelTypeGeoKey();
 	}
 	
-	@Test
-	public void verifyGTRasterTypeGeoKey() throws Exception {
+	@Theory
+	public void verifyGTRasterTypeGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGTRasterTypeGeoKey();
 	}
 	
-	@Test
-	public void verifyGeodeticCRSGeoKey() throws Exception {
+	@Theory
+	public void verifyGeodeticCRSGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGeodeticCRSGeoKey();
 	}
 	
-	@Test
-	public void verifyGeodeticDatumGeoKey() throws Exception {
+	@Theory
+	public void verifyGeodeticDatumGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGeodeticDatumGeoKey();
 	}
 	
-	@Test
-	public void verifyPrimeMeridianGeoKey() throws Exception {
+	@Theory
+	public void verifyPrimeMeridianGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyPrimeMeridianGeoKey();
 	}
 	
-	@Test
-	public void verifyGeogLinearUnitsGeoKey() throws Exception {
+	@Theory
+	public void verifyGeogLinearUnitsGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGeogLinearUnitsGeoKey();
 	}
 	
-	@Test
-	public void verifyGeogAngularUnitsGeoKey() throws Exception {
+	@Theory
+	public void verifyGeogAngularUnitsGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGeogAngularUnitsGeoKey();
 	}
 	
-	@Test
-	public void verifyEllipsoidGeoKey() throws Exception {
+	@Theory
+	public void verifyEllipsoidGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyEllipsoidGeoKey();
 	}
 	
-	@Test
-	public void verifyGeogAzimuthUnitsGeoKey() throws Exception {
+	@Theory
+	public void verifyGeogAzimuthUnitsGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGeogAzimuthUnitsGeoKey();
 	}
 	
-	@Test
-	public void verifyProjectedCRSGeoKey() throws Exception {
+	@Theory
+	public void verifyProjectedCRSGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyProjectedCRSGeoKey();
 	}
 	
-	@Test
-	public void verifyProjectionGeoKey() throws Exception {
+	@Theory
+	public void verifyProjectionGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyProjectionGeoKey();
 	}
 	
-	@Test
-	public void verifyProjMethodGeoKey() throws Exception {
+	@Theory
+	public void verifyProjMethodGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyProjMethodGeoKey();
 	}
 	
-	@Test
-	public void verifyProjLinearUnitsGeoKey() throws Exception {
+	@Theory
+	public void verifyProjLinearUnitsGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+				
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyProjLinearUnitsGeoKey();
 	}
 	
-	@Test
-	public void verifyVerticalUnitsGeoKey() throws Exception {
+	@Theory
+	public void verifyVerticalUnitsGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyVerticalUnitsGeoKey();
 	}
 	
-	@Test
-	public void verifyVerticalGeoKey() throws Exception {
+	@Theory
+	public void verifyVerticalGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyVerticalGeoKey();
 	}
 	
-	@Test
-	public void verifyVerticalDatumGeoKey() throws Exception {
+	@Theory
+	public void verifyVerticalDatumGeoKey(InputStream inputStream) throws Exception {
+		dataSetSetUp(inputStream);
+		
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyVerticalDatumGeoKey();

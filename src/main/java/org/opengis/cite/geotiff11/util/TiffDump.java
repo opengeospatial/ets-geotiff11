@@ -12,9 +12,9 @@ import java.util.List;
  */
 public class TiffDump {
 
-//    public static void main(String[] args) { 
-//        TiffDump td;
-//		try {
+    public static void main(String[] args) { 
+        TiffDump td;
+		try {
 //			td = new TiffDump(new String("C:/Users/RDAGCDLJ/Documents/FY19/GEOTIFF/ets-geotiff11/target/test-classes/tif/cea.tif:\r\n" + 
 //					"Magic: 0x4949 <little-endian> Version: 0x2a\r\n" + 
 //					"Directory 0: offset 270276 (0x41fc4) next 0 (0)\r\n" + 
@@ -34,16 +34,125 @@ public class TiffDump {
 //					"34735 (0x87af) SHORT (3) 60<1 1 0 14 1024 0 1 1 1025 0 1 1 1026 34737 8 0 2048 0 1 4267 2049 34737 6 8 >\r\n" + 
 //					"34736 (0x87b0) DOUBLE (12) 4<-117.333 33.75 0 0>\r\n" + 
 //					"34737 (0x87b1) ASCII (2) 15<unnamed|NAD27|\\0>"));
-//			
-//	        		System.out.println(td);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} 
-//        
-//        //System.out.println(td.getDirectory(0)); 
-//        //System.out.println(td.getDirectory(0).getTagByName("ImageWidth")); 
-//        //System.out.println(td.getDirectory(0).getTagByName("34735"));
-//    } 
+			
+			td = new TiffDump(new String("C:\\Users\\RDAGCDLJ\\Documents\\FY20\\GeoTIFF\\example_tiffs\\USGS\\USGS_1_n06e162.tif:\r\n" + 
+					"Magic: 0x4949 <little-endian> Version: 0x2a <ClassicTIFF>\r\n" + 
+					"Directory 0: offset 1542364 (0x1788dc) next 2412 (0x96c)\r\n" + 
+					"ImageWidth (256) SHORT (3) 1<3612>\r\n" + 
+					"ImageLength (257) SHORT (3) 1<3612>\r\n" + 
+					"BitsPerSample (258) SHORT (3) 1<32>\r\n" + 
+					"Compression (259) SHORT (3) 1<5>\r\n" + 
+					"Photometric (262) SHORT (3) 1<1>\r\n" + 
+					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
+					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
+					"Predictor (317) SHORT (3) 1<3>\r\n" + 
+					"TileWidth (322) SHORT (3) 1<256>\r\n" + 
+					"TileLength (323) SHORT (3) 1<256>\r\n" + 
+					"TileOffsets (324) LONG (4) 225<549289 552139 554989 557839 560689 563539 566389 569239 572089 574939 577789 580639 583489 586339 589189 592580 595430 598280 601130 603980 606830 609680 612530 615380 ...>\r\n" + 
+					"TileByteCounts (325) LONG (4) 225<2850 2850 2850 2850 2850 2850 2850 2850 2850 2850 2850 2850 2850 2850 3391 2850 2850 2850 2850 2850 2850 2850 2850 2850 ...>\r\n" + 
+					"SampleFormat (339) SHORT (3) 1<3>\r\n" + 
+					"33550 (0x830e) DOUBLE (12) 3<0.000277778 0.000277778 0>\r\n" + 
+					"33922 (0x8482) DOUBLE (12) 6<0 0 0 161.998 6.00167 0>\r\n" + 
+					"34735 (0x87af) SHORT (3) 36<1 1 0 8 1024 0 1 2 1025 0 1 1 2048 0 1 4269 2049 34737 6 0 2054 0 1 9102 ...>\r\n" + 
+					"34736 (0x87b0) DOUBLE (12) 5<298.257 6.37814e+06 0 0 0>\r\n" + 
+					"34737 (0x87b1) ASCII (2) 7<NAD83|\\0>\r\n" + 
+					"42112 (0xa480) ASCII (2) 493<<GDALMetadata>\\n  <Item n ...>\r\n" + 
+					"42113 (0xa481) ASCII (2) 8<-999999\\0>\r\n" + 
+					"\r\n" + 
+					"Directory 1: offset 2412 (0x96c) next 4406 (0x1136)\r\n" + 
+					"SubFileType (254) LONG (4) 1<1>\r\n" + 
+					"ImageWidth (256) SHORT (3) 1<1806>\r\n" + 
+					"ImageLength (257) SHORT (3) 1<1806>\r\n" + 
+					"BitsPerSample (258) SHORT (3) 1<32>\r\n" + 
+					"Compression (259) SHORT (3) 1<5>\r\n" + 
+					"Photometric (262) SHORT (3) 1<1>\r\n" + 
+					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
+					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
+					"Predictor (317) SHORT (3) 1<3>\r\n" + 
+					"TileWidth (322) SHORT (3) 1<128>\r\n" + 
+					"TileLength (323) SHORT (3) 1<128>\r\n" + 
+					"TileOffsets (324) LONG (4) 225<155101 156453 157805 159157 160509 161861 163213 164565 165917 167269 168621 169973 171325 172677 174029 175615 176967 178319 179671 181023 182375 183727 185079 186431 ...>\r\n" + 
+					"TileByteCounts (325) LONG (4) 225<1352 1352 1352 1352 1352 1352 1352 1352 1352 1352 1352 1352 1352 1352 1586 1352 1352 1352 1352 1352 1352 1352 1352 1352 ...>\r\n" + 
+					"SampleFormat (339) SHORT (3) 1<3>\r\n" + 
+					"42113 (0xa481) ASCII (2) 8<-999999\\0>\r\n" + 
+					"\r\n" + 
+					"Directory 2: offset 4406 (0x1136) next 5112 (0x13f8)\r\n" + 
+					"SubFileType (254) LONG (4) 1<1>\r\n" + 
+					"ImageWidth (256) SHORT (3) 1<903>\r\n" + 
+					"ImageLength (257) SHORT (3) 1<903>\r\n" + 
+					"BitsPerSample (258) SHORT (3) 1<32>\r\n" + 
+					"Compression (259) SHORT (3) 1<5>\r\n" + 
+					"Photometric (262) SHORT (3) 1<1>\r\n" + 
+					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
+					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
+					"Predictor (317) SHORT (3) 1<3>\r\n" + 
+					"TileWidth (322) SHORT (3) 1<128>\r\n" + 
+					"TileLength (323) SHORT (3) 1<128>\r\n" + 
+					"TileOffsets (324) LONG (4) 64<47310 48662 50014 51366 52718 54070 55422 56774 58293 59645 60997 62349 63701 65053 66405 67757 69276 70628 71980 73332 74684 76036 77388 78740 ...>\r\n" + 
+					"TileByteCounts (325) LONG (4) 64<1352 1352 1352 1352 1352 1352 1352 1519 1352 1352 1352 1352 1352 1352 1352 1519 1352 1352 1352 1352 1352 1352 1352 1519 ...>\r\n" + 
+					"SampleFormat (339) SHORT (3) 1<3>\r\n" + 
+					"42113 (0xa481) ASCII (2) 8<-999999\\0>\r\n" + 
+					"\r\n" + 
+					"Directory 3: offset 5112 (0x13f8) next 5434 (0x153a)\r\n" + 
+					"SubFileType (254) LONG (4) 1<1>\r\n" + 
+					"ImageWidth (256) SHORT (3) 1<452>\r\n" + 
+					"ImageLength (257) SHORT (3) 1<452>\r\n" + 
+					"BitsPerSample (258) SHORT (3) 1<32>\r\n" + 
+					"Compression (259) SHORT (3) 1<5>\r\n" + 
+					"Photometric (262) SHORT (3) 1<1>\r\n" + 
+					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
+					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
+					"Predictor (317) SHORT (3) 1<3>\r\n" + 
+					"TileWidth (322) SHORT (3) 1<128>\r\n" + 
+					"TileLength (323) SHORT (3) 1<128>\r\n" + 
+					"TileOffsets (324) LONG (4) 16<16442 17794 19146 20498 22528 23880 25232 26584 28614 29966 31318 32670 42713 43704 44695 45686>\r\n" + 
+					"TileByteCounts (325) LONG (4) 16<1352 1352 1352 2030 1352 1352 1352 2030 1352 1352 1352 10043 991 991 991 1624>\r\n" + 
+					"SampleFormat (339) SHORT (3) 1<3>\r\n" + 
+					"42113 (0xa481) ASCII (2) 8<-999999\\0>\r\n" + 
+					"\r\n" + 
+					"Directory 4: offset 5434 (0x153a) next 5660 (0x161c)\r\n" + 
+					"SubFileType (254) LONG (4) 1<1>\r\n" + 
+					"ImageWidth (256) SHORT (3) 1<226>\r\n" + 
+					"ImageLength (257) SHORT (3) 1<226>\r\n" + 
+					"BitsPerSample (258) SHORT (3) 1<32>\r\n" + 
+					"Compression (259) SHORT (3) 1<5>\r\n" + 
+					"Photometric (262) SHORT (3) 1<1>\r\n" + 
+					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
+					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
+					"Predictor (317) SHORT (3) 1<3>\r\n" + 
+					"TileWidth (322) SHORT (3) 1<128>\r\n" + 
+					"TileLength (323) SHORT (3) 1<128>\r\n" + 
+					"TileOffsets (324) LONG (4) 4<8239 9591 11332 12536>\r\n" + 
+					"TileByteCounts (325) LONG (4) 4<1352 1741 1204 3906>\r\n" + 
+					"SampleFormat (339) SHORT (3) 1<3>\r\n" + 
+					"42113 (0xa481) ASCII (2) 8<-999999\\0>\r\n" + 
+					"\r\n" + 
+					"Directory 5: offset 5660 (0x161c) next 0 (0)\r\n" + 
+					"SubFileType (254) LONG (4) 1<1>\r\n" + 
+					"ImageWidth (256) SHORT (3) 1<113>\r\n" + 
+					"ImageLength (257) SHORT (3) 1<113>\r\n" + 
+					"BitsPerSample (258) SHORT (3) 1<32>\r\n" + 
+					"Compression (259) SHORT (3) 1<5>\r\n" + 
+					"Photometric (262) SHORT (3) 1<1>\r\n" + 
+					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
+					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
+					"Predictor (317) SHORT (3) 1<3>\r\n" + 
+					"TileWidth (322) SHORT (3) 1<128>\r\n" + 
+					"TileLength (323) SHORT (3) 1<128>\r\n" + 
+					"TileOffsets (324) LONG (4) 1<5854>\r\n" + 
+					"TileByteCounts (325) LONG (4) 1<2385>\r\n" + 
+					"SampleFormat (339) SHORT (3) 1<3>\r\n" + 
+					"42113 (0xa481) ASCII (2) 8<-999999\\0>"));
+			
+	        		System.out.println(td);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+        
+        //System.out.println(td.getDirectory(0)); 
+        //System.out.println(td.getDirectory(0).getTagByName("ImageWidth")); 
+        //System.out.println(td.getDirectory(0).getTagByName("34735"));
+    } 
 	
     /**
      * A class representing a directory within a tiff
@@ -61,6 +170,7 @@ public class TiffDump {
 		
 		public Directory(String directoryLine) {
 			List<String> info = new ArrayList<String>(Arrays.asList(directoryLine.replace(":", "").split(" ")));
+			index = Integer.parseInt(info.get(info.indexOf("directory") + 1).trim());
 			offset = Integer.parseInt(info.get(info.indexOf("offset") + 1).trim());
 			next = Integer.parseInt(info.get(info.indexOf("next") + 1).trim());
 		}
@@ -127,6 +237,7 @@ public class TiffDump {
 		private String line;
 		private String name, type;
 		private int nameValue, typeValue, count;
+		private String valuesAsString;
 		private List<Object> values = new ArrayList<>();
 		
 		public Tag(String line) {
@@ -141,9 +252,10 @@ public class TiffDump {
 			
 			typeValue = Integer.parseInt(line.split(" ")[3].replaceAll("[()]", ""));
 			
-			count = (int) line.split(" ")[4].charAt(0);
+			count = Integer.parseInt(line.split(" ")[4].substring(0, line.split(" ")[4].indexOf('<')));
 			
-			String[] values = line.substring(line.indexOf("<") + 1, line.indexOf(">")).split(" ");
+			valuesAsString = line.substring(line.indexOf("<") + 1, line.indexOf(">"));
+			String[] values = valuesAsString.split(" ");
 			if(values[values.length - 1].equals("...")) {
 				System.out.println("Value list has been truncated.");
 				values = Arrays.copyOfRange(values, 0, values.length - 1);
@@ -152,12 +264,12 @@ public class TiffDump {
 			// is this really necessary? probably not
 			
 			switch(type.toUpperCase()) {
-				case "SHORT":
-				case "RATIONAL":
+				case "SHORT":	
 					for(String value : values) {
 						this.values.add(Integer.parseInt(value));
 					}
 					break;
+				case "RATIONAL":
 				case "DOUBLE":
 					for(String value : values) {
 						this.values.add(Float.parseFloat(value));
@@ -199,7 +311,11 @@ public class TiffDump {
 		public List<Object> getValues() {
 			return values;
 		}
-		
+				
+		public String getValuesAsString() {
+			return valuesAsString;
+		}
+
 		@Override
 	    public String toString() { 
 	        return String.format("%20s (%d)\t%10s (%d)\t%10d %s", name.toUpperCase(), nameValue, type, typeValue, count, values.toString());
@@ -232,7 +348,7 @@ public class TiffDump {
 				directories.add(currentDirectory);
 				continue;
 			}
-			if(currentDirectory != null) {
+			if(currentDirectory != null && !line.trim().equals("")) {
 				currentDirectory.addTag(line);
 				if(line.contains("34735")) { // TODO: this needs to be a little safer
 					currentDirectory.geoKeyDirectory = true; // TODO: a bit redundant here, probably remove this bool property

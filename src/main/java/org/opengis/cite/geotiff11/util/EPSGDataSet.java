@@ -31,13 +31,14 @@ public final class EPSGDataSet {
 	public static final String ELLIPSOID = "ellipsoid";
 	public static final String CO = "coordinate-operation";
 	public static final String COM = "coordinate-operation-method";
+	public static final String COP = "coordinate-operation-parameter";
 
-	public static BufferedReader ReadTable(String tableName) throws IOException {
+	protected static BufferedReader readTable(String tableName) throws IOException {
 		return Files.newBufferedReader(Paths.get(DIRECTORY + tableName + EXTENSION), Charset.forName("Cp1252"));
 	}
 	
 	public static CSVRecord getRecord(String tableName, String column, String value) throws IOException {
-        BufferedReader reader = ReadTable(tableName);
+        BufferedReader reader = readTable(tableName);
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withTrim());
         for (CSVRecord csvRecord: csvParser) {
 

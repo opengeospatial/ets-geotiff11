@@ -135,6 +135,8 @@ public class TestNGController implements TestSuiteController {
     @Override
     public Source doTestRun(Document testRunArgs) throws Exception {
         validateTestRunArgs(testRunArgs);
+        // TODO: next steps to make this run tests on multiple files if a folder is given
+        //executor.execute(testRunArgs);
         return executor.execute(testRunArgs);
     }
 

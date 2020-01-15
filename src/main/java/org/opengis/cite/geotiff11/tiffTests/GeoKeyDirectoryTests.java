@@ -43,31 +43,41 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 	public void verifyGeoKeyDirectory() throws Exception {
 
 		for (TiffDump.Directory directory : tiffDump.getDirectories()) {
+			
+			TiffDump.Tag geoKeyDirectory = directory.getTag(GEOKEYDIRECTORYTAG);
 
 			// verify specific tag values
-			if (directory.getOffset() != 0) {
+			if (directory.getOffset() != 0 && geoKeyDirectory != null) {
 
 				// the GeoKeyDirectoryTag SHALL have ID = 34735
-				List<Object> keyEntrySet = directory.getTag(GEOKEYDIRECTORYTAG).getValues();
+				List<Object> keyEntrySet = geoKeyDirectory.getValues();
 				
 				// the GeoKeyDirectoryTag SHALL have type = SHORT (2-byte unsigned integer)
-				Assert.assertTrue(directory.getTag(GEOKEYDIRECTORYTAG).getTypeValue() == 3);
+				Assert.assertTrue(geoKeyDirectory.getTypeValue() == 3);
 				
 				if (keyEntrySet != null) {
 					
 					// the GeoKeyDirectoryTag SHALL include at least 4 keys (short integers) as header information
-					Assert.assertTrue(keyEntrySet.size() >= 4);
+					Assert.assertTrue(keyEntrySet.size() >= 4, "the GeoKeyDirectoryTag SHALL include at least 4 keys (short integers) as header information");
 					
 					// each Key Entry in the Key Entry Set SHALL include 4 unsigned short integer values
-					Assert.assertTrue(keyEntrySet.size() % 4 == 0);
+					// TODO: is this comprehensive enough?
+					Assert.assertTrue(keyEntrySet.size() % 4 == 0, "each Key Entry in the Key Entry Set SHALL include 4 unsigned short integer values");
 					
 					// verify that Bytes 0-1 = 1 (the value of KeyDirectoryVersion SHALL be 1)
-					Assert.assertTrue(keyEntrySet.get(0).equals(1));
+					// the first unsigned short integer in the GeoKeyDirectoryTag SHALL hold the KeyDirectoryVersion
+					Assert.assertTrue(keyEntrySet.get(0).equals(1), "the value of KeyDirectoryVersion SHALL be 1");
+					
 					// verify that Bytes 2-3 = 1 (the value of KeyRevision SHALL be 1)
-					Assert.assertTrue(keyEntrySet.get(1).equals(1));
+					// the second unsigned short integer in the GeoKeyDirectoryTag SHALL hold the KeyRevision
+					Assert.assertTrue(keyEntrySet.get(1).equals(1), "the value of KeyRevision SHALL be 1");
+					
 					// verify that Bytes 4-5 = 0 or 1 (the MinorRevision for this standard SHALL be O or 1)
-					Assert.assertTrue(keyEntrySet.get(2).equals(0) || keyEntrySet.get(2).equals(1));
+					// the third unsigned short integer in the GeoKeyDirectoryTag SHALL hold the MinorRevision
+					Assert.assertTrue(keyEntrySet.get(2).equals(0) || keyEntrySet.get(2).equals(1), "the MinorRevision for this standard SHALL be O or 1");
+					
 					// bytes 6-7 contain the number of Key Entry Sets in this directory (the GeoKeyDirectoryTag SHALL hold NumberOfKeys KeyEntry Sets in addition to the header information)
+					// the fourth unsigned short integer in the GeoKeyDirectoryTag SHALL hold the NumberOfKeys defined in the rest of the GeoKeyDirectoryTag
 					int keySetCount = (int) keyEntrySet.get(3);
 					
 					int count = 0;
@@ -75,6 +85,7 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 					for(int i = 4; i < keyEntrySet.size(); i += 4) {
 						int geoKey = (int) keyEntrySet.get(i);
 						
+						// the GeoKey entries in a GeoTIFF file SHALL be written out to the file with the key-IDs sorted in ascending order
 						// verify that the GeoKey (first Short integer) is greater than the previous GeoKey
 						Assert.assertTrue(geoKey > previousGeoKey);
 						previousGeoKey = geoKey;
@@ -82,6 +93,8 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 						
 						// process the second Short integer in the Key Entry Set
 						int type = (int) keyEntrySet.get(i+1);
+						
+						// this is all done elsewhere
 						
 						if(type == 0 || type == 34735) {
 							// execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/Short_Param passing GeoKeyOffset as a parameter
@@ -94,6 +107,7 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 						}
 					}
 					
+					// the GeoKeyDirectoryTag SHALL hold NumberOfKeys KeyEntry Sets in addition to the header information
 					// validate that the number of Key Sets processed equal the number specified in the header
 					Assert.assertTrue(count == keySetCount);
 				}

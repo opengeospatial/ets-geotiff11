@@ -1,7 +1,5 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
-import java.util.Arrays;
-
 import org.opengis.cite.geotiff11.CommonFixture;
 import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.util.TiffDump;
@@ -21,7 +19,7 @@ public class CommonTiffMeta extends CommonFixture {
 	 */
 	@BeforeClass
 	public void obtainTestSubject(ITestContext testContext) {
-		System.out.println("obtaining test subject.");
+		//System.out.println("obtaining test subject.");
 		Object obj = testContext.getSuite().getAttribute(SuiteAttribute.TEST_SUBJECT.getName());
 
 		// TODO: put obj into tiffdump.class rather than inputstream
