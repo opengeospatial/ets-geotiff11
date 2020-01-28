@@ -52,18 +52,16 @@ public class TiffCoreTests extends CommonTiffMeta {
 	 * Test Variables: None
 	 */
 	
-	@Test(description = "TIFF Core Endianness Test")
+	@Test(description = "TIFF Core Endianness Test") // may be covered by verifyTiffVersionSixCompliance but can't hurt
 	public void verifyTiffEndianness() {		
 		// verify endianness is 0x4949 or 0X4D4D
 		Assert.assertTrue(tiffDump.getMagic().equals("0x4949") || tiffDump.getMagic().equals("0x4d4d"));	
 	}
-	
-	@Test(description = "TIFF Core Version Test")
-	public void verifyTiffVersion() {
-		// TODO: will have to revisit this
-		
+	 
+	@Test(description = "TIFF Core Version Test") // may be covered by verifyTiffVersionSixCompliance but can't hurt
+	public void verifyTiffVersion() {	
 		// verify version is 42
-		Assert.assertTrue(tiffDump.getVersion().contains("2a") || tiffDump.getVersion().contains("a2"));
+		Assert.assertTrue(tiffDump.getVersion().contains("2a"));
 	}
 	
 	// a GeoTIFF file SHALL be compliant with the TIFF 6.0 specification
