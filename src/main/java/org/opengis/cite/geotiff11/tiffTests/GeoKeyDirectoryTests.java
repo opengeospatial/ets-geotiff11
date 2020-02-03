@@ -41,19 +41,19 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 
 	@Test(description = "GeoKey Directory Test", groups = {"verifyGeoKeyDirectory"})
 	public void verifyGeoKeyDirectory() throws Exception {
-
+		
 		for (TiffDump.Directory directory : tiffDump.getDirectories()) {
 			
 			TiffDump.Tag geoKeyDirectory = directory.getTag(GEOKEYDIRECTORYTAG);
 
 			// verify specific tag values
 			if (directory.getOffset() != 0 && geoKeyDirectory != null) {
-
+				
 				// the GeoKeyDirectoryTag SHALL have ID = 34735
 				List<Object> keyEntrySet = geoKeyDirectory.getValues();
 				
 				// the GeoKeyDirectoryTag SHALL have type = SHORT (2-byte unsigned integer)
-				Assert.assertTrue(geoKeyDirectory.getTypeValue() == 3);
+				Assert.assertTrue(geoKeyDirectory.getTypeValue() == 3, "the GeoKeyDirectoryTag SHALL have type = SHORT (2-byte unsigned integer)");
 				
 				if (keyEntrySet != null) {
 					
@@ -85,9 +85,18 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 					for(int i = 4; i < keyEntrySet.size(); i += 4) {
 						int geoKey = (int) keyEntrySet.get(i);
 						
+						// if the current entry is less than the last geokey, check that it is not a key and is an additional param
+						if(geoKey < previousGeoKey)
+						{					
+							// the GeoKeyDirectoryTag SHALL hold NumberOfKeys KeyEntry Sets in addition to the header information
+							// validate that the number of Key Sets processed equal the number specified in the header
+							Assert.assertTrue(count == keySetCount, "the GeoKeyDirectoryTag SHALL hold NumberOfKeys KeyEntry Sets in addition to the header information");
+							break;
+						}
+						
 						// the GeoKey entries in a GeoTIFF file SHALL be written out to the file with the key-IDs sorted in ascending order
 						// verify that the GeoKey (first Short integer) is greater than the previous GeoKey
-						Assert.assertTrue(geoKey > previousGeoKey);
+						Assert.assertTrue(geoKey > previousGeoKey, "the GeoKey entries in a GeoTIFF file SHALL be written out to the file with the key-IDs sorted in ascending order");
 						previousGeoKey = geoKey;
 						count++;
 						
@@ -106,12 +115,10 @@ public class GeoKeyDirectoryTests extends CommonTiffMeta {
 							// execute test http://www.opengis.net/spec/GeoTIFF/1.1/conf/ASCII_Param passing GeoKeyOffset as a parameter
 						}
 					}
-					
-					// the GeoKeyDirectoryTag SHALL hold NumberOfKeys KeyEntry Sets in addition to the header information
-					// validate that the number of Key Sets processed equal the number specified in the header
-					Assert.assertTrue(count == keySetCount);
-				}
+				}		
+				return;
 			}
-		}
+		}		
+		Assert.fail("GeoKeyDirectoryTag not found");
 	}
 }
