@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 
+import org.apache.commons.io.FilenameUtils;
 import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.TestRunArg;
 import org.opengis.cite.geotiff11.util.TestSuiteLogger;
@@ -25,15 +26,19 @@ import edu.harvard.hul.ois.jhove.handler.XmlHandler;
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Core.adoc
 public class TiffCoreTests extends CommonTiffMeta {
 
-	private static String tmpFile = Paths.get(System.getProperty("user.dir"), "/src/main/resources/tmp/tiff-compliance-report.txt").toString();
+	private static final String CWD = System.getProperty("user.dir");
+	private static final String TCR = "tiff-compliance-report.txt";
+	private static final String FULL_TCR = Paths.get(CWD, TCR).toString();
 	private String tiffPath;
 	
+	private static final String VALID = "";
+	
 	@BeforeClass
-	public void setTestPath(ITestContext testContext) {
+	public void setTiffPath(ITestContext testContext) {
 		ISuite suite = testContext.getSuite();
-		 Map<String, String> params = suite.getXmlSuite().getParameters();
-	        TestSuiteLogger.log(Level.CONFIG, "Suite parameters\n" + params.toString());
-	        tiffPath = params.get(TestRunArg.IUT.toString());
+		Map<String, String> params = suite.getXmlSuite().getParameters();
+        TestSuiteLogger.log(Level.CONFIG, "Suite parameters\n" + params.toString());
+        tiffPath = params.get(TestRunArg.IUT.toString());
 	}
 	
 	/*
@@ -67,6 +72,7 @@ public class TiffCoreTests extends CommonTiffMeta {
 	// a GeoTIFF file SHALL be compliant with the TIFF 6.0 specification
 	@Test(description = "TIFF Core 6.0 Compliance Test")
 	public void verifyTiffVersionSixCompliance() throws Exception {
+	
 		// https://www.javatips.net/api/jhove-master/jhove-apps/src/main/java/Jhove.java
 		App app = App.newAppWithName("Tiff Test");
 		
@@ -82,17 +88,16 @@ public class TiffCoreTests extends CommonTiffMeta {
 		Module module = je.getModule("TIFF-hul");
 		OutputHandler handler = new XmlHandler();
 				
-		je.dispatch(app, module, null, handler, tmpFile, new String[] {tiffPath});	
+		je.dispatch(app, module, null, handler, FULL_TCR, new String[] {tiffPath});	
 	
-		String goal = "Well-Formed and valid";
 		boolean isValid = false;
 		
-		File file = new File(tmpFile);
+		File file = new File(FULL_TCR);
 	    Scanner scanner = new Scanner(file);
 
 	    while (scanner.hasNextLine()) {
 	        String line = scanner.nextLine();
-	        if(line.contains(goal)) { 
+	        if(line.contains(VALID)) { 
 	            //System.out.println("found on line " + lineNum);
 	            isValid = true;
 	            break;
@@ -100,6 +105,7 @@ public class TiffCoreTests extends CommonTiffMeta {
 	    }
 
 	    scanner.close();
+	    file.deleteOnExit();
 	    
 	    Assert.assertTrue(isValid, "a GeoTIFF file SHALL be compliant with the TIFF 6.0 specification");	
 	}
