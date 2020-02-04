@@ -166,7 +166,6 @@ public class TiffDump {
 		private int offset;
 		private int next;
 		private List<Tag> tags = new ArrayList<>();
-		private boolean geoKeyDirectory;
 		
 		public Directory(String directoryLine) {
 			List<String> info = new ArrayList<String>(Arrays.asList(directoryLine.replace(":", "").split(" ")));
@@ -351,7 +350,6 @@ public class TiffDump {
 			if(currentDirectory != null && !line.trim().equals("")) {
 				currentDirectory.addTag(line);
 				if(line.contains("34735")) { // TODO: this needs to be a little safer
-					currentDirectory.geoKeyDirectory = true; // TODO: a bit redundant here, probably remove this bool property
 					geoKeyDirectory = currentDirectory;
 				}
 			}

@@ -76,7 +76,7 @@ public class URIUtils {
 
 	/**
 	 * Parses the content of the given URI as a GeoTIFF document. Execute
-	 * listgeo command lines to spit out the metadata into a local file.
+	 * tiffdump command lines to spit out the metadata into a local file.
 	 *
 	 * @param uriRef In order to extract the file path where the exe is located
 	 * @param geoTiffFile To extract the metadata
@@ -87,6 +87,8 @@ public class URIUtils {
 	 */
 	public static boolean parseGeoTiff(URI uriRef, String geoTiffFile, String tiffFile)
 			throws SAXException, IOException {
+		// TODO: multiple files capability?
+		
 		if ((null == uriRef)) {
 			throw new IllegalArgumentException("Absolute URI is required, but received " + uriRef);
 		}
@@ -126,7 +128,6 @@ public class URIUtils {
 //			Runtime.getRuntime().exec("chmod +x " + url + "/parse.sh" + " && " 
 //			+ url + "/parse.sh" + " && " + url + "/listgeo " + geotiffFilePath + " > " + location + "/geotiffMeta.txt");
 //		} catch (IOException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 
@@ -191,7 +192,6 @@ public class URIUtils {
 			try {
 				returnCode = p.waitFor();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return false;
 			}
@@ -213,7 +213,6 @@ public class URIUtils {
 			p = Runtime.getRuntime().exec(command);
 			return p;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}

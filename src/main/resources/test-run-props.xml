@@ -2,6 +2,6 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties version="1.0">
     <comment>Sample test run arguments</comment>
-    <entry key="iut">file:///C:/Users/RDAGCDLJ/Documents/FY20/GeoTIFF/example_tiffs/cea.tif</entry>
+    <entry key="iut">file:///c:/Users/RDAGCDLJ/Documents/FY20/GeoTIFF/example_tiffs/COG_DEF_OR/LC08_L1TP_016030_20140602_20170305_01_T1_BQA.tif</entry>
     <entry key="ics">class-A,class-B</entry>
 </properties>
