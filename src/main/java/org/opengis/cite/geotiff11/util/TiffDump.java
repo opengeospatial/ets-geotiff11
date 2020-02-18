@@ -327,43 +327,39 @@ public class TiffDump {
 	private List<Directory> directories = new ArrayList<>();
 	private Directory geoKeyDirectory;
 	
-	public TiffDump(String contents) throws Exception {
-		//System.out.println(contents);
-		
+	public TiffDump(String contents) throws Exception {		
 		Directory currentDirectory = null;
 		for(String line : contents.toLowerCase().split("\n")) {
-			if((line.contains(".tif") || line.contains(".tmp"))  && currentDirectory == null) {
+			if(currentDirectory == null && (line.contains(".tif") || line.contains(".tmp")) ) {
 				filePath = line.substring(0, line.length() - 2);
 				continue;
 			}
-			if(line.contains("magic")  && currentDirectory == null) {
+			if(currentDirectory == null && line.contains("magic:") && line.contains("version:")) {
 				List<String> info = Arrays.asList(line.replace(":", "").split(" "));
 				magic = info.get(info.indexOf("magic") + 1).trim();
 				version = info.get(info.indexOf("version") + 1).trim();
 				continue;
 			}
-			if(line.toLowerCase().contains("directory")) {
+			if(line.toLowerCase().contains("directory") && line.toLowerCase().contains("offset") && line.toLowerCase().contains("next")) {
 				currentDirectory = new Directory(line);
 				directories.add(currentDirectory);
 				continue;
 			}
 			if(currentDirectory != null && !line.trim().equals("")) {
 				currentDirectory.addTag(line);
-				if(line.contains("34735")) { // TODO: this needs to be a little safer
+				if(currentDirectory.hasTag(GeoKeyID.GEOKEYDIRECTORYTAG)) {
 					geoKeyDirectory = currentDirectory;
 				}
 			}
 		}
-		
-		//System.out.println(toString());
-		
-		if(!validate()) {
+				
+		if(!valid()) {
 			System.out.println("Tiff contents invalid/parsed incorrectly");
-			throw new Exception(); // TODO: fix this
+			throw new Exception("Tiff contents invalid/parsed incorrectly"); // TODO: fix this
 		}
 	}
 	
-	public boolean validate() {
+	public boolean valid() {
 		if(magic == null || version == null || directories.size() < 1) {
 			return false;
 		}
