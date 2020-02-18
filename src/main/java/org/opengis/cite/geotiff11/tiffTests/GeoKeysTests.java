@@ -22,8 +22,10 @@ public abstract class GeoKeysTests extends CommonTiffMeta {
 	 */
 	@BeforeClass
 	public void setUpGeoKeyDirectory() {
+		Assert.assertTrue(tiffDump != null, "TiffDump wrapping returned null");
 		directory = tiffDump.getGeoKeyDirectory();
-		Assert.assertTrue(directory != null, "GeoKeyDirectoryTag not found");
+		Assert.assertTrue(directory != null, "GeoKeyDirectory not found");
+		Assert.assertTrue(directory.getTag(GEOKEYDIRECTORYTAG) != null, "GeoKeyDirectoryTag not found");
 		keyEntrySet = directory.getTag(GEOKEYDIRECTORYTAG).getValues();	
 		Assert.assertTrue(keyEntrySet != null, "GeoKeyDirectoryTag does not contain any values");
 		minorRevision = (int) keyEntrySet.get(2);
