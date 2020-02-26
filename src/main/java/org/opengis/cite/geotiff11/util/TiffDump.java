@@ -3,6 +3,8 @@ package org.opengis.cite.geotiff11.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A (rough) wrapper class for the output of TiffDump.exe
@@ -14,27 +16,9 @@ public class TiffDump {
 
     public static void main(String[] args) { 
         TiffDump td;
-		try {
-//			td = new TiffDump(new String("C:/Users/RDAGCDLJ/Documents/FY19/GEOTIFF/ets-geotiff11/target/test-classes/tif/cea.tif:\r\n" + 
-//					"Magic: 0x4949 <little-endian> Version: 0x2a\r\n" + 
-//					"Directory 0: offset 270276 (0x41fc4) next 0 (0)\r\n" + 
-//					"ImageWidth (256) SHORT (3) 1<514 ...>\r\n" + 
-//					"ImageLength (257) SHORT (3) 1<515>\r\n" + 
-//					"BitsPerSample (258) SHORT (3) 1<8>\r\n" + 
-//					"Compression (259) SHORT (3) 1<1>\r\n" + 
-//					"Photometric (262) SHORT (3) 1<1>\r\n" + 
-//					"StripOffsets (273) LONG (4) 35<426 8136 15846 23556 31266 38976 46686 54396 62106 69816 77526 85236 92946 100656 108366 116076 123786 131496 139206 146916 154626 162336 170046 177756>\r\n" + 
-//					"SamplesPerPixel (277) SHORT (3) 1<1>\r\n" + 
-//					"RowsPerStrip (278) SHORT (3) 1<15>\r\n" + 
-//					"StripByteCounts (279) LONG (4) 35<7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 7710 ...>\r\n" + 
-//					"PlanarConfig (284) SHORT (3) 1<1>\r\n" + 
-//					"SampleFormat (339) SHORT (3) 1<1>\r\n" + 
-//					"33550 (0x830e) DOUBLE (12) 3<60.0221 60.0221 0>\r\n" + 
-//					"33922 (0x8482) DOUBLE (12) 6<0 0 0 -28493.2 4.25588e+006 0>\r\n" + 
-//					"34735 (0x87af) SHORT (3) 60<1 1 0 14 1024 0 1 1 1025 0 1 1 1026 34737 8 0 2048 0 1 4267 2049 34737 6 8 >\r\n" + 
-//					"34736 (0x87b0) DOUBLE (12) 4<-117.333 33.75 0 0>\r\n" + 
-//					"34737 (0x87b1) ASCII (2) 15<unnamed|NAD27|\\0>"));
-			
+        String test = "Tile L(ength (0x323) SHORT (3) 231<256 789 87 45>\\r\\n";
+        
+		try {			
 			td = new TiffDump(new String("C:\\Users\\RDAGCDLJ\\Documents\\FY20\\GeoTIFF\\example_tiffs\\USGS\\USGS_1_n06e162.tif:\r\n" + 
 					"Magic: 0x4949 <little-endian> Version: 0x2a <ClassicTIFF>\r\n" + 
 					"Directory 0: offset 1542364 (0x1788dc) next 2412 (0x96c)\r\n" + 
@@ -128,7 +112,7 @@ public class TiffDump {
 					"42113 (0xa481) ASCII (2) 8<-999999\\0>\r\n" + 
 					"\r\n" + 
 					"Directory 5: offset 5660 (0x161c) next 0 (0)\r\n" + 
-					"SubFileType (254) LONG (4) 1<1>\r\n" + 
+					"SubFileType (254) LONG (4) 1<nextoffset1>\r\n" + 
 					"ImageWidth (256) SHORT (3) 1<113>\r\n" + 
 					"ImageLength (257) SHORT (3) 1<113>\r\n" + 
 					"BitsPerSample (258) SHORT (3) 1<32>\r\n" + 
@@ -145,13 +129,16 @@ public class TiffDump {
 					"42113 (0xa481) ASCII (2) 8<-999999\\0>"));
 			
 	        		System.out.println(td);
+	        		
+	                System.out.println(td.getDirectory(0)); 
+	                System.out.println(td.getDirectory(0).getTag("ImageWidth")); 
+	                System.out.println(td.getDirectory(0).getTag("34735"));
+	                
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
         
-        //System.out.println(td.getDirectory(0)); 
-        //System.out.println(td.getDirectory(0).getTagByName("ImageWidth")); 
-        //System.out.println(td.getDirectory(0).getTagByName("34735"));
+
     } 
 	
     /**
@@ -241,43 +228,60 @@ public class TiffDump {
 		
 		public Tag(String line) {
 			this.line = line;
-			//System.out.println(line);
+
+	        Matcher matcher;
+	        
+	        String regexNameValue = ".+?(?= \\([0-9])";
+	        String regexNumbers = "\\((0x[0-9a-f]+?|[0-9]+?)\\)";
+	        String regexCount = "([0-9]+)\\<";
+	        String regexValues = "\\<(.*?)\\>";
+	        
+			matcher = Pattern.compile(regexNumbers).matcher(line);
+//			if(matcher.f) != 2) {
+//				System.out.println("BIG ERROR");
+//			}
+			matcher.find();
+			String nameValueString = matcher.group(1);
+			nameValue = nameValueString.contains("x") ? 
+					Integer.parseInt(nameValueString.replace("0x", ""), 16) :
+						Integer.parseInt(nameValueString);
+
+			matcher.find();
+			typeValue = Integer.parseInt(matcher.group(1));
 			
-			name = line.split(" ")[0];
-			type = line.split(" ")[2];
+			matcher = Pattern.compile(regexCount).matcher(line);
+			matcher.find();
+			count = Integer.parseInt(matcher.group(1));
 			
-			String nameValueString = line.split(" ")[1].replaceAll("[()]", ""); 
-			nameValue = nameValueString.contains("x") ? Integer.parseInt(nameValueString.replace("0x", ""), 16) : Integer.parseInt(nameValueString);
-			
-			typeValue = Integer.parseInt(line.split(" ")[3].replaceAll("[()]", ""));
-			
-			count = Integer.parseInt(line.split(" ")[4].substring(0, line.split(" ")[4].indexOf('<')));
-			
-			valuesAsString = line.substring(line.indexOf("<") + 1, line.indexOf(">"));
-			String[] values = valuesAsString.split(" ");
-			if(values[values.length - 1].equals("...")) {
+			matcher = Pattern.compile(regexValues).matcher(line);
+			matcher.find();
+			String[] stringValues = matcher.group(1).split(" ");
+			if(stringValues[stringValues.length - 1].equals("...")) {
 				System.out.println("Value list has been truncated.");
-				values = Arrays.copyOfRange(values, 0, values.length - 1);
+				stringValues = Arrays.copyOfRange(stringValues, 0, stringValues.length - 1);
 			}
+			
+			name = line.split(regexNumbers)[0].trim();
+			type = line.split(regexNumbers)[1].trim();
 			
 			// is this really necessary? probably not
 			
 			switch(type.toUpperCase()) {
 				case "SHORT":	
-					for(String value : values) {
-						this.values.add(Integer.parseInt(value));
+					for(String value : stringValues) {
+						values.add(Integer.parseInt(value));
 					}
 					break;
 				case "RATIONAL":
 				case "DOUBLE":
-					for(String value : values) {
-						this.values.add(Float.parseFloat(value));
+					for(String value : stringValues) {
+						values.add(Float.parseFloat(value));
 					}
 					break;
 				case "ASCII":
 				default:
-					for(String value : values) {
-						this.values.add(value);
+					for(String value : stringValues) {
+						values.add(value);
 					}
 					break;
 			}
@@ -340,7 +344,7 @@ public class TiffDump {
 				version = info.get(info.indexOf("version") + 1).trim();
 				continue;
 			}
-			if(line.toLowerCase().contains("directory") && line.toLowerCase().contains("offset") && line.toLowerCase().contains("next")) {
+			if(line.toLowerCase().indexOf("directory") == 0 && line.toLowerCase().contains("offset") && line.toLowerCase().contains("next")) {
 				currentDirectory = new Directory(line);
 				directories.add(currentDirectory);
 				continue;
