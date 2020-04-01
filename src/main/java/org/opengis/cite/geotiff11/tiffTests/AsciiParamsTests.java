@@ -84,6 +84,7 @@ public class AsciiParamsTests extends GeoKeysTests {
 	String processFourthShortForAscii(int index, int keyLength) {
 		// process the fourth Short integer in the Key Entry Set
 		int asciiIndex = (int) keyEntrySet.get(index+3);
+		
 		//Assert.assertTrue(directory.hasTag(GEOASCIIPARAMSTAG));
 				
 		// SET KeyValueOffset to the value
