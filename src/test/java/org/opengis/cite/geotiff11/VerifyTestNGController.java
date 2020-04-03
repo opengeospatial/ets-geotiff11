@@ -51,7 +51,7 @@ public class VerifyTestNGController {
     public void doTestRun() throws Exception {
         //URL testSubject = getClass().getResource("/atom-feed-2.xml");
     	// redirect to tif
-        URL testSubject = getClass().getResource("/tif/cea.tif"); // TODO: what is this? Why is there a hardcoded string here?
+        URL testSubject = getClass().getResource("/tif/cea.tif");
         this.testRunProps.setProperty(TestRunArg.IUT.toString(), testSubject
                 .toURI().toString());
         ByteArrayOutputStream outStream = new ByteArrayOutputStream(1024);
@@ -62,12 +62,5 @@ public class VerifyTestNGController {
         TestNGController controller = new TestNGController();
         Source results = controller.doTestRun(testRunArgs);
         Assert.assertNotNull(results);
-        
-        // only test for non failures if the file to test passes all tests        
-//        String xpath = "/testng-results/@failed";
-//        XdmValue failed = XMLUtils.evaluateXPath2(results, xpath, null);
-//        int numFailed = Integer.parseInt(failed.getUnderlyingValue()
-//                .getStringValue());
-//        assertEquals("Unexpected number of fail verdicts.", 2, numFailed);
     }
 }

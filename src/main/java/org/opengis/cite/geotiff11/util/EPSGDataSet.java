@@ -1,6 +1,7 @@
 package org.opengis.cite.geotiff11.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -20,8 +21,9 @@ public final class EPSGDataSet {
 	public static final String RADIANS = "9101";
 	
 	// path and extension
-	public static final String DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/epsg/";
-	public static final String EXTENSION = ".csv";
+	//public static final String DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/epsg/";
+	private static final String DIRECTORY = DirectoryUtil.getDirectory("/src/main/resources/epsg/");
+	private static final String EXTENSION = ".csv";
 	
 	// table paths
 	public static final String UOM = "unit-of-measure";
@@ -32,9 +34,9 @@ public final class EPSGDataSet {
 	public static final String CO = "coordinate-operation";
 	public static final String COM = "coordinate-operation-method";
 	public static final String COP = "coordinate-operation-parameter";
-
+	
 	protected static BufferedReader readTable(String tableName) throws IOException {
-		return Files.newBufferedReader(Paths.get(DIRECTORY + tableName + EXTENSION), Charset.forName("Cp1252"));
+		return Files.newBufferedReader(Paths.get(DIRECTORY, tableName + EXTENSION), Charset.forName("Cp1252"));
 	}
 	
 	public static CSVRecord getRecord(String tableName, String column, String value) throws IOException {

@@ -103,39 +103,5 @@ public class CommonFixture {
     public ClientRequest buildGetRequest(URI endpoint,
             Map<String, String> qryParams, MediaType... mediaTypes) {
         return ClientUtils.buildGetRequest(endpoint, qryParams, mediaTypes);
-    }
-
-	/**
-	 * TODO: Change/remove this functionality 
-	 * Parse the tiff files. This class can be called on in the test case
-	 * classes. Adds one line per entry in the list
-	 * 
-	 * @param testSubject
-	 * @return
-	 */
-//	public List<String> parseFile(InputStream testSubject) {
-//		List<String> list = new ArrayList<>();
-//
-//		try {
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(testSubject, "UTF-8"));
-//
-//			String line = reader.readLine();
-//			while (line != null) {
-//				list.add(line);
-//				line = reader.readLine();
-//			}
-//			reader.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (UnsupportedEncodingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return list;
-//	}
-    
+    }    
 }

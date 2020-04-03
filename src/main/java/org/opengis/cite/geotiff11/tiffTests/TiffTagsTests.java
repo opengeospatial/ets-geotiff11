@@ -47,7 +47,8 @@ public class TiffTagsTests extends CommonTiffMeta {
 	* 	TagValue		Parameter	Location of the value of a TIFF tag in the GeoTIFF file
 	*/
 	
-	// TODO: Could be refactored to more closely resemble ats?
+	// TODO: This duplicates a lot of test in order to more closely resemble the ATS. In the future,
+	// this may be replaced entirely?
 	
 	@Test(description = "TIFF Tags Test")
 	public void verifyTiffTags() throws Exception {		
@@ -57,7 +58,7 @@ public class TiffTagsTests extends CommonTiffMeta {
 			// The TIFF tags in a GeoTIFF file SHALL be written out to the file with the tag-IDs sorted in ascending order
 			int previousValue = Integer.MIN_VALUE;
 			for (TiffDump.Tag tag : directory.getTags()) {
-				Assert.assertTrue(tag.getNameValue() > previousValue);
+				Assert.assertTrue(tag.getNameValue() > previousValue, "the TIFF tags in a GeoTIFF file SHALL be written out to the file with the tag-IDs sorted in ascending order");
 				previousValue = tag.getNameValue();
 			}			
 			
@@ -90,7 +91,7 @@ public class TiffTagsTests extends CommonTiffMeta {
 						//List<Object> doubleValues = doubles.getValues();
 					}
 					
-					// the GEOASCIIPARAMSTAG SHALL have ID = 34737
+					// the GeoAsciiParamsTag SHALL have ID = 34737
 					TiffDump.Tag asciis = directory.getTag(GEOASCIIPARAMSTAG);
 					if(asciis != null) {
 						Assert.assertTrue(asciis.getTypeValue() == 2, "the GeoAsciiParamsTag SHALL have type = ASCII");

@@ -20,6 +20,7 @@ public class CreateDataSets {
 	public static @DataPoint InputStream TwoValuesFile = CreateDataSets.class.getResourceAsStream("/tif/TwoValues.txt");
 	public static @DataPoint InputStream ThreeValuesFile = CreateDataSets.class.getResourceAsStream("/tif/ThreeValuesAndSupplement.txt");
 	public static @DataPoint InputStream ZeroValuesFile = CreateDataSets.class.getResourceAsStream("/tif/ZeroValues.txt");
+	public static @DataPoint InputStream AsciiValuesFile = CreateDataSets.class.getResourceAsStream("/tif/AsciiValues.txt");
 	
 	private static String privateValuesString;
 	private static String userDefinedString;
@@ -28,6 +29,7 @@ public class CreateDataSets {
 	private static String TwoValuesString;
 	private static String ThreeValuesString;
 	private static String ZeroValuesString;
+	private static String AsciiValuesString;
 	
 	public void testDataSets(InputStream inputStream) {		
 		
@@ -84,12 +86,18 @@ public class CreateDataSets {
 				}
 				value = ZeroValuesString;
 			}
+			else if (inputStream.equals(AsciiValuesFile)) {
+				//set the return value for validation
+				if (AsciiValuesString == null || AsciiValuesString.isEmpty()){		
+					AsciiValuesString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);				
+				}
+				value = AsciiValuesString;
+			}
 			
 			when(suite.getAttribute(SUBJ)).thenReturn(value);
 
 		} 
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

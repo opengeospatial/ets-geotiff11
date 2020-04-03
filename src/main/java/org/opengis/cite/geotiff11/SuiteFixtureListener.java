@@ -94,7 +94,6 @@ public class SuiteFixtureListener implements ISuiteListener {
 			InputStream inputStream2 = URIUtils.class.getResourceAsStream("/tmp/" + GEOTIFF_TXT);
 			suite.setAttribute(SuiteAttribute.TEST_SUBJ_GEOTIFF.getName(), IOUtils.toString(inputStream2, StandardCharsets.UTF_8));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

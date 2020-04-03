@@ -147,7 +147,7 @@ public class ShortParamsTests extends GeoKeysTests {
 		
 		// if the GeodeticCRSGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, GeodeticDatumGeoKey 2050 and at least one of GeogAngularUnitsGeoKey 2054 or GeogLinearUnitsGeoKey 2052 SHALL be populated
 		if(value == 32767) {
-			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEODETICDATUMGEOKEY) && (keyExists(GEOGANGULARUNITSGEOKEY) || keyExists(GEOGLINEARUNITSGEOKEY)));
+			Assert.assertTrue(keyExists(GEODETICCITATIONGEOKEY) && keyExists(GEODETICDATUMGEOKEY) && (keyExists(GEOGANGULARUNITSGEOKEY) || keyExists(GEOGLINEARUNITSGEOKEY)), "if the GeodeticCRSGeoKey value is 32767 (User-Defined) then the GeodeticCitationGeoKey 2049, GeodeticDatumGeoKey 2050 and at least one of GeogAngularUnitsGeoKey 2054 or GeogLinearUnitsGeoKey 2052 SHALL be populated");
 		} else if(value >= 1024 && value <= 32766) {
 			// GeodeticCRSGeoKey values in the range 1024-32766 SHALL be EPSG geodetic CRS codes (geographic 2D CRS, geographic 3D CRS, and geocentric CRS)
 			CSVRecord record = EPSGDataSet.getRecord(EPSGDataSet.CRS, "COORD_REF_SYS_CODE", Integer.toString(value));

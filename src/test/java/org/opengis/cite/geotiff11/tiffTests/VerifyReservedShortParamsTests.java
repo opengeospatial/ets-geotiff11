@@ -35,7 +35,6 @@ public class VerifyReservedShortParamsTests {
 		try {
 			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		iutReserved = new ShortParamsTests();	
