@@ -19,12 +19,12 @@
 
    <ctl:suite name="tns:ets-geotiff11-${version}">
      <ctl:title>GeoTIFF 1.1 Conformance Test Suite</ctl:title>
-     <ctl:description>Describe scope of testing.</ctl:description>
+     <ctl:description>Verifies the structure and content of a GeoTIFF (1.0 and 1.1).</ctl:description>
      <ctl:starting-test>tns:Main</ctl:starting-test>
    </ctl:suite>
  
    <ctl:test name="tns:Main">
-      <ctl:assertion>The test subject satisfies all applicable constraints.</ctl:assertion>
+      <ctl:assertion>The GeoTIFF satisfies all applicable constraints.</ctl:assertion>
 	  <ctl:code>
         <xsl:variable name="form-data">
            <ctl:form method="POST" width="800" height="600" xmlns="http://www.w3.org/1999/xhtml">
@@ -32,13 +32,13 @@
              <div style="background:#F0F8FF" bgcolor="#F0F8FF">
                <p>The implementation under test (IUT) is checked against the following specifications:</p>
                <ul>
-                 <li><a href="http://www.w3.org/TR/xml/">Extensible Markup Language (XML) 1.0</a>, 
-				 Fifth Edition</li>
+                 <li><a href="https://github.com/opengeospatial/geotiff/tree/master/GeoTIFF_Standard/standard">OGC® GeoTIFF Encoding Standard 1.1</a></li>
 				 <li><a href="http://www.w3.org/TR/xmlbase/">XML Base</a>, Second Edition</li>
                </ul>
-               <p>Two conformance levels are defined:</p>
+               <p>Two conformance classes are defined:</p>
                <ul>
-                 <li>TODO</li>
+                 <li><a href="http://www.opengis.net/spec/GeoTIFF/1.1/conf/Core">TIFF</a></li>
+                  <li><a href="http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey">Raster2Model_CoordinateTransformation_GeoKey</a></li>
                </ul>
              </div>
              <fieldset style="background:#ccffff">
@@ -47,22 +47,15 @@
                        border-width: medium; padding:4px">Implementation Under Test</legend>
                <p>
                  <label for="uri">
-                   <h4 style="margin-bottom: 0.5em">Location of IUT (absolute http: or file: URI)</h4>
+                   <h4 style="margin-bottom: 0.5em">Location of GeoTIFF (absolute http: or file: URI)</h4>
                  </label>
-                 <input id="uri" name="uri" size="128" type="text" value="http://www.w3schools.com/xml/note.xml" />
+                 <input id="uri" name="uri" size="128" type="text" />
                </p>
                <p>
                  <label for="doc">
-                   <h4 style="margin-bottom: 0.5em">Upload IUT</h4>
+                   <h4 style="margin-bottom: 0.5em">Upload GeoTIFF</h4>
                  </label>
                  <input name="doc" id="doc" size="128" type="file" />
-               </p>
-               <p>
-                 <label for="level">Conformance class: </label>
-                 <input id="level-1" type="radio" name="level" value="1" checked="checked" />
-                 <label for="level-1"> Level 1 | </label>
-                 <input id="level-2" type="radio" name="level" value="2" />
-                 <label class="form-label" for="level-2"> Level 2</label>
                </p>
              </fieldset>
              <p>
@@ -84,7 +77,7 @@
               </xsl:otherwise>
             </xsl:choose>
           </entry>
-          <entry key="ics"><xsl:value-of select="$form-data/values/value[@key='level']"/></entry>
+          <entry key="ics"></entry>
 		    </properties>
 		   </xsl:variable>
        <xsl:variable name="testRunDir">

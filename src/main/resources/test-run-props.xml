@@ -3,5 +3,5 @@
 <properties version="1.0">
     <comment>Sample test run arguments</comment>
     <entry key="iut">[GeoTIFF to be tested]</entry>
-    <entry key="ics">class-A,class-B</entry>
+    <entry key="ics"></entry>
 </properties>
