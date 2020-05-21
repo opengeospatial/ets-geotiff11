@@ -1,0 +1,1 @@
+This folder contains materials used for generating and downloading GeoTIFFs for testing purposes.

@@ -21,8 +21,6 @@ public class CommonTiffMeta extends CommonFixture {
 	public void obtainTestSubject(ITestContext testContext) {
 		//System.out.println("obtaining test subject.");
 		Object obj = testContext.getSuite().getAttribute(SuiteAttribute.TEST_SUBJECT.getName());
-
-		// TODO: put obj into tiffdump.class rather than inputstream
 		
 		if(obj != null && obj instanceof String) {
 			try {
