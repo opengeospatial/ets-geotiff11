@@ -3,6 +3,7 @@ package org.opengis.cite.geotiff11.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,7 +23,8 @@ public final class EPSGDataSet {
 	
 	// path and extension
 	//public static final String DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/epsg/";
-	private static final String DIRECTORY = DirectoryUtil.getDirectory("/src/main/resources/epsg/");
+//	private static final String DIRECTORY = DirectoryUtil.getDirectory("/src/main/resources/epsg/");
+	private static final String DIRECTORY = new File(EPSGDataSet.class.getResource("/epsg").getFile()).getAbsolutePath();
 	private static final String EXTENSION = ".csv";
 	
 	// table paths
@@ -34,6 +36,13 @@ public final class EPSGDataSet {
 	public static final String CO = "coordinate-operation";
 	public static final String COM = "coordinate-operation-method";
 	public static final String COP = "coordinate-operation-parameter";
+	
+	
+	public static void main(String[] args)
+	{
+		System.out.println(new File(EPSGDataSet.class.getResource("/epsg").getFile()).getAbsolutePath());
+		
+	}
 	
 	protected static BufferedReader readTable(String tableName) throws IOException {
 		return Files.newBufferedReader(Paths.get(DIRECTORY, tableName + EXTENSION), Charset.forName("Cp1252"));
