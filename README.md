@@ -46,7 +46,7 @@ One of the build artifacts is an "all-in-one" JAR file that includes the test
 suite and all of its dependencies; this makes it very easy to execute the test
 suite in a command shell:
 
-`java -jar target/ets-geotiff11-0.4-SNAPSHOT-aio.jar  [-o|--outputDir $TMPDIR] [xml-file]`
+`java -jar target/ets-geotiff11-0.1-SNAPSHOT-ctl.jar  [-o|--outputDir $TMPDIR] [xml-file]`
 
 Where `xml-file` is the path to the properties XML file, e.g., `src/main/config/test-run-props.xml`.
 

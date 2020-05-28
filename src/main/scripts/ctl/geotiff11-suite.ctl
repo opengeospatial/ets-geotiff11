@@ -32,8 +32,8 @@
              <div style="background:#F0F8FF" bgcolor="#F0F8FF">
                <p>The implementation under test (IUT) is checked against the following specifications:</p>
                <ul>
-                 <li><a href="https://github.com/opengeospatial/geotiff/tree/master/GeoTIFF_Standard/standard">OGC® GeoTIFF Encoding Standard 1.1</a></li>
-				 <li><a href="http://www.w3.org/TR/xmlbase/">XML Base</a>, Second Edition</li>
+                <li><a href="https://www.loc.gov/preservation/digital/formats/fdd/fdd000022.shtml">TIFF</a>, Revision 6.0</li>
+                <li><a href="https://github.com/opengeospatial/geotiff/tree/master/GeoTIFF_Standard/standard">OGC® GeoTIFF Encoding Standard 1.1</a></li>
                </ul>
                <p>Two conformance classes are defined:</p>
                <ul>
