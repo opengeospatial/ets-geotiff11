@@ -11,7 +11,7 @@ public class CommonTiffMeta extends CommonFixture {
 	
 	/**
 	 * Obtains the test subject from the ISuite context. The suite attribute
-	 * {@link org.opengis.cite.geotiff10.SuiteAttribute#TEST_SUBJECT} should
+	 * {@link org.opengis.cite.geotiff11.SuiteAttribute#TEST_SUBJECT} should
 	 * evaluate to a file node.
 	 * 
 	 * @param testContext

@@ -51,14 +51,14 @@ public class VerifyShortParamsTests extends CreateDataSets {
 		
 	}
 	
-	@Theory
-	public void verifyGTModelTypeGeoKey(InputStream inputStream) throws Exception {
-		dataSetSetUp(inputStream);
-		
-		iut.obtainTestSubject(testContext);
-		iut.setUpGeoKeyDirectory();
-		iut.verifyGTModelTypeGeoKey();
-	}
+//	@Theory
+//	public void verifyGTModelTypeGeoKey(InputStream inputStream) throws Exception {
+//		dataSetSetUp(inputStream);
+//		
+//		iut.obtainTestSubject(testContext);
+//		iut.setUpGeoKeyDirectory();
+//		iut.verifyGTModelTypeGeoKey();
+//	}
 	
 	@Theory
 	public void verifyGTRasterTypeGeoKey(InputStream inputStream) throws Exception {
