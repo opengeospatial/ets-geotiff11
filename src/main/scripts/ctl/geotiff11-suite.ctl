@@ -77,7 +77,7 @@
               </xsl:otherwise>
             </xsl:choose>
           </entry>
-          <entry key="ics"></entry>
+
 		    </properties>
 		   </xsl:variable>
        <xsl:variable name="testRunDir">
