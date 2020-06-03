@@ -3,6 +3,7 @@ package org.opengis.cite.geotiff11.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -24,7 +25,7 @@ public final class EPSGDataSet {
 	// path and extension
 	//public static final String DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/epsg/";
 //	private static final String DIRECTORY = DirectoryUtil.getDirectory("/src/main/resources/epsg/");
-	private static final String DIRECTORY = new File(EPSGDataSet.class.getResource("/epsg").getFile()).getAbsolutePath();
+//	private static final String DIRECTORY = new File(EPSGDataSet.class.getResource("/epsg").getFile()).getAbsolutePath();
 	private static final String EXTENSION = ".csv";
 	
 	// table paths
@@ -37,15 +38,14 @@ public final class EPSGDataSet {
 	public static final String COM = "coordinate-operation-method";
 	public static final String COP = "coordinate-operation-parameter";
 	
-	
-	public static void main(String[] args)
+	private static InputStreamReader getResourceISR(String name)
 	{
-		System.out.println(new File(EPSGDataSet.class.getResource("/epsg").getFile()).getAbsolutePath());
-		
+		return new InputStreamReader(EPSGDataSet.class.getResourceAsStream("/epsg/" + name + EXTENSION));
 	}
 	
 	protected static BufferedReader readTable(String tableName) throws IOException {
-		return Files.newBufferedReader(Paths.get(DIRECTORY, tableName + EXTENSION), Charset.forName("Cp1252"));
+		return new BufferedReader(getResourceISR(tableName));
+//		return Files.newBufferedReader(Paths.get(DIRECTORY, tableName + EXTENSION), Charset.forName("Cp1252"));
 	}
 	
 	public static CSVRecord getRecord(String tableName, String column, String value) throws IOException {
