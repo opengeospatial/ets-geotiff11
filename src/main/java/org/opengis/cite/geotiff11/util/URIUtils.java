@@ -1,12 +1,17 @@
 package org.opengis.cite.geotiff11.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -14,9 +19,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.SyncPipe;
 import org.opengis.cite.geotiff11.util.URIUtils;
+import org.testng.ISuite;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -80,12 +88,11 @@ public class URIUtils {
 	 *
 	 * @param uriRef In order to extract the file path where the exe is located
 	 * @param geoTiffFile To extract the metadata
-	 * @param tiffFile To extract the metadata
 	 * @return String of file location
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static boolean parseGeoTiff(URI uriRef, String geoTiffFile, String tiffFile)
+	public static boolean parseGeoTiff(ISuite suite, URI uriRef, String geoTiffFile)
 			throws SAXException, IOException {
 		// TODO: multiple files capability?
 		
@@ -94,9 +101,12 @@ public class URIUtils {
 		}
 
 		// Start running commands
-		String geotiffFilePath = uriRef.getPath().substring(1, uriRef.getPath().length());
+//		String geotiffFilePath = uriRef.getPath().substring(1, uriRef.getPath().length());
+		String geotiffFilePath = prepPath(uriRef.getPath());
+		
+//		System.out.println("GeoTIFF path: " + geotiffFilePath);
 
-		if (!readMetaData(geotiffFilePath, geoTiffFile, tiffFile))
+		if (!readMetaData(suite, geotiffFilePath, geoTiffFile))
 			return false;
 
 		return true;
@@ -110,9 +120,9 @@ public class URIUtils {
 	 * @param fileOutput
 	 * @return
 	 */
-	private static String initMetadataComm(String exeCommand, String geotiffFilePath, String fileOutput, String option) {
-		String location = URIUtils.class.getResource("/tmp").getPath();
-		return exeCommand + " " + option + " " + geotiffFilePath + " > " + location.substring(1) + "\\" + fileOutput;
+	private static String initMetadataComm(String exeCommand, String outLocation, String geotiffFilePath, String fileOutput, String option) {
+//		String location = prepPath(URIUtils.class.getResource("/tmp").getPath());
+		return exeCommand + " " + option + " " + geotiffFilePath + " > " + outLocation;//Paths.get(location, fileOutput);
 	}
 
 	private static void runLinuxcommands(String url, String geotiffFilePath)
@@ -140,11 +150,10 @@ public class URIUtils {
 	 * 
 	 * @param geotiffFilePath
 	 * @param geoTiffFile
-	 * @param tiffFile
 	 * @return
 	 */
-	private static boolean readMetaData(String geotiffFilePath, String geoTiffFile, String tiffFile) {
-		String url;
+	private static boolean readMetaData(ISuite suite, String geotiffFilePath, String geoTiffFile) {
+		String exe;
 		
 		if (SystemUtils.IS_OS_LINUX) { // TODO: Linux??
 						
@@ -154,51 +163,126 @@ public class URIUtils {
 			
 			if (s != null && (s.equals("x86_64") || s.equals("amd64") || s.endsWith("64"))) 
 			{
-			    url = URIUtils.class.getResource("/exe/64bit").getPath();
-			    System.out.println("url path before envt compatibility is: " + url);
-			    runLinuxcommands(url, geotiffFilePath);
+			    exe = URIUtils.class.getResource("/exe/64bit").getPath();
+			    System.out.println("url path before envt compatibility is: " + exe);
+			    runLinuxcommands(exe, geotiffFilePath);
 			}
 			else
 			{
-			    url = URIUtils.class.getResource("/exe/32bit").getPath();
-			    System.out.println("url path before envt compatibility is: " + url);
-			    runLinuxcommands(url, geotiffFilePath);
+			    exe = URIUtils.class.getResource("/exe/32bit").getPath();
+			    System.out.println("url path before envt compatibility is: " + exe);
+			    runLinuxcommands(exe, geotiffFilePath);
 			}
 			return true;
 		} else if (SystemUtils.IS_OS_WINDOWS) {
-			url = URIUtils.class.getResource("/" + EXE).getPath();
-			System.out.println("url path before envt compatibility is: " + url);
-
-			url = url.replace("/", "\\");
-			url = url.substring(1);
-			System.out.println("Windows parser path: " + url);
-
-			Process p = startCmd();
-			if (p == null)
-				return false;
-
-			new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
-			new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
-
-			// the try-with-resources statement will close the resource after
-			// use
-			try (PrintWriter stdin = new PrintWriter(p.getOutputStream())) {
-				stdin.println("cd " + url);
-				stdin.println(initMetadataComm(TIFFDUMP, geotiffFilePath, tiffFile, "-m 10000"));
-				stdin.flush();
-			}
-
-			int returnCode;
+				
+			
+			File exeTempFile;
 			try {
-				returnCode = p.waitFor();
-			} catch (InterruptedException e) {
+				exeTempFile = File.createTempFile("tiffdump", ".exe");
+
+				exeTempFile.deleteOnExit();
+				
+				FileOutputStream output = new FileOutputStream(exeTempFile);
+				InputStream input = URIUtils.class.getResourceAsStream("/exe/tiffdump.exe");
+				byte [] buffer = new byte[4096];
+				int bytesRead = input.read(buffer);
+				while (bytesRead != -1) {
+				    output.write(buffer, 0, bytesRead);
+				    bytesRead = input.read(buffer);
+				}
+				output.close();
+				input.close();
+				
+//				System.out.println(exeTempFile);
+//				System.out.println(exeTempFile.getPath());
+				
+				exe = exeTempFile.getPath();
+				
+				Process p = startCmd();
+				if (p == null)
+					return false;
+				
+				new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
+				new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
+				
+				File outTempFile = File.createTempFile("tiffMeta.txt", ".exe");
+	
+				// the try-with-resources statement will close the resource after
+				// use
+				try (PrintWriter stdin = new PrintWriter(p.getOutputStream())) {
+//					stdin.println("cd " + url);
+					stdin.println(initMetadataComm(exe, outTempFile.getAbsolutePath(), geotiffFilePath, geoTiffFile, "-m 10000"));
+					stdin.flush();
+				}	
+				
+				int returnCode;
+				try {
+					returnCode = p.waitFor();
+					
+					InputStream inputStream = new FileInputStream(outTempFile.getAbsolutePath());
+					suite.setAttribute(SuiteAttribute.TEST_SUBJECT.getName(), IOUtils.toString(inputStream, StandardCharsets.UTF_8));
+					inputStream.close();
+					
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					return false;
+				}
+//				 System.out.println("Return code = " + returnCode);
+				return true;
+				
+			} catch (IOException e) {
 				e.printStackTrace();
-				return false;
 			}
-			// System.out.println("Return code = " + returnCode);
-			return true;
+			
+			
+			
+//			url = prepPath(URIUtils.class.getResource("/" + EXE).getPath());
+//				
+////			System.out.println("url path before envt compatibility is: " + url);
+////
+//			System.out.println("Tiffdump executable path: " + url);
+////			System.out.println(System.getProperty("java.io.tmpdir"));
+//
+//			Process p = startCmd();
+//			if (p == null)
+//				return false;
+//
+//			new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
+//			new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
+//
+//			// the try-with-resources statement will close the resource after
+//			// use
+//			try (PrintWriter stdin = new PrintWriter(p.getOutputStream())) {
+//				stdin.println("cd " + url);
+//				stdin.println(initMetadataComm(TIFFDUMP, geotiffFilePath, geoTiffFile, "-m 10000"));
+//				stdin.flush();
+//			}
+
+//			int returnCode;
+////			try {
+//////				returnCode = p.waitFor();
+////			} catch (InterruptedException e) {
+////				e.printStackTrace();
+////				return false;
+////			}
+//			// System.out.println("Return code = " + returnCode);
+//			return true;
 		}
 		return false;
+	}
+	
+	private static String prepPath(String string)
+	{
+		string = string.replace("jar:", "");
+		string = string.replace("file:", "");
+		string = string.replace("/", "\\");
+		while(string.charAt(0) == '\\' || string.charAt(0) == '/')
+		{
+			string = string.substring(1);
+		}		
+//		System.out.println("Path prepped: " + string);
+		return string;
 	}
 
 	/**
