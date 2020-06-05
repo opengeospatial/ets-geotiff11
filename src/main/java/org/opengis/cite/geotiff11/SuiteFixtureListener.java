@@ -31,8 +31,7 @@ import com.sun.jersey.api.client.Client;
  * @see org.testng.ISuite ISuite interface
  */
 public class SuiteFixtureListener implements ISuiteListener {
-	private static final String TIFF_TXT = "tiffMeta.txt";
-	private static final String GEOTIFF_TXT = "geotiffMeta.txt";
+	private static final String GEOTIFF_TXT = "tiffMeta.txt";
 	
     @Override
     public void onStart(ISuite suite) {
@@ -77,7 +76,7 @@ public class SuiteFixtureListener implements ISuiteListener {
         //Document iutDoc = null;
         try {
             //iutDoc = URIUtils.parseURI(entityFile.toURI());
-        	boolean result = URIUtils.parseGeoTiff(entityFile.toURI(), GEOTIFF_TXT, TIFF_TXT);
+        	boolean result = URIUtils.parseGeoTiff(suite, entityFile.toURI(), GEOTIFF_TXT);
 
         	//if the parse fails
         	if (!result) {
@@ -87,15 +86,14 @@ public class SuiteFixtureListener implements ISuiteListener {
             throw new RuntimeException("Failed to parse resource retrieved from " + iutRef, x);
         }
         
-        try {
-			InputStream inputStream = URIUtils.class.getResourceAsStream("/tmp/" + TIFF_TXT);
-			suite.setAttribute(SuiteAttribute.TEST_SUBJECT.getName(), IOUtils.toString(inputStream, StandardCharsets.UTF_8));
-			
-			InputStream inputStream2 = URIUtils.class.getResourceAsStream("/tmp/" + GEOTIFF_TXT);
-			suite.setAttribute(SuiteAttribute.TEST_SUBJ_GEOTIFF.getName(), IOUtils.toString(inputStream2, StandardCharsets.UTF_8));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//        try {
+//			InputStream inputStream = URIUtils.class.getResourceAsStream("/tmp/" + GEOTIFF_TXT);
+//			suite.setAttribute(SuiteAttribute.TEST_SUBJECT.getName(), IOUtils.toString(inputStream, StandardCharsets.UTF_8));
+//			
+////			System.out.println("Suite: " + suite.getAttribute(SuiteAttribute.TEST_SUBJECT.getName()));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
         if (TestSuiteLogger.isLoggable(Level.FINE)) {
             StringBuilder logMsg = new StringBuilder("Parsed resource retrieved from ");

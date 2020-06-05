@@ -55,14 +55,14 @@ dt {
   </head>
   <body>
   <h1>GeoTIFF 1.1 Conformance Test Suite</h1>
-	<p>This executable test suite (ETS) verifies the conformance of the implementation 
-	under test (IUT) with respect to all relevant specifications. Conformance testing 
-  is a kind of "black box" testing that examines externally visible characteristics 
-  or behaviors of the IUT and is independent of any implementation details.</p>
+	<p>This executable test suite (ETS) verifies the conformance of the implementation under test (IUT) with respect to the <a href="https://github.com/opengeospatial/geotiff/blob/master/GeoTIFF_Standard/standard/GeoTiff.adoc">OGC® GeoTIFF Encoding Standard 1.1</a>. Conformance testing is a kind of "black box" testing that examines externally visible characteristics or behaviors of the IUT and is independent of any implementation details.</p>
+  
+  <h2>Test Requirements</h2>
+  <p>Please refer to the following <a href="https://github.com/opengeospatial/geotiff/blob/68d8f902293ad64526889daa055892ea30f9e9ea/GeoTIFF_Standard/Detailed%20Test%20Suite/abstract_tests/Requirements_Trace_Matrix.adoc">Requirements Trace Matrix</a> for information on specific testing details.</p>
 
-	<p>The test run arguments are summarized in the following table. The <em>Obligation</em> 
-	descriptor can have the following values: M (mandatory), O (optional), or C 
-	(conditional).</p>
+  <p>The test run arguments are summarized in the following table. The <em>Obligation</em> 
+    descriptor can have the following values: M (mandatory), O (optional), or C 
+    (conditional).</p>
 
 	<table border="1" style="border-collapse: collapse;">
 	  <caption>Test run arguments</caption>
@@ -79,18 +79,21 @@ dt {
         <td>iut</td>
         <td>URI</td>
 		<td>M</td>
-		<td>A URI that refers to the implementation under test or metadata about it.
+		<td>A URI that refers to the GeoTIFF file.
     Ampersand ('&amp;') characters must be percent-encoded as '%26'.</td>
       </tr>
-	  <tr>
-      <td>ics</td>
-      <td>A comma-separated list of string values.</td>
-      <td>O</td>
-      <td>An implementation conformance statement that indicates which conformance 
-      classes or options are supported.</td>
-    </tr>
 	  </tbody>
   </table>
+
+  <h2>Lead</h2>
+  <ul><li>Dirk Stenger</li></ul>
+
+  <h2>Contributors</h2>
+  <ul>
+    <li>Dirk Stenger</li>
+    <li>Dustin Jutras</li>
+    <li>Chuck Heazel</li> 
+  </ul>
 
   </body>
 </html>
