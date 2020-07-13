@@ -28,3 +28,8 @@ ets-geotiff11/src/main/resources/test-run-props.xml
 
 /.metadata/*
 /bin/
+
+.classpath
+.project
+.settings/org.eclipse.core.resources.prefs
+.settings/org.eclipse.jdt.core.prefs

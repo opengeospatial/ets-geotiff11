@@ -283,8 +283,8 @@ public class TiffDump {
 		}
 				
 		if(!valid()) {
-			System.out.println("Tiff contents invalid/parsed incorrectly");
-			throw new Exception("Tiff contents invalid/parsed incorrectly"); // TODO: fix this
+			System.out.println("Tiff contents invalid/parsed incorrectly:\n" + contents);
+			throw new Exception("Tiff contents invalid/parsed incorrectly.");
 		}
 	}
 	
