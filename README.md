@@ -8,13 +8,18 @@ See specification documentation [here](https://github.com/opengeospatial/geotiff
 Two conformance classes are defined:
   * [TIFF](http://www.opengis.net/spec/GeoTIFF/1.1/conf/Core)
   * [Raster2Model_CoordinateTransformation_GeoKey](http://www.opengis.net/spec/GeoTIFF/1.1/conf/Raster2Model_CoordinateTransformation_GeoKey)
- 
+
 ## Bugs
 Issue tracker is available at github.
 
 ## How to run the tests
 The test suite is built using [Apache Maven v3](https://maven.apache.org/). The options
 for running the suite are summarized below.
+
+## Dependency requirement
+
+On Linux, the test suite [requires](https://github.com/opengeospatial/ets-geotiff11/blob/master/src/main/java/org/opengis/cite/geotiff11/util/URIUtils.java#L203) libtiff-tools.
+
 
 #### 1. Integrated development environment (IDE)
 
