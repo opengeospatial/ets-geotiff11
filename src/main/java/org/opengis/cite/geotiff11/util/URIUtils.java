@@ -229,7 +229,7 @@ public class URIUtils {
 				InputStream inputStream = new FileInputStream(outTempFile.getAbsolutePath());
 				suite.setAttribute(SuiteAttribute.TEST_SUBJECT.getName(), IOUtils.toString(inputStream, StandardCharsets.UTF_8));
 				inputStream.close();
-				System.out.println((String) suite.getAttribute(SuiteAttribute.TEST_SUBJECT.getName()));
+//				System.out.println((String) suite.getAttribute(SuiteAttribute.TEST_SUBJECT.getName()));
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();

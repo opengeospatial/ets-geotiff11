@@ -21,6 +21,7 @@ import edu.harvard.hul.ois.jhove.JhoveBase;
 import edu.harvard.hul.ois.jhove.Module;
 import edu.harvard.hul.ois.jhove.OutputHandler;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
+import edu.harvard.hul.ois.jhove.module.TiffModule;
 //import edu.harvard.hul.ois.jhove.*;
 
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Core.adoc
@@ -72,7 +73,7 @@ public class TiffCoreTests extends CommonTiffMeta {
 	// a GeoTIFF file SHALL be compliant with the TIFF 6.0 specification
 	@Test(description = "TIFF Core 6.0 Compliance Test")
 	public void verifyTiffVersionSixCompliance() throws Exception {
-	
+			
 		// https://www.javatips.net/api/jhove-master/jhove-apps/src/main/java/Jhove.java
 		App app = App.newAppWithName("Tiff Test");
 		
@@ -85,27 +86,39 @@ public class TiffCoreTests extends CommonTiffMeta {
 	    je.setShowRawFlag (false);
 	    je.setSignatureFlag (false);
 	    
-		Module module = je.getModule("TIFF-hul");
+		Module tiffModule = je.getModule("TIFF-hul");
+//		TiffModule tiffModule = new TiffModule();
+
 		OutputHandler handler = new XmlHandler();
-				
-		je.dispatch(app, module, null, handler, FULL_TCR, new String[] {tiffPath});	
-	
+		
 		boolean isValid = false;
 		
-		File file = new File(FULL_TCR);
-	    Scanner scanner = new Scanner(file);
+		File tempFile = File.createTempFile("tiff-compliance-report", ".txt");
+		
+		tempFile.deleteOnExit();
+
+		try {
+				je.dispatch(app, tiffModule, null, handler, tempFile.getAbsolutePath(), new String[] {tiffPath});	
+		}
+		catch (NullPointerException e)
+		{
+			Assert.fail("JHove failed to generate a compliance report");
+		}
+		
+	    Scanner scanner = new Scanner(tempFile);
 
 	    while (scanner.hasNextLine()) {
 	        String line = scanner.nextLine();
 	        if(line.contains(VALID)) { 
-	            //System.out.println("found on line " + lineNum);
 	            isValid = true;
 	            break;
 	        }
 	    }
 
 	    scanner.close();
-	    file.deleteOnExit();
+//	    file.deleteOnExit();
+	    
+
 	    
 	    Assert.assertTrue(isValid, "a GeoTIFF file SHALL be compliant with the TIFF 6.0 specification");	
 	}
