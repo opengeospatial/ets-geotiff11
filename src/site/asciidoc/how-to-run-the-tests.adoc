@@ -31,8 +31,8 @@ in `${user.home}/testng/` having a UUID value as its name.
 
 === 2. Command shell (console)
 
-One of the build artifacts is an "all-in-one" JAR file that includes the test
-suite and all of its dependencies; this makes it very easy to execute the test
+One of the build artifacts is an "all-in-one" JAR file that includes the test suite and all of 
+its dependencies (located in the "target" directory); this makes it very easy to execute the test
 suite in a command shell:
 
 `java -jar ets-geotiff11-0.1-SNAPSHOT-aio.jar [-o|--outputDir $TMPDIR] [test-run-props.xml]`
