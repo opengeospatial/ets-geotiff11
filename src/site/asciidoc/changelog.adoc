@@ -1,7 +1,7 @@
-= Release Notes
+= GeoTIFF 1.1 Test Suite Release Notes
 
-== ${project.version} (YYYY-MM-DD)
+== r1 (2020-06-11)
 
 The initial release implements the following test requirements:
 
-- all mandatory conformance classes (Class A, Class B)
+- all mandatory conformance classes (TIFF)
