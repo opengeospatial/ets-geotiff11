@@ -64,7 +64,7 @@ include::how-to-run-the-tests.adoc[]
 
 == Using the REST API
 
-Using the REST API of the TEAM Engine requires some run arguments. These ate summarized in Table 2.
+Using the REST API of the TEAM Engine requires some run arguments. These are summarized in Table 2.
 The _Obligation_ descriptor can have the following values: M (mandatory), O (optional), or C (conditional).
 
 .Test run arguments
