@@ -1,5 +1,11 @@
 = GeoTIFF 1.1 Test Suite Release Notes
 
+== 0.2 (2021-01-28)
+
+- https://github.com/opengeospatial/ets-geotiff11/issues/32[#32]: Cleanup dependencies
+- https://github.com/opengeospatial/ets-geotiff11/issues/25[#25]: Add release notes
+- https://github.com/opengeospatial/ets-geotiff11/pull/36[#36]: Bump xercesImpl from 2.11.0 to 2.12.1
+
 == r1 (2020-06-11)
 
 The initial release implements all tests in the following conformance classes:
