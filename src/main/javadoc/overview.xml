@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite>
+	<title>GeoTIFF 1.1 Conformance Test Suite</title>
+	<description>
+	    This executable test suite (ETS) verifies the conformance of the implementation under test (IUT) 
+	    with respect to the OGC® GeoTIFF Encoding Standard 1.1. Conformance testing is a kind of 'black
+		box' testing that examines externally visible characteristics or behaviors of the IUT and is independent 
+		of any implementation details. Please refer to the following requirements Trace Matrix for information 
+		on specific testing details. The test run arguments are summarized in the following table. The
+		obligation descriptor can have the following values: M (mandatory), O (optional), or C (conditional).
+	</description>
+	<testrunarguments>
+		<testrunargument>
+			<name>iut</name>
+			<valuedomain>URI</valuedomain>
+			<obligation>M</obligation>
+			<description>A URI that refers to the GeoTIFF file.
+				Ampersand ('&amp;') characters must be percent-encoded as '%26'.
+			</description>
+		</testrunargument>
+	</testrunarguments>
+</testsuite>
