@@ -3,6 +3,8 @@
 == 1.0 (2021-05-11)
 
 - https://github.com/opengeospatial/ets-geotiff11/issues/39[#39]: Prepare Production release
+- https://github.com/opengeospatial/ets-geotiff11/issues/34[#34]: Add template to get an XML/JSON response via rest endpoint
+- https://github.com/opengeospatial/ets-geotiff11/pull/37[#37]: Set Docker TEAM Engine version to 5.4.1
 
 == 0.2 (2021-01-28)
 
