@@ -1,5 +1,9 @@
 = GeoTIFF 1.1 Test Suite Release Notes
 
+== 1.0 (2021-05-11)
+
+- https://github.com/opengeospatial/ets-geotiff11/issues/39[#39]: Prepare Production release
+
 == 0.2 (2021-01-28)
 
 - https://github.com/opengeospatial/ets-geotiff11/issues/32[#32]: Cleanup dependencies
