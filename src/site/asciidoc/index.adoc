@@ -3,41 +3,26 @@
 == Scope
 
 This executable test suite (ETS) verifies the conformance of the implementation
-under test (IUT) with respect to the set of relevant specifications depicted in
-Figure 1. Conformance testing is a kind of "black box" testing that examines the
-externally visible characteristics or behaviors of the IUT while disregarding
+under test (IUT) with respect to the OGC GeoTIFF 1.1 Standard. Conformance testing is a kind of "black box" testing that examines the externally visible characteristics or behaviors of the IUT while disregarding
 any implementation details.
 
-.Relevant specifications
-[caption="Figure 1: "]
-image::img/specifications.png[]
+The GeoTIFF format is used throughout the geospatial and earth science communities to share geographic image data. The OGC GeoTIFF standard defines the Geographic Tagged Image File Format (GeoTIFF) by specifying requirements and encoding rules for using the Tagged Image File Format (TIFF) for the exchange of georeferenced or geocoded imagery. The OGC GeoTIFF 1.1 standard formalizes the existing community GeoTIFF specification version 1.0 and aligns it with the continuing addition of data to the EPSG Geodetic Parameter Dataset.
 
 
 
 Several conformance classes are defined in the principal specifications; the ones
 listed below are covered by this test suite:
 
-* //TODO
-   - //TODO
-* Class A
-   - List capabilities of conformance class A
-* Class B
-    - List capabilities of conformance class B
+* A.2. Conformance Class TIFF
+* A.3. Conformance Class Raster2Model_CoordinateTransformation_GeoKey
 
 == Test requirements
 
-The documents listed below stipulate requirements that must be satisfied by a 
+The document listed below stipulates requirements that must be satisfied by a 
 conforming implementation.
 
-1. http://www.w3.org/TR/WCAG20/[Web Content Accessibility Guidelines (WCAG) 2.0]
-2. http://www.w3.org/TR/xml/[Extensible Markup Language (XML) 1.0, Fifth Edition]
-3. https://tools.ietf.org/html/rfc7231)[RFC 7231] - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content
+1. http://docs.opengeospatial.org/is/19-008r4/19-008r4.html[OGC 19-008r4, OGC GeoTIFF Standard 1.1]
 
-If any of the following preconditions are not satisfied then all tests in the
-suite will be marked as skipped.
-
-1. Precondition 1
-2. Precondition 2
 
 == Test suite structure
 
