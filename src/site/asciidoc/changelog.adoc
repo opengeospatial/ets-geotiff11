@@ -1,5 +1,11 @@
 = GeoTIFF 1.1 Test Suite Release Notes
 
+== 1.1 (2022-05-30)
+
+- https://github.com/opengeospatial/ets-geotiff11/pull/40[#40]: Update index.adoc
+- https://github.com/opengeospatial/ets-geotiff11/pull/41[#41]: Bump xercesImpl from 2.12.1 to 2.12.2
+- https://github.com/opengeospatial/ets-geotiff11/pull/38[#38]: Bump commons-io from 2.4 to 2.7
+
 == 1.0 (2021-05-11)
 
 - https://github.com/opengeospatial/ets-geotiff11/issues/39[#39]: Prepare Production release
