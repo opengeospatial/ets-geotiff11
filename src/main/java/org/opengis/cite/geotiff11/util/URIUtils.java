@@ -18,7 +18,6 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Level;
 
-import javax.ws.rs.core.HttpHeaders;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,9 +33,10 @@ import org.testng.ISuite;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.HttpHeaders;
 
 /**
  * Provides a collection of utility methods for manipulating or resolving URI
@@ -306,16 +306,15 @@ public class URIUtils {
 		if (uriRef.getScheme().equalsIgnoreCase("file")) {
 			return new File(uriRef);
 		}
-		Client client = Client.create();
-		WebResource webRes = client.resource(uriRef);
-		ClientResponse rsp = webRes.get(ClientResponse.class);
+		Client client = ClientBuilder.newClient();
+		Response rsp = client.target(uriRef).request().get();
 		String suffix = null;
-		if (rsp.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).endsWith("tif")) {
+		if (rsp.getHeaderString(HttpHeaders.CONTENT_TYPE).endsWith("tif")) {
 			suffix = ".tif";
 		}
 		File destFile = File.createTempFile("entity-", suffix);
 		if (rsp.hasEntity()) {
-			InputStream is = rsp.getEntityInputStream();
+			InputStream is = rsp.readEntity(InputStream.class);
 			OutputStream os = new FileOutputStream(destFile);
 			byte[] buffer = new byte[8 * 1024];
 			int bytesRead;

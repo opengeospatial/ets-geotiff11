@@ -1,5 +1,6 @@
 package org.opengis.cite.geotiff11.util;
 
+import java.io.InputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -7,21 +8,20 @@ import java.net.Proxy;
 import java.net.SocketAddress;
 import java.net.URL;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.LoggingFilter;
-import com.sun.jersey.client.urlconnection.HttpURLConnectionFactory;
-import com.sun.jersey.client.urlconnection.URLConnectionClientHandler;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
+
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.logging.LoggingFeature;
+
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import org.opengis.cite.geotiff11.ReusableEntityFilter;
@@ -42,16 +42,17 @@ public class ClientUtils {
      * @return A Client component.
      */
     public static Client buildClient() {
-        ClientConfig config = new DefaultClientConfig();
-        config.getProperties().put(
-                ClientConfig.PROPERTY_FOLLOW_REDIRECTS, true);
-        config.getProperties().put(
-                ClientConfig.PROPERTY_CONNECT_TIMEOUT, 10000);
-        Client client = Client.create(config);
-        client.addFilter(new ReusableEntityFilter());
-        client.addFilter(new LoggingFilter());
+        ClientConfig config = new ClientConfig();
+        // TODO: currently ReusableEntityFilter doesn't do anything
+        //config.register(ReusableEntityFilter.class);
+        config.property(ClientProperties.FOLLOW_REDIRECTS, true);
+        config.property(ClientProperties.CONNECT_TIMEOUT, 10000);
+        config.register(new LoggingFeature()); // TODO: verify if this works
+        JerseyClientBuilder clientBuilder = new JerseyClientBuilder();
+        Client client = JerseyClientBuilder.newClient(config);
         return client;
     }
+
 
     /**
      * Constructs a client component that uses a specified web proxy. Proxy
@@ -63,6 +64,7 @@ public class ClientUtils {
      *
      * @return A Client component that submits requests through a web proxy.
      */
+    /* seems unused
     public static Client buildClientWithProxy(final String proxyHost,
             final int proxyPort) {
         ClientConfig config = new DefaultClientConfig();
@@ -81,6 +83,7 @@ public class ClientUtils {
         client.addFilter(new LoggingFilter());
         return client;
     }
+*/
 
     /**
      * Builds an HTTP request message that uses the GET method.
@@ -92,7 +95,8 @@ public class ClientUtils {
      *
      * @return A ClientRequest object.
      */
-    public static ClientRequest buildGetRequest(URI endpoint,
+    /* seems unused
+    public static ClientRequestContext buildGetRequest(URI endpoint,
             Map<String, String> qryParams, MediaType... mediaTypes) {
         UriBuilder uriBuilder = UriBuilder.fromUri(endpoint);
         if (null != qryParams) {
@@ -110,6 +114,7 @@ public class ClientUtils {
         ClientRequest req = reqBuilder.build(uri, HttpMethod.GET);
         return req;
     }
+    */
 
     /**
      * Creates a copy of the given MediaType object but without any parameters.
@@ -118,9 +123,11 @@ public class ClientUtils {
      * @return A new (immutable) MediaType object having the same type and
      * subtype.
      */
+    /* seems unused
     public static MediaType removeParameters(MediaType mediaType) {
         return new MediaType(mediaType.getType(), mediaType.getSubtype());
     }
+    */
 
     /**
      * Obtains the (XML) response entity as a JAXP Source object and resets the
@@ -133,16 +140,16 @@ public class ClientUtils {
      * using the given targetURI value (this may be used to resolve any relative
      * URIs found in the source).
      */
-    public static Source getResponseEntityAsSource(ClientResponse response,
+    public static Source getResponseEntityAsSource(Response response,
             String targetURI) {
-        Source source = response.getEntity(DOMSource.class);
+        Source source = response.readEntity(DOMSource.class);
         if (null != targetURI && !targetURI.isEmpty()) {
             source.setSystemId(targetURI);
         }
-        if (response.getEntityInputStream().markSupported()) {
+        if (response.readEntity(InputStream.class).markSupported()) {
             try {
                 // NOTE: entity was buffered by client filter
-                response.getEntityInputStream().reset();
+                response.readEntity(InputStream.class).reset();
             } catch (IOException ex) {
                 Logger.getLogger(ClientUtils.class.getName()).log(Level.WARNING,
                         "Failed to reset response entity.", ex);
@@ -162,7 +169,7 @@ public class ClientUtils {
      * given targetURI value (this may be used to resolve any relative URIs
      * found in the document).
      */
-    public static Document getResponseEntityAsDocument(ClientResponse response,
+    public static Document getResponseEntityAsDocument(Response response,
             String targetURI) {
         DOMSource domSource = (DOMSource) getResponseEntityAsSource(response,
                 targetURI);

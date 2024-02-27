@@ -25,8 +25,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.sun.jersey.api.client.ClientResponse;
-
 /**
  * Provides a set of custom assertion methods.
  */
@@ -188,8 +186,9 @@ public class ETSAssert {
      *            locator attribute (e.g. a parameter name); the attribute value
      *            will be ignored if the argument is null or empty.
      */
-    public static void assertExceptionReport(ClientResponse rsp, String exceptionCode, String locator) {
-        Assert.assertEquals(rsp.getStatus(), ClientResponse.Status.BAD_REQUEST.getStatusCode(),
+    /* seems unused
+    public static void assertExceptionReport(Response rsp, String exceptionCode, String locator) {
+        Assert.assertEquals(rsp.getStatus(), Response.Status.BAD_REQUEST.getStatusCode(),
                 ErrorMessage.get(ErrorMessageKeys.UNEXPECTED_STATUS));
         Document doc = rsp.getEntity(Document.class);
         String expr = String.format("//ows:Exception[@exceptionCode = '%s']", exceptionCode);
@@ -207,4 +206,5 @@ public class ETSAssert {
                     String.format("Expected locator attribute to contain '%s']", locator));
         }
     }
+    */
 }

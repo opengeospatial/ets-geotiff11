@@ -1,6 +1,6 @@
 package org.opengis.cite.geotiff11;
 
-import com.sun.jersey.api.client.Client;
+import jakarta.ws.rs.client.Client;
 
 import java.io.File;
 

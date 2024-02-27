@@ -1,9 +1,9 @@
 package org.opengis.cite.geotiff11;
 
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
 import java.nio.charset.StandardCharsets;
-import javax.ws.rs.core.MediaType;
 import org.opengis.cite.geotiff11.util.ClientUtils;
 import org.opengis.cite.geotiff11.util.XMLUtils;
 import org.testng.ITestResult;
@@ -45,13 +45,13 @@ public class TestFailureListener extends TestListenerAdapter {
      * @param req An object representing an HTTP request message.
      * @return A string containing information gleaned from the request message.
      */
-    String getRequestMessageInfo(ClientRequest req) {
+    String getRequestMessageInfo(ClientRequestContext req) {
         if (null == req) {
             return "No request message.";
         }
         StringBuilder msgInfo = new StringBuilder();
         msgInfo.append("Method: ").append(req.getMethod()).append('\n');
-        msgInfo.append("Target URI: ").append(req.getURI()).append('\n');
+        msgInfo.append("Target URI: ").append(req.getUri()).append('\n');
         msgInfo.append("Headers: ").append(req.getHeaders()).append('\n');
         if (null != req.getEntity()) {
             Object entity = req.getEntity();
@@ -74,7 +74,7 @@ public class TestFailureListener extends TestListenerAdapter {
      * @return A string containing information gleaned from the response
      * message.
      */
-    String getResponseMessageInfo(ClientResponse rsp) {
+    String getResponseMessageInfo(Response rsp) {
         if (null == rsp) {
             return "No response message.";
         }
@@ -82,11 +82,11 @@ public class TestFailureListener extends TestListenerAdapter {
         msgInfo.append("Status: ").append(rsp.getStatus()).append('\n');
         msgInfo.append("Headers: ").append(rsp.getHeaders()).append('\n');
         if (rsp.hasEntity()) {
-            if (rsp.getType().isCompatible(MediaType.APPLICATION_XML_TYPE)) {
+            if (rsp.getMediaType().isCompatible(MediaType.APPLICATION_XML_TYPE)) {
                 Document doc = ClientUtils.getResponseEntityAsDocument(rsp, null);
                 msgInfo.append(XMLUtils.writeNodeToString(doc));
             } else {
-                byte[] body = rsp.getEntity(byte[].class);
+                byte[] body = rsp.readEntity(byte[].class);
                 msgInfo.append(new String(body, StandardCharsets.UTF_8));
             }
             msgInfo.append('\n');
