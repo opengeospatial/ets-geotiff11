@@ -1,4 +1,6 @@
-FROM tomcat:7.0-jre8
+FROM tomcat:10.1-jre17
+
+RUN apt update && apt install -y unzip
 
 # add TEAM engine webapp
 ADD maven/dependency/teamengine-web-*.war /root/

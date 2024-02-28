@@ -1,8 +1,8 @@
 package org.opengis.cite.geotiff11;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.core.Response;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,7 +14,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.MediaType;
 import org.opengis.cite.geotiff11.util.ClientUtils;
 import org.testng.ITestContext;
 import org.testng.SkipException;
@@ -32,6 +31,8 @@ public class CommonFixture {
      * Root test suite package (absolute path).
      */
     public static final String ROOT_PKG_PATH = "/org/opengis/cite/geotiff11/";
+
+    // TODO: are the members below ever set?
     /**
      * HTTP client component (JAX-RS Client API).
      */
@@ -39,11 +40,11 @@ public class CommonFixture {
     /**
      * An HTTP request message.
      */
-    protected ClientRequest request;
+    protected ClientRequestContext request;
     /**
      * An HTTP response message.
      */
-    protected ClientResponse response;
+    protected Response response;
 
     /**
      * Initializes the common test fixture with a client component for 
@@ -82,7 +83,7 @@ public class CommonFixture {
      *
      * @see ClientUtils#getResponseEntityAsDocument
      */
-    public Document getResponseEntityAsDocument(ClientResponse response,
+    public Document getResponseEntityAsDocument(Response response,
             String targetURI) {
         return ClientUtils.getResponseEntityAsDocument(response, targetURI);
     }
@@ -100,8 +101,10 @@ public class CommonFixture {
      *
      * @see ClientUtils#buildGetRequest
      */
-    public ClientRequest buildGetRequest(URI endpoint,
+/* seems unused
+    public ClientRequestContext buildGetRequest(URI endpoint,
             Map<String, String> qryParams, MediaType... mediaTypes) {
         return ClientUtils.buildGetRequest(endpoint, qryParams, mediaTypes);
     }    
+*/
 }
