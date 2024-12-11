@@ -14,24 +14,24 @@ import org.testng.ISuite;
 import org.testng.ITestContext;
 
 /**
- * Verifies the behavior of the TiffCoreTests test class. Test stubs replace
- * fixture constituents where appropriate.
+ * Verifies the behavior of the TiffCoreTests test class. Test stubs replace fixture
+ * constituents where appropriate.
  */
 @RunWith(Theories.class)
-public class VerifyTiffCoreTests extends CreateDataSets{
+public class VerifyTiffCoreTests extends CreateDataSets {
 
 	private static ITestContext testContext;
+
 	TiffCoreTests iut;
 
 	public VerifyTiffCoreTests() {
 	}
-	
-	private void dataSetSetUp(InputStream inputStream)
-	{
+
+	private void dataSetSetUp(InputStream inputStream) {
 		testDataSets(inputStream);
 		iut = new TiffCoreTests();
 	}
-	
+
 	@BeforeClass
 	public static void setUpClass() throws Exception {
 		testContext = mock(ITestContext.class);
@@ -41,13 +41,13 @@ public class VerifyTiffCoreTests extends CreateDataSets{
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		
+
 	}
-	
+
 	@Theory
 	public void verifyTiffVersion(InputStream inputStream) {
 		dataSetSetUp(inputStream);
-		
+
 		iut = new TiffCoreTests();
 		iut.obtainTestSubject(testContext);
 		iut.verifyTiffVersion();
@@ -56,9 +56,10 @@ public class VerifyTiffCoreTests extends CreateDataSets{
 	@Theory
 	public void verifyTiffEndianness(InputStream inputStream) {
 		dataSetSetUp(inputStream);
-		
+
 		iut = new TiffCoreTests();
 		iut.obtainTestSubject(testContext);
-		iut.verifyTiffEndianness();	
+		iut.verifyTiffEndianness();
 	}
+
 }

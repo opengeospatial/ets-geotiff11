@@ -8,30 +8,23 @@ import org.junit.Test;
 import org.opengis.cite.geotiff11.util.EPSGDataSet;
 
 public class VerifyEPSGDataSet {
-	
+
 	// TODO: coverage of EPSGDataSet tools
 
-	String[] tables = new String[] {
-			EPSGDataSet.UOM,
-			EPSGDataSet.CRS,
-			EPSGDataSet.DATUM,
-			EPSGDataSet.PRIMEMERIDIAN,
-			EPSGDataSet.ELLIPSOID,
-			EPSGDataSet.CO,
-			EPSGDataSet.COM,
-			EPSGDataSet.COP
-	};
-	
-    @BeforeClass
-    public static void setUpClass() {
-    }
-	
-    @Test
-    public void verifyTablesExist() throws IOException { 
-    	for(String table : tables) {
-    		assertTrue(EPSGDataSet.readTable(table) != null);
-    	}
-    }
-    
-    // etc.
+	String[] tables = new String[] { EPSGDataSet.UOM, EPSGDataSet.CRS, EPSGDataSet.DATUM, EPSGDataSet.PRIMEMERIDIAN,
+			EPSGDataSet.ELLIPSOID, EPSGDataSet.CO, EPSGDataSet.COM, EPSGDataSet.COP };
+
+	@BeforeClass
+	public static void setUpClass() {
+	}
+
+	@Test
+	public void verifyTablesExist() throws IOException {
+		for (String table : tables) {
+			assertTrue(EPSGDataSet.readTable(table) != null);
+		}
+	}
+
+	// etc.
+
 }
