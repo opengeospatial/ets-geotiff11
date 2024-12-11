@@ -2,7 +2,6 @@ package org.opengis.cite.geotiff11.util;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**

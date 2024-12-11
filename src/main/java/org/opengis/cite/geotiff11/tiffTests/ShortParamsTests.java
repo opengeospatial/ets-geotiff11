@@ -1,13 +1,41 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
+import static org.opengis.cite.geotiff11.util.GeoKeyID.ELLIPSOIDGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.ELLIPSOIDINVFLATTENINGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.ELLIPSOIDSEMIMAJORAXISGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.ELLIPSOIDSEMIMINORAXISGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEODETICCITATIONGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEODETICCRSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEODETICDATUMGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGANGULARUNITSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGANGULARUNITSIZEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGAZIMUTHUNITSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGLINEARUNITSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGLINEARUNITSIZEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOKEYDIRECTORYTAG;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GTCITATIONGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GTMODELTYPEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GTRASTERTYPEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PRIMEMERIDIANGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PRIMEMERIDIANLONGITUDEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJECTEDCITATIONGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJECTEDCRSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJECTIONGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJLINEARUNITSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJLINEARUNITSIZEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJMETHODGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.VERTICALCITATIONGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.VERTICALDATUMGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.VERTICALGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.VERTICALUNITSGEOKEY;
+
 import java.io.IOException;
 import java.util.Arrays;
+
 import org.apache.commons.csv.CSVRecord;
 import org.opengis.cite.geotiff11.util.EPSGDataSet;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.opengis.cite.geotiff11.util.GeoKeyID.*;
 
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_Short_Param.adoc
 

@@ -2,10 +2,13 @@ package org.opengis.cite.geotiff11.tiffTests;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 import java.io.InputStream;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.experimental.theories.*;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 import org.opengis.cite.geotiff11.util.CreateDataSets;
 import org.testng.ISuite;

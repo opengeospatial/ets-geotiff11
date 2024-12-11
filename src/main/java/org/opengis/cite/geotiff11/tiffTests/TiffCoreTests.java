@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 
-import org.apache.commons.io.FilenameUtils;
-import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.TestRunArg;
 import org.opengis.cite.geotiff11.util.TestSuiteLogger;
 import org.testng.Assert;
@@ -21,8 +19,6 @@ import edu.harvard.hul.ois.jhove.JhoveBase;
 import edu.harvard.hul.ois.jhove.Module;
 import edu.harvard.hul.ois.jhove.OutputHandler;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
-import edu.harvard.hul.ois.jhove.module.TiffModule;
-//import edu.harvard.hul.ois.jhove.*;
 
 // https://github.com/opengeospatial/geotiff/blob/5d6ab0ba54f1ed0174901dd84240817dc9dbe011/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_TIFF_Core.adoc
 /**

@@ -1,30 +1,21 @@
 package org.opengis.cite.geotiff11.util;
 
-import java.io.InputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.SocketAddress;
-import java.net.URL;
-
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.core.Response;
-
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.logging.LoggingFeature;
-
-import java.net.URI;
-import java.util.concurrent.TimeUnit;
-import java.util.Map;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
+
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.logging.LoggingFeature;
 import org.w3c.dom.Document;
+
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
 
 /**
  * Provides various utility methods for creating and configuring HTTP client components.

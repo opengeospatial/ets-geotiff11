@@ -1,12 +1,41 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
+import static org.opengis.cite.geotiff11.util.GeoKeyID.ELLIPSOIDINVFLATTENINGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.ELLIPSOIDSEMIMAJORAXISGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.ELLIPSOIDSEMIMINORAXISGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEODOUBLEPARAMSTAG;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGANGULARUNITSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGANGULARUNITSIZEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGAZIMUTHUNITSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGLINEARUNITSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOGLINEARUNITSIZEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PRIMEMERIDIANLONGITUDEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJAZIMUTHANGLEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJCENTEREASTINGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJCENTERLATGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJCENTERLONGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJCENTERNORTHINGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJFALSEEASTINGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJFALSENORTHINGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJFALSEORIGINEASTINGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJFALSEORIGINLATGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJFALSEORIGINLONGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJFALSEORIGINNORTHINGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJLINEARUNITSGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJLINEARUNITSIZEGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJNATORIGINLATGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJNATORIGINLONGGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJSCALEATCENTERGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJSCALEATNATORIGINGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJSTDPARALLEL1GEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJSTDPARALLEL2GEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJSTRAIGHTVERTPOLELONGGEOKEY;
+
 import java.util.List;
 
 import org.opengis.cite.geotiff11.util.EPSGDataSet;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.opengis.cite.geotiff11.util.GeoKeyID.*;
 
 // https://github.com/opengeospatial/geotiff/blob/master/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_Double_Param.adoc
 

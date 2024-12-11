@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.InputStream;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.experimental.theories.Theories;

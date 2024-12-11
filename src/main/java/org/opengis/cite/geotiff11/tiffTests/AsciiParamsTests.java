@@ -1,10 +1,14 @@
 package org.opengis.cite.geotiff11.tiffTests;
 
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEOASCIIPARAMSTAG;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GEODETICCITATIONGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.GTCITATIONGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.PROJECTEDCITATIONGEOKEY;
+import static org.opengis.cite.geotiff11.util.GeoKeyID.VERTICALCITATIONGEOKEY;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.opengis.cite.geotiff11.util.GeoKeyID.*;
 
 // https://github.com/opengeospatial/geotiff/blob/master/GeoTIFF_Standard/standard/abstract_tests/TIFF_Tests/TEST_Double_Param.adoc
 

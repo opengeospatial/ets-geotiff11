@@ -2,19 +2,16 @@ package org.opengis.cite.geotiff11;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.apache.commons.io.IOUtils;
-import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.util.ClientUtils;
 import org.opengis.cite.geotiff11.util.TestSuiteLogger;
 import org.opengis.cite.geotiff11.util.URIUtils;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
+
 import jakarta.ws.rs.client.Client;
 
 /**

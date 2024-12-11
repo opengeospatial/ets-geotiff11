@@ -1,10 +1,10 @@
 package org.opengis.cite.geotiff11;
 
-import jakarta.ws.rs.client.Client;
-
 import java.io.File;
 
 import org.w3c.dom.Document;
+
+import jakarta.ws.rs.client.Client;
 
 /**
  * An enumerated type defining ISuite attributes that may be set to constitute a shared

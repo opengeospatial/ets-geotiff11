@@ -3,9 +3,9 @@ package org.opengis.cite.geotiff11.util;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.opengis.cite.geotiff11.util.EPSGDataSet;
 
 public class VerifyEPSGDataSet {
 

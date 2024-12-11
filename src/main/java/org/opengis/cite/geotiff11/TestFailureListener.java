@@ -1,14 +1,16 @@
 package org.opengis.cite.geotiff11;
 
-import jakarta.ws.rs.client.ClientRequestContext;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.MediaType;
 import java.nio.charset.StandardCharsets;
+
 import org.opengis.cite.geotiff11.util.ClientUtils;
 import org.opengis.cite.geotiff11.util.XMLUtils;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 import org.w3c.dom.Document;
+
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 /**
  * A listener that augments a test result with diagnostic information in the event that a

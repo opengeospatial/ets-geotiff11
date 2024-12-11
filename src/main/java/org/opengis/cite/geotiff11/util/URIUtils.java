@@ -8,35 +8,26 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.opengis.cite.geotiff11.SuiteAttribute;
 import org.opengis.cite.geotiff11.SyncPipe;
-import org.opengis.cite.geotiff11.util.URIUtils;
 import org.testng.ISuite;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
 
 /**
  * Provides a collection of utility methods for manipulating or resolving URI references.
