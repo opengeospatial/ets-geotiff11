@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
-import org.opengis.cite.geotiff11.ReusableEntityFilter;
 import org.w3c.dom.Document;
 
 /**
