@@ -170,7 +170,7 @@ public class URIUtils {
 				// System.out.println(exeTempFile.getPath());
 
 				// exe = exeTempFile.getPath();
-				exe = Paths.get(System.getProperty("user.dir")).relativize(exeTempFile.toPath()).toString();
+				exe = Paths.get(System.getProperty("user.home")).relativize(exeTempFile.toPath()).toString();
 				// System.out.println(Paths.get(System.getProperty("user.dir")));
 				// System.out.println(exeTempFile.toPath());
 				// System.out.println(exe);
