@@ -12,6 +12,7 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.logging.LoggingFeature;
+import org.opengis.cite.geotiff11.ReusableEntityFilter;
 import org.w3c.dom.Document;
 
 import jakarta.ws.rs.client.Client;
@@ -36,8 +37,8 @@ public class ClientUtils {
 		config.property(ClientProperties.FOLLOW_REDIRECTS, true);
 		config.property(ClientProperties.CONNECT_TIMEOUT, 10000);
 		config.register(new LoggingFeature()); // TODO: verify if this works
-		JerseyClientBuilder clientBuilder = new JerseyClientBuilder();
 		Client client = JerseyClientBuilder.newClient(config);
+                client.register(new ReusableEntityFilter());
 		return client;
 	}
 
