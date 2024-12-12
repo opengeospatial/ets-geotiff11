@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.opengis.cite</groupId>
     <artifactId>ets-common</artifactId>
-    <version>13</version>
+    <version>14-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ets-geotiff11</artifactId>
@@ -46,7 +46,6 @@
     <ets-code>geotiff11</ets-code>
     <spec-version>1.1</spec-version>
     <docker.teamengine.version>6.0.0-RC2</docker.teamengine.version>
-    <jhove.version>1.16.6</jhove.version>
   </properties>
 
   <dependencies>
@@ -73,7 +72,6 @@
     <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
-      <version>7.0.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -87,12 +85,10 @@
     <dependency>
 	    <groupId>org.apache.commons</groupId>
 	    <artifactId>commons-csv</artifactId>
-	    <version>1.5</version>
     </dependency>
 	<dependency>
 	  <groupId>org.openpreservation.jhove</groupId>
 	  <artifactId>jhove-modules</artifactId>
-	  <version>${jhove.version}</version>
 	</dependency>
 	<dependency>
 	  <groupId>org.testng</groupId>
@@ -119,7 +115,6 @@
 	<dependency>
 	  <groupId>org.openpreservation.jhove</groupId>
 	  <artifactId>jhove-core</artifactId>
-	  <version>${jhove.version}</version>
 	</dependency>
   </dependencies>
   <build>
