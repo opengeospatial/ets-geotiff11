@@ -38,7 +38,7 @@ public class ClientUtils {
 		config.property(ClientProperties.CONNECT_TIMEOUT, 10000);
 		config.register(new LoggingFeature()); // TODO: verify if this works
 		Client client = JerseyClientBuilder.newClient(config);
-                client.register(new ReusableEntityFilter());
+		client.register(new ReusableEntityFilter());
 		return client;
 	}
 
