@@ -188,27 +188,31 @@
             </images>
           </configuration>
         </plugin>
-     			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.1</version>
-				<configuration>
-
-					<nonFilteredFileExtensions>
-						<nonFilteredFileExtension>exe</nonFilteredFileExtension>
-						<nonFilteredFileExtension>dll</nonFilteredFileExtension>
-						<nonFilteredFileExtension>tif</nonFilteredFileExtension>
-					</nonFilteredFileExtensions>
-
-				</configuration>
-			</plugin>
       </plugins>
     </pluginManagement>
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
+    		<directory>src/main/resources</directory>
+    		<filtering>true</filtering>
+    		<excludes>
+    			<exclude>**/*.exe</exclude>
+    			<exclude>**/*.dll</exclude>
+    			<exclude>**/*.tif</exclude>
+    			<exclude>**/*.csv</exclude>
+    			<exclude>**/*.zip</exclude>
+    		</excludes>
+    	</resource>
+    	<resource>
+    		<directory>src/main/resources</directory>
+    		<filtering>false</filtering>
+    		<includes>
+    			<include>**/*.exe</include>
+    			<include>**/*.dll</include>
+    			<include>**/*.tif</include>
+    			<include>**/*.csv</include>
+    			<include>**/*.zip</include>
+    		</includes>
+    	</resource>
       <resource>
         <directory>src/main/javadoc</directory>
         <filtering>true</filtering>
