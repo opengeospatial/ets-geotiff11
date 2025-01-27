@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.InputStream;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.experimental.theories.Theories;
@@ -14,25 +15,24 @@ import org.testng.ISuite;
 import org.testng.ITestContext;
 
 /**
- * Verifies the behavior of the TiffTagsTests test class. Test stubs replace
- * fixture constituents where appropriate.
+ * Verifies the behavior of the TiffTagsTests test class. Test stubs replace fixture
+ * constituents where appropriate.
  */
 @RunWith(Theories.class)
-public class VerifyGeoKeyDirectoryTests extends CreateDataSets{
+public class VerifyGeoKeyDirectoryTests extends CreateDataSets {
 
 	private static ITestContext testContext;
+
 	GeoKeyDirectoryTests iut;
 
 	public VerifyGeoKeyDirectoryTests() {
 	}
-	
-	private void dataSetSetUp(InputStream inputStream)
-	{
+
+	private void dataSetSetUp(InputStream inputStream) {
 		testDataSets(inputStream);
 		iut = new GeoKeyDirectoryTests();
 	}
-	
-	
+
 	@BeforeClass
 	public static void setUpClass() throws Exception {
 		testContext = mock(ITestContext.class);
@@ -42,15 +42,16 @@ public class VerifyGeoKeyDirectoryTests extends CreateDataSets{
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		
+
 	}
-	
+
 	@Theory
 	public void verifyTiffTags(InputStream inputStream) throws Exception {
 		dataSetSetUp(inputStream);
-		
+
 		iut = new GeoKeyDirectoryTests();
 		iut.obtainTestSubject(testContext);
 		iut.verifyGeoKeyDirectory();
 	}
+
 }

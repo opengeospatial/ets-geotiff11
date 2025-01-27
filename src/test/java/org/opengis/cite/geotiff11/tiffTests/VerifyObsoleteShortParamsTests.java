@@ -15,31 +15,35 @@ import org.testng.ISuite;
 import org.testng.ITestContext;
 
 /**
- * Verifies the behavior of the TiffTagsTests test class. Test stubs replace
- * fixture constituents where appropriate.
+ * Verifies the behavior of the TiffTagsTests test class. Test stubs replace fixture
+ * constituents where appropriate.
  */
 public class VerifyObsoleteShortParamsTests {
 
 	// TODO: this should be expanded greatly...
 
-	private static ITestContext testContext;	
-	ShortParamsTests iut;	
+	private static ITestContext testContext;
+
+	ShortParamsTests iut;
+
 	private static final String SUBJ = "testSubject";
+
 	protected static ISuite suite;
 
 	public VerifyObsoleteShortParamsTests() {
 		// This is the code for setting up the objects for the environment.
-		// The code should be parallel with processSuiteParameters(ISuite suite) in SuiteFixtureListener.java
-		//The below is specifically for those test cases that should fail.
-		InputStream inputStream  = this.getClass().getResourceAsStream("/tif/ObsoleteValues.txt");
+		// The code should be parallel with processSuiteParameters(ISuite suite) in
+		// SuiteFixtureListener.java
+		// The below is specifically for those test cases that should fail.
+		InputStream inputStream = this.getClass().getResourceAsStream("/tif/ObsoleteValues.txt");
 		try {
 			when(suite.getAttribute(SUBJ)).thenReturn(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
-		iut = new ShortParamsTests();	
+		iut = new ShortParamsTests();
 	}
-
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -50,65 +54,71 @@ public class VerifyObsoleteShortParamsTests {
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		
+
 	}
-	
-	/* 
-	 * ProjectedCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Datum Codes.
+
+	/*
+	 * ProjectedCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Datum
+	 * Codes.
+	 *
 	 * @throws Exception
 	 */
 	@Test(expected = AssertionError.class)
-	public void verifyProjectedCRSGeoKeyObsolete() throws Exception {			
+	public void verifyProjectedCRSGeoKeyObsolete() throws Exception {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyProjectedCRSGeoKey();
 	}
-	
-	/* 
-	 * GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic Codes
+
+	/*
+	 * GeodeticCRSGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POC Geographic
+	 * Codes
+	 *
 	 * @throws Exception
 	 */
 	@Test(expected = AssertionError.class)
-	public void verifyGeodeticCRSGeoKeyObsolete() throws Exception {			
+	public void verifyGeodeticCRSGeoKeyObsolete() throws Exception {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGeodeticCRSGeoKey();
 	}
-	
-	/* 
-	 * GeodeticDatumGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POS Datum Codes.
+
+	/*
+	 * GeodeticDatumGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POS Datum
+	 * Codes.
+	 *
 	 * @throws Exception
 	 */
 	@Test(expected = AssertionError.class)
-	public void verifyGeodeticDatumGeoKeyObsolete() throws Exception {			
+	public void verifyGeodeticDatumGeoKeyObsolete() throws Exception {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyGeodeticDatumGeoKey();
 	}
-	
-	/* 
-	 * PrimeMeridianGeoKey values in the range 1-100 SHALL be obsolete EPSG/POSC Datum Codes
+
+	/*
+	 * PrimeMeridianGeoKey values in the range 1-100 SHALL be obsolete EPSG/POSC Datum
+	 * Codes
+	 *
 	 * @throws Exception
 	 */
 	@Test(expected = AssertionError.class)
-	public void verifyPrimeMeridianGeoKeyObsolete() throws Exception {			
+	public void verifyPrimeMeridianGeoKeyObsolete() throws Exception {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyPrimeMeridianGeoKey();
 	}
-	
-	/* 
+
+	/*
 	 * EllipsoidGeoKey values in the range 1-1000 SHALL be obsolete EPSG/POSC Datum Codes
+	 *
 	 * @throws Exception
 	 */
 	@Test(expected = AssertionError.class)
-	public void verifyEllipsoidGeoKeyObsolete() throws Exception {	
+	public void verifyEllipsoidGeoKeyObsolete() throws Exception {
 		iut.obtainTestSubject(testContext);
 		iut.setUpGeoKeyDirectory();
 		iut.verifyEllipsoidGeoKey();
 	}
-	
-	
-	
 
 }

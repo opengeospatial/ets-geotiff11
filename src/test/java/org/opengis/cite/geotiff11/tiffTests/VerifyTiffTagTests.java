@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.InputStream;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.experimental.theories.Theories;
@@ -14,24 +15,24 @@ import org.testng.ISuite;
 import org.testng.ITestContext;
 
 /**
- * Verifies the behavior of the TiffTagsTests test class. Test stubs replace
- * fixture constituents where appropriate.
+ * Verifies the behavior of the TiffTagsTests test class. Test stubs replace fixture
+ * constituents where appropriate.
  */
 @RunWith(Theories.class)
 public class VerifyTiffTagTests extends CreateDataSets {
 
 	private static ITestContext testContext;
+
 	TiffTagsTests iut;
 
 	public VerifyTiffTagTests() {
 	}
-	
-	private void dataSetSetUp(InputStream inputStream)
-	{
+
+	private void dataSetSetUp(InputStream inputStream) {
 		testDataSets(inputStream);
 		iut = new TiffTagsTests();
 	}
-	
+
 	@BeforeClass
 	public static void setUpClass() throws Exception {
 		testContext = mock(ITestContext.class);
@@ -41,15 +42,16 @@ public class VerifyTiffTagTests extends CreateDataSets {
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		
+
 	}
-	
+
 	@Theory
 	public void verifyTiffTags(InputStream inputStream) throws Exception {
 		dataSetSetUp(inputStream);
-		
+
 		iut = new TiffTagsTests();
 		iut.obtainTestSubject(testContext);
 		iut.verifyTiffTags();
 	}
+
 }
